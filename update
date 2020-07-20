@@ -1596,7 +1596,7 @@ on join:
 		set {khkp::updater} to true
 		if {khkp::checkversion} is true:
 			if player has permission "khkits.update" or "khkits.*":
-				send "&6[KhKits] &7Existe &7uma &7nova &7atualização &7do &7skript, &7para &7visitar &7o &7site &7clique <tooltip:&bClique aqui para ir ao site de download.><url:https://www.spigotmc.org/resources/khkits-skript-de-kitpvp.67595/>&a&lAQUI!<reset>" to player
+				send "&6[KhKits] &7Existe &7uma &7nova &7atualização &7do &7skript, &7clique <tooltip:&bClique aqui para atualizar.><command:/khkits atualizar>&a&lAQUI<reset> &7para &7atualizar." to player
 function intSpliter(n: text) :: text:
 	set {_text} to "%{_n}%"
 	set {_string::*} to {_text} split at ""
