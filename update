@@ -1464,61 +1464,15 @@ function khkits_setvalue(do: text):
 			set {node::%{_group}%.name} to getTextrole({_name})
 			set {node::%{_group}%.prefix} to getTextrole({_prefix})
 			remove 1 from {_pos}
-	if {_do} is "lang-create":
-		set yaml value "scoreboard.title" from file "{@lang-file}" to "%{_&}%%{_¨}%%{_&}%lKIT PVP"
-		add "" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add " Kit: %{_&}%7{kit}" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add " Grupo: %{_&}%a{group}" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add "" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add "  Abates: %{_&}%a{kills}" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add "  Mortes: %{_&}%a{deaths}" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add "" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add " Moedas: %{_&}%6{coins}" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add " Online: %{_&}%a{online}" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add "" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		add "%{_&}%ewww.kldev.tk" to yaml list "scoreboard.lines" from file "{@lang-file}"
-		set yml value "account.lobby.join-broadcast" of file "{@lang-file}" to "%{_&}%7{display} %{_&}%6entrou neste lobby!"
-		set yml value "account.lobby.hotbar.warps" from file "{@lang-file}" to "slot=3 : item=COMPASS : named=%{_&}%aWarps %{_&}%7(Clique direito)"
-		set yml value "account.lobby.hotbar.kits" from file "{@lang-file}" to "slot=4 : item=NETHER_STAR : named=%{_&}%aKits %{_&}%7(Clique direito)"
-		set yml value "account.lobby.hotbar.shop" from file "{@lang-file}" to "slot=5 : item=EMERALD : named=%{_&}%aLoja %{_&}%7(Clique direito)"
-		set yml value "options.chat.color.default" from file "{@lang-file}" to "%{_&}%7"
-		set yml value "options.chat.color.custom" from file "{@lang-file}" to "%{_&}%f"
-		set yml value "options.chat.format" from file "{@lang-file}" to "{prefix}{player}{color}: {message}"
-		set yml value "options.chat.delay" from file "{@lang-file}" to "%{_&}%cAguarde {time}s para utilizar o chat novamente!"
-		set yml value "options.motd.enabled" of file "{@lang-file}" to true
-		set yml value "options.motd.header" of file "{@lang-file}" to "%{_&}%2%{_&}%lKLDEV%{_&}%2.tk %{_&}%7[1.7 - 1.16]"
-		set yml value "options.motd.footer" of file "{@lang-file}" to "%{_&}%e%{_&}%nKit PvP%{_&}%e aberto para VIPs!"
-		set yml value "options.tablist.enabled" of file "{@lang-file}" to true
-		set yml value "options.tablist.header" of file "{@lang-file}" to "\n%{_&}%2%{_&}%lKLDEV\n    %{_&}%fjogar.kldev.tk\n "
-		set yml value "options.tablist.footer" of file "{@lang-file}" to " \n%{_&}%aDiscord: \n\n         %{_&}%2Adquira VIP e COINS acessando: %{_&}%fwww.kldev.tk         \n "
-		set yml value "options.kit.none" of file "{@lang-file}" to "Nenhum "
-		set yml value "options.kit.admin" of file "{@lang-file}" to "%{_&}%9Admin"
-		set yml value "options.kit.fps" of file "{@lang-file}" to "FPS "
-		set yml value "options.kit.lava-challenge" of file "{@lang-file}" to "Lava Challenge "
-		set yml value "options.kit.knockback" of file "{@lang-file}" to "Knockback "
-		set yml value "options.messages.select-kit" of file "{@lang-file}" to "%{_&}%a* O kit %{_&}%n{kit}%{_&}%a foi selecionado"
-		set yml value "options.messages.enable-kit-skill" of file "{@lang-file}" to "%{_&}%e* Habilidade %{_&}%n{kit}%{_&}%e ativada"
-		set yml value "options.messages.no-perm" of file "{@lang-file}" to "%{_&}%cVoce nao tem permissao para isto."
-		set yml value "options.messages.warps-teleport.delay" of file "{@lang-file}" to "%{_&}%aAguarde %{_&}%c{time} %{_&}%asegundos."
-		set yml value "options.messages.warps-teleport.sucess" of file "{@lang-file}" to "%{_&}%aTeleportado com sucesso!"
-		set yml value "options.messages.fly.enabled" of file "{@lang-file}" to "%{_&}%aModo voar ativado com sucesso"
-		set yml value "options.messages.fly.disabled" of file "{@lang-file}" to "%{_&}%cModo voar desativado com sucesso"
-		set yml value "options.messages.build.enabled" of file "{@lang-file}" to "%{_&}%aModo construtor ativado com sucesso"
-		set yml value "options.messages.build.disabled" of file "{@lang-file}" to "%{_&}%cModo construtor desativado com sucesso"
-		set yml value "options.signs.recraft.line-1" of file "{@lang-file}" to "%{_&}%b=-=-=-=-="
-		set yml value "options.signs.recraft.line-2" of file "{@lang-file}" to "%{_&}%aPlaca"
-		set yml value "options.signs.recraft.line-3" of file "{@lang-file}" to "%{_&}%9(recraft)"
-		set yml value "options.signs.recraft.line-4" of file "{@lang-file}" to "%{_&}%b=-=-=-=-="
-		set yml value "options.signs.recraft.title" of file "{@lang-file}" to "Recraft "
-		set yml value "options.signs.recraft.items.red-mushroom" of file "{@lang-file}" to "%{_&}%eCogumelo Vermelho"
-		set yml value "options.signs.recraft.items.brown-mushroom" of file "{@lang-file}" to "%{_&}%eCogumelo Marrom"
-		set yml value "options.signs.recraft.items.bowl" of file "{@lang-file}" to "%{_&}%ePote"
-		set yml value "options.signs.refill.line-1" of file "{@lang-file}" to "%{_&}%b=-=-=-=-="
-		set yml value "options.signs.refill.line-2" of file "{@lang-file}" to "%{_&}%aPlaca"
-		set yml value "options.signs.refill.line-3" of file "{@lang-file}" to "%{_&}%9(refill)"
-		set yml value "options.signs.refill.line-4" of file "{@lang-file}" to "%{_&}%b=-=-=-=-="
-		set yml value "options.signs.refill.title" of file "{@lang-file}" to "Refill "
-		set yml value "options.signs.refill.items.soup" of file "{@lang-file}" to "%{_&}%eSopa"
+	if {_do} is "files-create":
+		if file "{@lang-file}" doesn't exist:
+			download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/languages.yml" to file "{@lang-file}"
+		if file "{@groups-file}" doesn't exist:
+			download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/groups.yml" to file "{@groups-file}"
+		if file "{@config-file}" doesn't exist:
+			create file "{@config-file}"
+			khkits_setvalue("config-create")
+		khkits_setvalue("setvalue")
 	if {_do} is "config-create":
 		set yml value "check-update" of file "{@config-file}" to true
 		set yml value "version" of file "{@config-file}" to "{@versao}"
@@ -1526,19 +1480,6 @@ function khkits_setvalue(do: text):
 		skutilities write "## Skript feito por KickHolse" at line 2 to file "{@config-file}"
 		skutilities write "## https://discord.club/i/kldev" at line 3 to file "{@config-file}"
 		skutilities write "" at line 4 to file "{@config-file}"
-	if {_do} is "groups-create":
-		set yaml value "groups.default.color" from file "{@groups-file}" to "%{_&}%7"
-		set yaml value "groups.default.name" from file "{@groups-file}" to "Default"
-		set yaml value "groups.default.prefix" from file "{@groups-file}" to "%{_&}%7"
-		set yaml value "groups.default.permission" from file "{@groups-file}" to "none"
-		set yaml value "groups.vip.color" from file "{@groups-file}" to "%{_&}%6"
-		set yaml value "groups.vip.name" from file "{@groups-file}" to "Vip"
-		set yaml value "groups.vip.prefix" from file "{@groups-file}" to "%{_&}%6[Vip] "
-		set yaml value "groups.vip.permission" from file "{@groups-file}" to "group.vip"
-		set yaml value "groups.dono.color" from file "{@groups-file}" to "%{_&}%4"
-		set yaml value "groups.dono.name" from file "{@groups-file}" to "Dono"
-		set yaml value "groups.dono.prefix" from file "{@groups-file}" to "%{_&}%4&lDONO&4 "
-		set yaml value "groups.dono.permission" from file "{@groups-file}" to "*"
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
 # inicialização
 on skript load:
@@ -1546,16 +1487,7 @@ on skript load:
 on load:
 	loop all players:
 		showScoreboard(loop-player)
-	if file "{@lang-file}" doesn't exist:
-		create file "{@lang-file}"
-		khkits_setvalue("lang-create")
-	if file "{@groups-file}" doesn't exist:
-		create file "{@groups-file}"
-		khkits_setvalue("groups-create")
-	if file "{@config-file}" doesn't exist:
-		create file "{@config-file}"
-		khkits_setvalue("config-create")
-	khkits_setvalue("setvalue")
+	khkits_setvalue("files-create")
 	set {khkp::version} to yml value "version" of file "{@config-file}"
 	if {khkp::version} is not "{@versao}":
 		set yml value "version" of file "{@config-file}" to "{@versao}"
