@@ -1316,7 +1316,6 @@ on sneak toggle:
 		if {ninja-victim.%player%} is not set:
 			set action bar of player to "&cVocê não bateu em nenhum jogador nos ultimos segundos"
 		else:
-			#replace all "{kit}" with "Ninja" in {khkp::perk-enabled}
 			set {_waitninja} to difference between {ninja.%player%.delay} and now
 			if {_waitninja} is less than 15 seconds:
 				set {ninja.tempo} to "%difference between 15 seconds and {_waitninja}%"
@@ -1334,7 +1333,6 @@ on sneak toggle:
 						remove 1 from {ninja-time.%player%}
 						wait 1 second
 	if {_kit-sel.%player%} is "Invencivel":
-		#replace all "{kit}" with "Invencivel" in {khkp::perk-enabled}
 		set {_waitinv} to difference between {inv.%player%.delay} and now
 		if {_waitinv} is less than 20 seconds:
 			set {inv.tempo} to "%difference between 20 seconds and {_waitinv}%"
@@ -1361,53 +1359,31 @@ command /khkits [<text>]:
 			else:
 				send "&6[KhKits] &7criado por &a&n<url:https://youtube.com/kickholse>Kick Holse<reset>&7, &a&n<url:>uOnyle<reset>&7 e &a&n<url:>Kiwi<reset>&7."
 		if arg-1 is "atualizar":
-			if {khkp::updater} is true:
-				set action bar of player to "&aIniciando processo de atualização..."
-				set {_updater} to 0
-				wait 1 second
-				loop 100 times:
-					add 1.1 to {_updater}
-					wait 1 tick
-					if {_updater} > 100:
-						set {_updater} to 100	
-					set action bar of player to "&aAtualizando, isso pode demorar... &8(%{_updater}%%%)"
-					if {_updater} = 100:
-						set {_sk} to script name
-						delete file "plugins/Skript/scripts/%{_sk}%.sk"
-						download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/update" to file "plugins/Skript/scripts/%{_sk}%.sk"
-						reload script "%{_sk}%"
-						set action bar of player to "&aO skript foi atualizado com sucesso."
-						play sound "LEVEL UP" to player with volume 5.0 and pitch 15.0
-						stop
-			else:
-				send "&cNão há atualizações do skript no momento."
+			if player has permission "khkits.update" or "khkits.*":
+				if {khkp::updater} is true:
+					set action bar of player to "&aIniciando processo de atualização..."
+					set {_updater} to 0
+					wait 1 second
+					loop 100 times:
+						add 1.1 to {_updater}
+						wait 1 tick
+						if {_updater} > 100:
+							set {_updater} to 100	
+						set action bar of player to "&aAtualizando, isso pode demorar... &8(%{_updater}%%%)"
+						if {_updater} = 100:
+							set {_sk} to script name
+							delete file "plugins/Skript/scripts/%{_sk}%.sk"
+							download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/update" to file "plugins/Skript/scripts/%{_sk}%.sk"
+							reload script "%{_sk}%"
+							set action bar of player to "&aO skript foi atualizado com sucesso."
+							play sound "LEVEL UP" to player with volume 5.0 and pitch 15.0
+							stop
+				else:
+					send "&cNão há atualizações do skript no momento."
 		if arg 1 is "reload":
-			if player has permission "khkits.reload":
-				set action bar of player to "&e ▪ Verificando arquivos..."
-				play sound "ORB PICKUP" to player with volume 0.5 and pitch 15.0
-				wait 1 seconds
-				if file "{@config-file}" doesn't exist:
-					set action bar of player to "&e ▪ Criando config.yml..."
-					play sound "ITEM PICKUP" to player with volume 0.5 and pitch 15.0
-					create file "{@config-file}"
-					khkits_setvalue("config-create")
-					wait 1 second
-				if file "{@lang-file}" doesn't exist:
-					set action bar of player to "&e ▪ Criando lang.yml..."
-					play sound "ITEM PICKUP" to player with volume 0.5 and pitch 15.0
-					create file "{@lang-file}"
-					khkits_setvalue("lang-create")
-					wait 1 second
-				if file "{@groups-file}" doesn't exist:
-					set action bar of player to "&e ▪ Criando groups.yml..."
-					play sound "ITEM PICKUP" to player with volume 0.5 and pitch 15.0
-					create file "{@groups-file}"
-					khkits_setvalue("groups-create")
-					wait 1 second
-				set action bar of player to "&e ▪ Carregando arquivos..."
-				play sound "ORB PICKUP" to player with volume 0.5 and pitch 15.0
-				wait 1 second
-				khkits_setvalue("setvalue")
+			if player has permission "khkits.reload" or "khkits.*":
+				set {_sk} to script name
+				reload script "%{_sk}%"
 				set action bar of player to "&a ▪ Arquivos carregados com sucesso!"
 				play sound "LEVEL UP" to player with volume 5.0 and pitch 15.0
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
