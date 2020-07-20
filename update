@@ -1351,7 +1351,7 @@ on sneak toggle:
 # comando do skript
 command /khkits [<text>]:
 	trigger:
-		if arg 1 is not "help" or "reload":
+		if arg 1 is not "help" or "reload" or "atualizar":
 			make player execute command "khkits help"
 		if arg 1 is "help":
 			if player has permission "khkits.*":
@@ -1374,10 +1374,10 @@ command /khkits [<text>]:
 					if {_updater} = 100:
 						set {_sk} to script name
 						delete file "plugins/Skript/scripts/%{_sk}%.sk"
-						download file from "https://raw.githubusercontent.com/okiwizn/skripts/master/KiwiSkyWars" to file "plugins/Skript/scripts/KiwiSkyWars.sk"
-						#make console execute "sk reload KiwiSkyWars"
+						download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/update" to file "plugins/Skript/scripts/%{_sk}%.sk"
 						reload script "%{_sk}%"
 						set action bar of player to "&aO skript foi atualizado com sucesso."
+						play sound "LEVEL UP" to player with volume 5.0 and pitch 15.0
 						stop
 			else:
 				send "&cNão há atualizações do skript no momento."
