@@ -1,0 +1,16 @@
+groups:
+  default:
+    color: '&7'
+    name: Default
+    prefix: '&7'
+    permission: none
+  vip:
+    color: '&6'
+    name: Vip
+    prefix: '&6[Vip] '
+    permission: group.vip
+  dono:
+    color: '&4'
+    name: Dono
+    prefix: "&4\xa7lDONO\xa74 "
+    permission: '*'
