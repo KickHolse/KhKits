@@ -12,5 +12,5 @@ groups:
   dono:
     color: '&4'
     name: Dono
-    prefix: "&4\xa7lDONO\xa74 "
+    prefix: "&4&lDONO&4 "
     permission: '*'
