@@ -931,7 +931,7 @@ sub "respawn":
 	set {_kit-sel.%{_p}%} to yml value "%uuid of {_p}%.selected-kit" of file "{@playerc-file}"
 	if {_kit-sel.%{_p}%} is not colored {khkp::warpknock}:
 		if {_kit-sel.%{_p}%} is colored {khkp::warpfps}:
-			set yml value "%uuid of {_p}%.selected-kit" of file "{@playerc-file}" to colored {khkp::warpfps}%
+			set yml value "%uuid of {_p}%.selected-kit" of file "{@playerc-file}" to colored {khkp::warpfps}
 			set slot 0 of {_p} to unbreakable iron sword named "&eEspada"
 			equip {_p} with unbreakable iron Chestplate named "&ePeitoral"
 			khkits_join({_p}, "hotbar", "soups")
