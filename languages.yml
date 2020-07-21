@@ -42,7 +42,7 @@ options:
   messages:
     select-kit: '&a* O kit &n{kit}&a foi selecionado'
     enable-kit-skill: '&e* Habilidade &n{kit}&e ativada'
-    no-perm: '&cVoce nao tem permissao para isto.'
+    no-perm: '&cVocê não tem permissão para isto.'
     death: '{victim}&7 foi morto por {attacker}&7.'
     suicide: '{victim}&7 morreu sozinho.'
     warps-teleport:
