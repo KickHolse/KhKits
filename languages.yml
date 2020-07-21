@@ -45,6 +45,7 @@ options:
     enable-kit-skill: '&e* Habilidade &n{kit}&e ativada'
     no-perm: '&cVoce nao tem permissao para isto.'
     death: '{victim}&7 foi morto por {attacker}&7.'
+    suicide: '{victim}&7 morreu sozinho.'
     warps-teleport:
       delay: '&aAguarde &c{time} &asegundos.'
       sucess: '&aTeleportado com sucesso!'
