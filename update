@@ -802,12 +802,9 @@ on rightclick:
 	set {_rightclicks.%player%} to yml value "%uuid of player%.others.right-clicks" of file "{@players-file}"
 	add 1 to {_rightclicks.%player%}
 	set yml value "%uuid of player%.others.right-clicks" of file "{@players-file}" to "%{_rightclicks.%player%}%" parsed as int
-	if name of player's tool is getName({khkp::hotbar-shop}):
-		khkits_menus(player, "shop")
-	if name of player's tool is getName({khkp::hotbar-kits}):
-		khkits_menus(player, "kits")
-	if name of player's tool is getName({khkp::hotbar-warps}):
-		khkits_menus(player, "warps")
+	loop "shop" and "kits" and "warps":
+		if name of player's tool is getName({khkp::hotbar-%loop-value%}):
+			khkits_menus(player, "%loop-value%")
 	if player's tool is a mushroom soup:
 		if health of player is less than 9.5:
 			cancel event
@@ -832,7 +829,7 @@ on leftclick:
 	set yml value "%uuid of player%.others.left-clicks" of file "{@players-file}" to "%{_leftclicks.%player%}%" parsed as int
 on inventory click:
 	set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "{@players-file}"
-	if {_kit-sel.%player%} is "%{khkp::kitnone}%":
+	if {_kit-sel.%player%} is colored {khkp::kitnone}:
 		if {build.%player%} is not true:
 			cancel event
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
@@ -889,7 +886,7 @@ command /build [<text>]:
 				set action bar of player to colored {khkp::buildoff}
 				if player has permission "khkits.voar" or "khkits.*":
 					set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "{@players-file}"
-					if {_kit-sel.%player%} is "%{khkp::kitnone}%":
+					if {_kit-sel.%player%} is colored {khkp::kitnone}:
 						set player's fly mode to true
 		else:
 			send colored {khkp::noperm} to player
@@ -898,7 +895,7 @@ command /voar:
 	trigger:
 		if player has permission "khkits.voar" or "khkits.*":
 			set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "{@players-file}"
-			if {_kit-sel.%player%} is "%{khkp::kitnone}%":
+			if {_kit-sel.%player%} is colored {khkp::kitnone}:
 				if player's fly mode is true:
 					play sound "ITEM PICKUP" to player with volume 0.5 and pitch 15.0
 					set action bar of player to colored {khkp::flyoff}
