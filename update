@@ -1360,17 +1360,13 @@ function khkits_setvalue(do: text):
 			set {node::%{_group}%.prefix} to getTextrole({_prefix})
 			remove 1 from {_pos}
 	if {_do} is "files-create":
-		if file "{@lang-file}" doesn't exist:
-			download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/languages.yml" to file "{@lang-file}"
-		#yml value "account.lobby.coins.kill" from file "{@lang-file}" doesn't exist:
-		#	send "&3[Kh:KITS] &aO arquivo languages.yml sofreu alterações." to console
-		#	rename file "{@lang-file}" to "backup-languages.yaml"
-		#	khkits_setvalue("files-create")
-		if file "{@groups-file}" doesn't exist:
-			download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/groups.yml" to file "{@groups-file}"
 		if file "{@config-file}" doesn't exist:
 			create file "{@config-file}"
 			khkits_setvalue("config-create")
+		if file "{@lang-file}" doesn't exist:
+			download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/languages" to file "{@lang-file}"
+		if file "{@groups-file}" doesn't exist:
+			download file from "https://raw.githubusercontent.com/KickHolse/KhKits/master/groups" to file "{@groups-file}"
 		khkits_setvalue("setvalue")
 	if {_do} is "config-create":
 		set yml value "check-update" of file "{@config-file}" to true
