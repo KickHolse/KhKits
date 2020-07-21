@@ -28,15 +28,14 @@ options:
     delay: '&cAguarde {time}s para utilizar o chat novamente!'
   motd:
     enabled: true
-    header: '&2&lKLDEV&2.tk &7[1.7 - 1.16]'
+    header: '&a&lKLDEV&a.tk &7[1.8 - 1.8.9]'
     footer: '&e&nKit PvP&e aberto para VIPs!'
   tablist:
     enabled: true
-    header: '\n&2&lKLDEV\n    &fjogar.kldev.tk\n '
-    footer: ' \n&aDiscord: \n\n         &2Adquira VIP e COINS acessando: &fwww.kldev.tk         \n '
+    header: '\n&a&lKLDEV\n    &fjogar.kldev.tk\n '
+    footer: ' \n&2Discord: \n\n         &aAdquira VIP e COINS acessando: &fwww.kldev.tk         \n '
   kit:
     none: 'Nenhum '
-    admin: '&9Admin'
     fps: 'FPS '
     lava-challenge: 'Lava Challenge '
     knockback: 'Knockback '
