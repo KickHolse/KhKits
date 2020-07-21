@@ -743,8 +743,9 @@ on chat:
 		replace all "{message}" in {khkp::chat-format} with colored message
 	else:
 		set {_color} to yml value "options.chat.color.default" from file "{@lang-file}"
-		set {chat.%player%.delay} to now
 		replace all "{message}" in {khkp::chat-format} with message
+		if player doesn't have permission "khkits.chat.delay" or "khkits.*":
+			set {chat.%player%.delay} to now
 	replace all "{player}" in {khkp::chat-format} with player's displayname
 	replace all "{color}" in {khkp::chat-format} with colored {_color}
 	replace all "{prefix}" in {khkp::chat-format} with colored {prefix.%player%}
@@ -990,66 +991,22 @@ on damage of a player:
 			replace all "{victim}" with "%{colored.%victim%}%" in {khkp::suicide}
 			if attacker is a player:
 				delete {ninja-victim.%attacker%}
-				loop "knock" and "fps":
-					set {_cearned.%attacker%} to yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml"
-					set {_coins.%attacker%} to yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml"
-					set {_kills.%attacker%} to yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml"
-					replace all "{attacker}" with "%{colored.%attacker%}%" in {khkp::death}
-					replace all "{victim}" with "%{colored.%victim%}%" in {khkp::death}
-					if {_kit-sel.%victim%} is colored {khkp::warp%loop-value%}:
-						add 1 to {_kills.%attacker%}
-						add {khkp::coinperkill} to {_coins.%attacker%}
-						add {khkp::coinperkill} to {_cearned.%attacker%}
-						set yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml" to "%{_kills.%attacker%}%" parsed as int
-						set yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml" to "%{_coins.%attacker%}%" parsed as int
-						set yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml" to "%{_cearned.%attacker%}%" parsed as int
-						set action bar of attacker to "&6+ %{khkp::coinperkill}% moedas"
-						#loop all players:
-						#	set {_kit-sel.%loop-player%} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%loop-player%.yml"
-						#	if {_kit-sel.%loop-player%} is colored {khkp::warp%loop-value%}:
-						broadcast colored {khkp::death}
-			#	if {_kit-sel.%victim%} is colored {khkp::warpfps}:
-				#	add 1 to {_kills.%attacker%}
-				#	add {khkp::coinperkill} to {_coins.%attacker%}
-				#	add {khkp::coinperkill} to {_cearned.%attacker%}
-				#	set yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml" to "%{_kills.%attacker%}%" parsed as int
-				#	set yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml" to "%{_coins.%attacker%}%" parsed as int
-				#	set yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml" to "%{_cearned.%attacker%}%" parsed as int
-				#	set action bar of attacker to "&6+ %{khkp::coinperkill}% moedas"
-					#loop all players:
-				#		set {_kit-sel.%loop-player%} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%loop-player%.yml"
-				#		if {_kit-sel.%loop-player%} is colored {khkp::warpfps}:
-				#			send colored {khkp::death} to loop-player
-				if {_kit-sel.%victim%} is colored {khkp::warplava}:
-					add 1 to {_kills.%attacker%}
-					add {khkp::coinperkill} to {_coins.%attacker%}
-					add {khkp::coinperkill} to {_cearned.%attacker%}
-					set yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml" to "%{_kills.%attacker%}%" parsed as int
-					set yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml" to "%{_coins.%attacker%}%" parsed as int
-					set yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml" to "%{_cearned.%attacker%}%" parsed as int
-					set action bar of attacker to "&6+ %{khkp::coinperkill}% moedas"
-					loop all players:
-						set {_kit-sel.%loop-player%} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%loop-player%.yml"
-						if {_kit-sel.%loop-player%} is colored {khkp::warplava}:
-							send colored {khkp::death} to loop-player
-				if {_kit-sel.%victim%} is not colored {khkp::warplava} or colored {khkp::warpknock} or colored {khkp::warpfps}:
-					add 1 to {_kills.%attacker%}
-					add {khkp::coinperkill} to {_coins.%attacker%}
-					add {khkp::coinperkill} to {_cearned.%attacker%}
-					set yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml" to "%{_kills.%attacker%}%" parsed as int
-					set yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml" to "%{_coins.%attacker%}%" parsed as int
-					set yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml" to "%{_cearned.%attacker%}%" parsed as int
-					set action bar of attacker to "&6+ %{khkp::coinperkill}%moedas"
-					loop all players:
-						set {_kit-sel.%loop-player%} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%loop-player%.yml"
-						if {_kit-sel.%loop-player%} is not colored {khkp::warplava} or colored {khkp::warpknock} or colored {khkp::warpfps}:
-							send colored {khkp::death} to loop-player
+				set {_cearned.%attacker%} to yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml"
+				set {_coins.%attacker%} to yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml"
+				set {_kills.%attacker%} to yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml"
+				replace all "{attacker}" with "%{colored.%attacker%}%" in {khkp::death}
+				replace all "{victim}" with "%{colored.%victim%}%" in {khkp::death}
+				add 1 to {_kills.%attacker%}
+				add {khkp::coinperkill} to {_coins.%attacker%}
+				add {khkp::coinperkill} to {_cearned.%attacker%}
+				set yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml" to "%{_kills.%attacker%}%" parsed as int
+				set yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml" to "%{_coins.%attacker%}%" parsed as int
+				set yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml" to "%{_cearned.%attacker%}%" parsed as int
+				set action bar of attacker to "&6+ %{khkp::coinperkill}% moedas"
+				broadcast colored {khkp::death}
 			else:
 				if {_kit-sel.%victim%} is colored {khkp::warplava}:
-					loop all players:
-						set {_kit-sel.%loop-player%} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%loop-player%.yml"
-						if {_kit-sel.%loop-player%} is colored {khkp::warplava}:
-							send colored {khkp::suicide} to loop-player
+					broadcast colored {khkp::suicide}
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
 # habilidades dos kits
 on walk on sand or sandstone:
