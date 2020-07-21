@@ -530,9 +530,6 @@ on join:
 	set yml value "%uuid of player%.login.last" of file "{@players-file}" to "%now%"
 	if {kits-all.%player%} is not set:
 		set {kits-all.%player%} to 0
-	set {warp-fps.%player%} to false
-	set {warp-knock.%player%} to false
-	set {warp-lava.%player%} to false
 	delete {build.%player%}
 	set {scoreboard.%player%} to true
 	khkits_join(player, "update", "tablist")
@@ -586,9 +583,7 @@ command /warps [<text>] [<text>]:
 							wait 1 second
 						play "LEVEL_UP" to player at volume 0.5
 						set action bar of player to colored {khkp::warps-sucess}
-						set {warp-knock.%player%} and {warp-lava.%player%} and {warp-fps.%player%} to false
 						if loop-value is "fps":
-							set {warp-fps.%player%} to true
 							khkits_join(player, "hotbar", "soups")
 							set slot 0 of player to unbreakable iron sword named "&eEspada"
 							equip player with unbreakable iron Chestplate named "&ePeitoral"
@@ -597,14 +592,12 @@ command /warps [<text>] [<text>]:
 								set yml value "%uuid of player%.selected-kit" of file "{@players-file}" to "%{khkp::warpfps}%" 
 							stop
 						if loop-value is "lava":
-							set {warp-lava.%player%} to true
 							khkits_join(player, "hotbar", "soups")
 							teleport player to {khkits-lava}
 							if file "{@players-file}" exists:
 								set yml value "%uuid of player%.selected-kit" of file "{@players-file}" to "%{khkp::warplava}%" 
 							stop
 						if loop-value is "knock":
-							set {warp-knock.%player%} to true
 							khkits_join(player, "hotbar", "soups")
 							set slot 0 of player to stick of knockback 5 and sharpness 2 named "&eBastão"
 							equip player with iron Chestplate named "&ePeitoral"
@@ -957,7 +950,10 @@ on damage of a player:
 					if victim is not dead:
 						set {_kit-sel.%victim%} to yml value "%uuid of victim%.selected-kit" of file "{@playerv-file}"
 						if {_kit-sel.%victim%} is not colored {khkp::kitnone}:
-							send "%{colored.%victim%}%&e está com &c%victim's health%&e de HP!" to attacker				
+							send "%{colored.%victim%}%&e está com &c%victim's health%&e de HP!" to attacker	
+	set {_victim} to victim
+	set {_attacker} to attacker			
+	set {lasthit.%{_victim}%} to {_attacker}			
 	if damage is greater than or equal to health of victim:
 		if victim is a player:
 			cancel event
@@ -969,9 +965,6 @@ on damage of a player:
 			if {_kit-sel.%victim%} is colored {khkp::kitnone}:
 				cancel event
 				stop
-			set {_victim} to victim
-			set {_attacker} to attacker			
-			set {lasthit.%{_victim}%} to {_attacker}
 			if {_kit-sel.%victim%} is not colored {khkp::warplava}:
 				remove {khkp::coinperdeath} from {_coins.%victim%}
 				add {khkp::coinperdeath} to {_closted.%victim%}
@@ -990,18 +983,18 @@ on damage of a player:
 			set {khkp::suicide} to yml value "options.messages.suicide" of file "{@lang-file}"
 			replace all "{victim}" with "%{colored.%victim%}%" in {khkp::suicide}
 			if attacker is a player:
-				delete {ninja-victim.%attacker%}
-				set {_cearned.%attacker%} to yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml"
-				set {_coins.%attacker%} to yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml"
-				set {_kills.%attacker%} to yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml"
-				replace all "{attacker}" with "%{colored.%attacker%}%" in {khkp::death}
+				delete {ninja-victim.%{lasthit.%{_victim}%}%}
+				set {_cearned.%{lasthit.%{_victim}%}%} to yml value "%uuid of {lasthit.%{_victim}%}%.coins.earned" of file "plugins/KhKits/players/%{lasthit.%{_victim}%}%.yml"
+				set {_coins.%{lasthit.%{_victim}%}%} to yml value "%uuid of {lasthit.%{_victim}%}%.coins.balance" of file "plugins/KhKits/players/%{lasthit.%{_victim}%}%.yml"
+				set {_kills.%{lasthit.%{_victim}%}%} to yml value "%uuid of {lasthit.%{_victim}%}%.kills" of file "plugins/KhKits/players/%{lasthit.%{_victim}%}%.yml"
+				replace all "{attacker}" with "%{colored.%{lasthit.%{_victim}%}%}%" in {khkp::death}
 				replace all "{victim}" with "%{colored.%victim%}%" in {khkp::death}
-				add 1 to {_kills.%attacker%}
-				add {khkp::coinperkill} to {_coins.%attacker%}
-				add {khkp::coinperkill} to {_cearned.%attacker%}
-				set yml value "%uuid of attacker%.kills" of file "plugins/KhKits/players/%attacker%.yml" to "%{_kills.%attacker%}%" parsed as int
-				set yml value "%uuid of attacker%.coins.balance" of file "plugins/KhKits/players/%attacker%.yml" to "%{_coins.%attacker%}%" parsed as int
-				set yml value "%uuid of attacker%.coins.earned" of file "plugins/KhKits/players/%attacker%.yml" to "%{_cearned.%attacker%}%" parsed as int
+				add 1 to {_kills.%{lasthit.%{_victim}%}%}
+				add {khkp::coinperkill} to {_coins.%{lasthit.%{_victim}%}%}
+				add {khkp::coinperkill} to {_cearned.%{lasthit.%{_victim}%}%}
+				set yml value "%uuid of {lasthit.%{_victim}%}%.kills" of file "plugins/KhKits/players/%{lasthit.%{_victim}%}%.yml" to "%{_kills.%{lasthit.%{_victim}%}%}%" parsed as int
+				set yml value "%uuid of {lasthit.%{_victim}%}%.coins.balance" of file "plugins/KhKits/players/%{lasthit.%{_victim}%}%.yml" to "%{_coins.%{lasthit.%{_victim}%}%}%" parsed as int
+				set yml value "%uuid of {lasthit.%{_victim}%}%.coins.earned" of file "plugins/KhKits/players/%{lasthit.%{_victim}%}%.yml" to "%{_cearned.%{lasthit.%{_victim}%}%}%" parsed as int
 				set action bar of attacker to "&6+ %{khkp::coinperkill}% moedas"
 				broadcast colored {khkp::death}
 			else:
@@ -1053,11 +1046,9 @@ on rightclick:
 			else:
 				set {phanton.%player%.delay} to now
 				set action bar of player to colored {khkp::perk-enabled}
-				loop all players:
-					hide player to loop-player
+				hide player to all players
 				wait 5 seconds
-				loop all players:
-					reveal player to loop-player
+				reveal player to all players
 	if name of player's tool is "&eZen":
 		if {_kit-sel.%player%} is "Zen":
 			set {_waitzen} to difference between {zen.%player%.delay} and now
@@ -1162,8 +1153,10 @@ on damage:
 				if loop-value is sneaking:
 					remove loop-value from {_players::*}
 			if size of {_players::*} is not 0:
+				set {_stomper} to player	
 				loop {_players::*}:
 					set {damage.%victim%} to damage*2
+					set {lasthit.%loop-value%} to {_stomper}
 					damage loop-value by {damage.%victim%} hearts
 	if {_kit-sel.%victim%} is not "%{khkp::warpfps}%" or "%{khkp::warpknock}%" or "%{khkp::warplava}%" or "%{khkp::kitnone}%":
 		set {khkp::perk-enabled} to yml value "options.messages.enable-kit-skill" of file "{@lang-file}"
