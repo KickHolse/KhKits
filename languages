@@ -42,6 +42,7 @@ options:
     fps: 'FPS '
     lava-challenge: 'Lava Challenge '
     knockback: 'Knockback '
+    nodebuff: 'Nodebuff '
   messages:
     select-kit: '&a* O kit &n{kit}&a foi selecionado'
     enable-kit-skill: '&e* Habilidade &n{kit}&e ativada'
