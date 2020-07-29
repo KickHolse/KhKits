@@ -43,6 +43,7 @@ options:
     lava-challenge: 'Lava Challenge '
     knockback: 'Knockback '
     nodebuff: 'Nodebuff '
+    1v1: '1v1 '
   messages:
     select-kit: '&a* O kit &n{kit}&a foi selecionado'
     enable-kit-skill: '&e* Habilidade &n{kit}&e ativada'
