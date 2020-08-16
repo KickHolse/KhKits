@@ -2,8 +2,8 @@ scoreboard:
   title: '&a&lKIT PVP'
   lines:
   - ''
-  - ' Kit: &7{kit}'
   - ' Grupo: &a{group}'
+  - ' Kit: &7{kit}'
   - ''
   - '  Abates: &a{kills}'
   - '  Mortes: &a{deaths}'
@@ -11,7 +11,7 @@ scoreboard:
   - ' Moedas: &6{coins}'
   - ' Online: &a{online}'
   - ''
-  - '&ewww.kldev.tk'
+  - '&ewww.zncommunity.com'
 account:
   lobby:
     join-broadcast: '&7{display} &6entrou neste lobby!'
@@ -31,19 +31,19 @@ options:
     delay: '&cAguarde {time}s para utilizar o chat novamente!'
   motd:
     enabled: true
-    header: '&a&lKLDEV&a.tk &7[1.8 - 1.8.9]'
+    header: '&a&lZNCOMMUNITY&a.com &7[1.8 - 1.8.9]'
     footer: '&e&nKit PvP&e aberto para VIPs!'
   tablist:
     enabled: true
-    header: '\n&a&lKLDEV\n    &fjogar.kldev.tk\n '
-    footer: ' \n&2Discord: \n\n         &aAdquira VIP e COINS acessando: &fwww.kldev.tk         \n '
+    header: '\n&a&lZNCOMMUNITY\n    &fjogar.zncommunity.com\n '
+    footer: ' \n&2Discord: \n\n         &aAdquira VIP e COINS acessando: &fwww.zncommunity.com         \n '
   kit:
-    none: 'Nenhum '
-    fps: 'FPS '
-    lava-challenge: 'Lava Challenge '
-    knockback: 'Knockback '
-    nodebuff: 'Nodebuff '
-    1v1: '1v1 '
+    none: 'Nenhum'
+    fps: 'FPS'
+    lava-challenge: 'Lava Challenge'
+    knockback: 'Knockback'
+    nodebuff: 'Nodebuff'
+    1v1: '1v1'
   messages:
     select-kit: '&a* O kit &n{kit}&a foi selecionado'
     enable-kit-skill: '&e* Habilidade &n{kit}&e ativada'
