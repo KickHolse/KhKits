@@ -11,7 +11,7 @@ scoreboard:
   - ' Moedas: &6{coins}'
   - ' Online: &a{online}'
   - ''
-  - '&ewww.zncommunity.com'
+  - '&ezncommunity.com'
 account:
   lobby:
     join-broadcast: '&7{display} &6entrou neste lobby!'
