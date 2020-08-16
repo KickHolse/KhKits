@@ -9,7 +9,7 @@ groups:
     name: Vip
     prefix: '&6[Vip] '
     permission: group.vip
-  maxter:
+  master:
     color: '&6'
     name: Master
     prefix: '&6[Master] '
