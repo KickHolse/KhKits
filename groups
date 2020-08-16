@@ -9,8 +9,8 @@ groups:
     name: Vip
     prefix: '&6[Vip] '
     permission: group.vip
-  dono:
-    color: '&4'
-    name: Dono
-    prefix: '&4&lDONO&4 '
+  maxter:
+    color: '&6'
+    name: Master
+    prefix: '&6[Master] '
     permission: '*'
