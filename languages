@@ -31,8 +31,8 @@ options:
     delay: '&cAguarde {time}s para utilizar o chat novamente!'
   motd:
     enabled: true
-    header: '&a&lZNCOMMUNITY&a.com &7[1.8 - 1.8.9]'
-    footer: '&e&nKit PvP&e aberto para VIPs!'
+    header: '&a&lZNCOMMUNITY &f- &7www.zncommunity.com'
+    footer: '&e&nKit PvP&e aberto para todos!'
   tablist:
     enabled: true
     header: '\n&a&lZNCOMMUNITY\n    &fjogar.zncommunity.com\n '
