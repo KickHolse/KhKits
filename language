@@ -1,0 +1,21 @@
+scoreboard:
+  scroller:
+    update-ticks: 1
+    lines:
+    - '&a&lKIT PVP'
+    - '&f&lKIT PVP'
+  lines:
+  - '   &7{now}'
+  - ''
+  - ' Nível: &a%KhKits_level%'
+  - ' Kit: &7%KhKits_selected_kit%'
+  - ''
+  - '  Kills: &a%KhKits_kills%'
+  - '  Mortes: &a%KhKits_deaths%'
+  - ''
+  - ' Moedas: &6%KhKits_coins%'
+  - ' Grupo: &7%KhKits_group%'
+  - ''
+  - '&ezncommunity.tk'
+messages:
+  join: '{name} &6entrou neste lobby!'
