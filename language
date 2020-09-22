@@ -13,7 +13,7 @@ scoreboard:
   - ' Online: &a{online}'
   - ''
   - '&ezncommunity.com'
-lobby:
+spawn:
   join-broadcast: '&7{display} &6entrou neste lobby!'
   coins:
     kill: 50
