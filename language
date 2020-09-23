@@ -23,6 +23,11 @@ spawn:
     kits: 'slot=4 : item=NETHER_STAR : named=&aKits &7(Clique direito)'
     shop: 'slot=5 : item=EMERALD : named=&aLoja &7(Clique direito)'
 options:
+  kit-names:
+    none: 'Nenhum'
+    fps: 'FPS'
+    lava-challenge: 'Lava Challenge'
+    knockback: 'Knockback'
   chat:
     color:
       default: '&7'
@@ -40,12 +45,6 @@ options:
   build:
     enabled: '&aO modo construtor foi ativado!'
     disabled: ' &cO modo construtor foi desativado!'
-  kit:
-    none: 'Nenhum'
-    fps: 'FPS'
-    lava-challenge: 'Lava Challenge'
-    knockback: 'Knockback'
-    nodebuff: 'Nodebuff'
   messages:
     select-kit: '&a* O kit &n{kit}&a foi selecionado'
     enable-kit-skill: '&e* Habilidade &n{kit}&e ativada'
