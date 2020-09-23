@@ -14,7 +14,7 @@ scoreboard:
   - ''
   - '&ezncommunity.com'
 spawn:
-  join-broadcast: '&7{display} &6entrou neste lobby!'
+  broadcast: '&7{display} &6entrou neste lobby!'
   coins:
     kill: 50
     death: 25
