@@ -37,6 +37,9 @@ options:
     enabled: true
     header: '\n&a&lZNCOMMUNITY\n    &fjogar.zncommunity.com\n '
     footer: ' \n&2Discord: \n\n         &aAdquira VIP e COINS acessando: &fwww.zncommunity.com         \n '
+  build:
+    enabled: '&aO modo construtor foi ativado!'
+    disabled: ' &cO modo construtor foi desativado!'
   kit:
     none: 'Nenhum'
     fps: 'FPS'
@@ -56,9 +59,6 @@ options:
     fly:
       enabled: '&aModo voar ativado com sucesso'
       disabled: '&cModo voar desativado com sucesso'
-    build:
-      enabled: '&aModo construtor ativado com sucesso'
-      disabled: '&cModo construtor desativado com sucesso'
   signs:
     recraft:
       line-1: '&b=-=-=-=-='
