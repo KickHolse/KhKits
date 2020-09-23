@@ -1,7 +1,7 @@
 groups:
   default:
     color: '&7'
-    name: Default
+    name: Membro
     prefix: '&7'
     permission: none
     broadcast: false
