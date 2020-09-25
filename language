@@ -42,6 +42,7 @@ options:
       items:
         soup: '&eSopa'
 messages:
+  area-not-allowed: '&cVocê não pode usar este comando aqui!'
   without-permission: '&cVocê não tem permissão para isto.'
   death: '{victim}&7 foi morto por {attacker}&7.'
   suicide: '{victim}&7 morreu sozinho.'
