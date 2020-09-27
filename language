@@ -1,3 +1,8 @@
+#
+# Skript feito por Kiberzn
+# Discord: a-zn#4375
+#
+
 spawn:
   broadcast: '&7{display} &6entrou neste lobby!'
   hotbar:
