@@ -44,7 +44,7 @@ options:
       line-3: '&9(refill)'
       line-4: '&b=-=-=-=-='
       title: 'Refill'
-      items:
+        items:
         soup: '&eSopa'
 messages:
   area-not-allowed: '&cVocê não pode usar este comando aqui!'
@@ -55,8 +55,8 @@ messages:
     select: '&aVocê selecionou o kit &n{kit}&a!'
     enable-skill: '&eA habilidade &n{kit}&e foi ativada!'
 	replaces:
-	  select: '&eClique para selecionar este kit!'
-	  buy: '&eClique para comprar este kit!'
+      select: '&eClique para selecionar este kit!'
+      buy: '&eClique para comprar este kit!'
   build:
     enabled: '&aO modo construtor foi ativado!'
     disabled: ' &cO modo construtor foi desativado!'
