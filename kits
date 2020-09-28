@@ -1,9 +1,13 @@
 kits:
   Anti-Stomper:
-    price: 20000
+    price: 25000
+    lore: '\n&7 Com este kit você não levará\n&7 dano por stomper!\n\n'
   Aquaman:
     price: 15000
+    lore: '\n&7 Com este kit você receberá\n&7 poderes ao entrar na água!\n\n'
   Archer:
     price: 15000
+    lore: '\n&7 Com este kit você ganhará um\n&7 arco e flechas para atirar!\n\n'
   Camel:
-    price: 15000
+    price: 20000
+    lore: '\n&7 Com este kit você receberá\n&7 poderes ao pisar no deserto!\n\n'
