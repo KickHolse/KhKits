@@ -54,6 +54,9 @@ messages:
   kit:
     select: '&aVocê selecionou o kit &n{kit}&a!'
     enable-skill: '&eA habilidade &n{kit}&e foi ativada!'
+	replaces:
+	  select: '&eClique para selecionar este kit!'
+	  buy: '&eClique para comprar este kit!'
   build:
     enabled: '&aO modo construtor foi ativado!'
     disabled: ' &cO modo construtor foi desativado!'
