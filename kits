@@ -13,16 +13,16 @@ kits:
     lore: '\n&7 Com este kit você receberá\n&7 poderes ao pisar no deserto!\n\n'
   Darkness:
     price: 30000
-    lore: '\n&7 Com este kit você terá 30%% de\n&7 chance de aplicar cegueira\n&7 em seu inimigo.\n\n'
+    lore: '\n&7 Com este kit você terá 30% de\n&7 chance de aplicar cegueira\n&7 em seu inimigo.\n\n'
   Espinhos:
     price: 25000
-    lore: '\n&7 Com este kit você terá 35%% de\n&7 chance de devolver o seu dano\n&7 para o seu inimigo.\n\n'
+    lore: '\n&7 Com este kit você terá 35% de\n&7 chance de devolver o seu dano\n&7 para o seu inimigo.\n\n'
   Fisherman:
     price: 20000
     lore: '\n&7 Com este kit você poderá pescar\n&7 seus inimigos e levá-los até você!\n\n'
   Fogareu:
     price: 25000
-    lore: '\n&7 Com este kit você terá 35%% de\n&7 chance de aplicar fogo em\n&7 seus inimigos.\n\n'
+    lore: '\n&7 Com este kit você terá 35% de\n&7 chance de aplicar fogo em\n&7 seus inimigos.\n\n'
   Frog:
     price: 15000
     lore: '\n&7 Com este kit você poderá pular\n&7 alto como um sapo!\n\n'
@@ -52,10 +52,22 @@ kits:
     lore: '\n&7 Com este kit você poderá\n&7 dropar seus pots automaticamente!\n\n'
   Snail:
     price: 25000
-    lore: '\n&7 Com este kit você terá 30%% de\n&7 chance de aplicar veneno\n&7 em seus inimigos!\n\n'
+    lore: '\n&7 Com este kit você terá 30% de\n&7 chance de aplicar lentidão\n&7 em seus inimigos!\n\n'
   Stomper:
     price: 25000
     lore: '\n&7 Com este kit você poderá\n&7 esmagar seus inimigos!\n\n'
   Tank:
     price: 25000
     lore: '\n&7 Com este kit você terá\n&7 uma armadura muito forte!\n\n'
+  Thor:
+    price: 25000
+    lore: '\n&7 Com este kit você será\n&7 o deus do trovão!\n\n'
+  Time-Lord:
+    price: 30000
+    lore: '\n&7 Com este kit você poderá\n&7 parar o tempo!\n\n'
+  Viper:
+    price: 25000
+    lore: '\n&7 Com este kit você terá 25% de\n&7 chance de aplicar veneno\n&7 em seus inimigos!\n\n'
+  Zen:
+    price: 15000
+    lore: '\n&7 Com este kit você poderá\n&7 teleportar para qualquer jogador!\n\n'
