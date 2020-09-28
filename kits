@@ -11,3 +11,6 @@ kits:
   Camel:
     price: 20000
     lore: '\n&7 Com este kit você receberá\n&7 poderes ao pisar no deserto!\n\n'
+  Darkness:
+    price: 30000
+    lore: '\n&7 Com este kit você terá 30%% de\n&7 chance de aplicar cegueira\n&7 em seu inimigo.\n\n'
