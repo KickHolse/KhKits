@@ -56,7 +56,7 @@ messages:
     enable-skill: '&eA habilidade &n{kit}&e foi ativada!'
     replaces:
       select: '&e Clique para selecionar este kit!'
-      buy: '&e Clique para comprar este kit!'
+      buy: '&fPreço: &6{price}\n\n&eClique para comprar este kit!'
   build:
     enabled: '&aO modo construtor foi ativado!'
     disabled: ' &cO modo construtor foi desativado!'
