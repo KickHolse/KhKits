@@ -75,7 +75,7 @@ scoreboard:
   title: '&a&lKIT PVP'
   lines:
   - ''
-  - ' Nível: &c{level}'
+  - ' Nível: &a{level}'
   - ' Kit: &7{kit}'
   - ''
   - '  Abates: &a{kills}'
