@@ -17,7 +17,7 @@ options:
     color:
       default: '&7'
       custom: '&f'
-    format: '{prefix}{player}{color}: {message}'
+    format: '&7[&a{level}&7] {prefix}{player}{color}: {message}'
     delay: '&cAguarde {time}s para utilizar o chat novamente!'
   motd:
     enabled: true
