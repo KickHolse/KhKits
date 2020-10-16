@@ -63,6 +63,7 @@ messages:
     enabled: '&aO modo voar foi ativado!'
     disabled: '&cO modo voar foi desativado!'
   warp-tp:
+    time: 5 seconds
     delay: '&aAguarde &c{time} &asegundos.'
     sucess: '&aTeleportado com sucesso!'
   warp-names:
@@ -146,4 +147,3 @@ scoreboard:
   - ' Online: &a{online}'
   - ''
   - ' &ezncommunity.com'
-
