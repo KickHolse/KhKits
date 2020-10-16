@@ -1,0 +1,7 @@
+menu:
+  title: ';-;'
+  rows: 3
+  items:
+    fps: 'slot>10 : item>PLAIN_GLASS_BLOCK : named>&aWarps &7(Clique direito) : lore>&7Jogue em outras warps!'
+    lava-challenge: 'slot>12 : item>SHINY STICK : named>&aKits &7(Clique direito) : lore>&7Selecione um kit!'
+    knockback: 'slot>14 : item>LAVA BUCKET : named>&aLoja &7(Clique direito) : lore>&7Compre kits para ficar mais\n&7forte!'
