@@ -51,6 +51,7 @@ messages:
   death: '{victim}&7 foi morto por {attacker}&7.'
   suicide: '{victim}&7 morreu sozinho.'
   kit:
+    delay: '&cAguarde {time}s para usar este kit novamente!'
     select: '&aVocê selecionou o kit &n{kit}&a!'
     enable-skill: '&eA habilidade &n{kit}&e foi ativada!'
     replaces:
