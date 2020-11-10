@@ -24,7 +24,7 @@ options:
   tablist:
     enabled: true
     header: '\n&a&lZN\n    &fjogar.zncollections.com\n '
-    footer: ' \n&2Discord: zncollections.com/discord\n\n         &aAdquira VIP e COINS acessando: &fwww.zncollections.com         \n '
+    footer: ' \n&2Discord: &fzncollections.com/discord\n\n         &aAdquira VIP e COINS acessando: &fwww.zncollections.com         \n '
   signs:
     recraft:
       line-1: '&b=-=-=-=-='
