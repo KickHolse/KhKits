@@ -24,7 +24,7 @@ options:
   tablist:
     enabled: true
     header: '\n&a&lREDE ZN\n    &fjogar.redezn.com\n '
-    footer: ' \n&2Discord: &fwww.redezn.com/discord\n\n         &aAdquira VIP e COINS acessando: &fwww.redezn.com         \n '
+    footer: ' \n&bDiscord: &fredezn.com/discord\n\n         &aAdquira VIP e COINS acessando: &fwww.redezn.com         \n '
   signs:
     recraft:
       line-1: '&b=-=-=-=-='
