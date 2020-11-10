@@ -1,7 +1,6 @@
-#
 # Skript feito por Kiberzn
 # Discord: a-zn#4375
-#
+
 spawn:
   broadcast: '&7{display} &6entrou neste lobby!'
   hotbar:
@@ -20,12 +19,12 @@ options:
     delay: '&cAguarde {time}s para utilizar o chat novamente!'
   motd:
     enabled: true
-    header: '&a&lZNCOMMUNITY &f- &7www.zncommunity.com'
+    header: '&a&lZN &f- &7www.zncollections.com'
     footer: '&e&nKit PvP&e aberto para todos!'
   tablist:
     enabled: true
-    header: '\n&a&lZNCOMMUNITY\n    &fjogar.zncommunity.com\n '
-    footer: ' \n&2Discord: \n\n         &aAdquira VIP e COINS acessando: &fwww.zncommunity.com         \n '
+    header: '\n&a&lZN\n    &fjogar.zncollections.com\n '
+    footer: ' \n&2Discord: zncollections.com/discord\n\n         &aAdquira VIP e COINS acessando: &fwww.zncollections.com         \n '
   signs:
     recraft:
       line-1: '&b=-=-=-=-='
@@ -147,4 +146,4 @@ scoreboard:
   - ' Moedas: &6{coins}'
   - ' Online: &a{online}'
   - ''
-  - ' &ezncommunity.com'
+  - ' &ezncollections.com'
