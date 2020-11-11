@@ -13,7 +13,10 @@ options:
   coins:
     per-kill: 50
     per-death: 25
-    money-day: 1000
+    money-day:
+      coins: 1000
+      delay: '&cAguarde {time} para coletar novamente!'
+      sucess: '&aVocê coletou &6{coins} moedas&a com sucesso!'
   chat:
     color:
       default: '&7'
