@@ -54,6 +54,7 @@ messages:
   without-permission: '&cVocê não tem permissão para isto.'
   death: '{victim}&7 foi morto por {attacker}&7.'
   suicide: '{victim}&7 morreu sozinho.'
+  bow-hit: '{victim}&e está com &c{life}&e de HP!'
   kit:
     delay: '&cAguarde {time}s para usar este kit novamente!'
     select: '&aVocê selecionou o kit &n{kit}&a!'
