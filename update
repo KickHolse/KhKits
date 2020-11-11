@@ -12,15 +12,14 @@
 # ─────────────────────────────────────────────────── #
 options:
 #	Nome: KhKits | Autor: Kiberzn
-	version: 10.4
+	version: 10.5
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
 # events
 on join:
 	teleport player to {warps::spawn}
 	khkits_groupmanager(player)
-	set {scoreboard.%player%} to true
-	"https://api.spigotmc.org/legacy/update.php?resource=67595" != "{@version}":
+	text from "https://api.spigotmc.org/legacy/update.php?resource=67595" is not "{@version}":
 		set {khkp::check_update} to true
 		player has permission "khkits.update" or "khkits.*":
 			send "%nl%&3 [KhKits] &7There is a new skript update, click <tooltip:&bClick here to update.><command:/khkits atualizar>&a&lHERE<reset> &7to update.%nl% " to player
@@ -44,33 +43,27 @@ on join:
 		set join message to ""
 	{khkp::tablist.enabled} == true:
 		set tab header to colored {khkp::tablist.header} and footer to colored {khkp::tablist.footer} for player
+	while player is online:
+		set level of player to {players::level.%player%}
+		wait 1 seconds
 on quit:
 	set quit message to ""
-	delete {scoreboard.%player%}
 on server list ping:
 	{khkp::motd.enabled} == true:
 		set motd to "%colored {khkp::motd.header}%%nl%%colored {khkp::motd.footer}%"
 on chat:
-	set {_chatw.%player%} to difference between {chat.%player%.delay} and now
-	{_chatw.%player%} is less than 3 seconds:
-		cancel event
-		set {%player%x.tempo} to "%difference between 3 seconds and {_chatw.%player%}%"
-		replace all " seconds" and " second" with "" in {%player%x.tempo}
-		set {khkp::chat-delay} to yml value "options.chat.delay" from file "plugins/KhKits/language.yml"
-		replace all "{time}" in {khkp::chat-delay} with {%player%x.tempo}
-		send colored {khkp::chat-delay} to player
 	set {khkp::chat-format} to yml value "options.chat.format" from file "plugins/KhKits/language.yml"
+	replace all "{player}" in {khkp::chat-format} with player's displayname
+	replace all "{prefix}" in {khkp::chat-format} with colored {prefix.%player%}
+	replace all "{level}" in {khkp::chat-format} with "%{players::level.%player%}%"
+	set {khkp::chat-format} to colored {khkp::chat-format}
 	player has permission "khkits.chat.color" or "khkits.*":
 		set {_color} to yml value "options.chat.color.custom" from file "plugins/KhKits/language.yml"
 		replace all "{message}" in {khkp::chat-format} with colored message
 	else:
 		set {_color} to yml value "options.chat.color.default" from file "plugins/KhKits/language.yml"
 		replace all "{message}" in {khkp::chat-format} with message
-	player doesn't have permission "khkits.chat.delay" or "khkits.*":
-		set {chat.%player%.delay} to now
-	replace all "{player}" in {khkp::chat-format} with player's displayname
 	replace all "{color}" in {khkp::chat-format} with colored {_color}
-	replace all "{prefix}" in {khkp::chat-format} with colored {prefix.%player%}
 	set chat format to {khkp::chat-format}
 on inventory click:
 	set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%player%.yml"
@@ -115,7 +108,7 @@ on walk on carpet:
 		push player upwards at speed 3.0
 		push player forward at speed 2.5
 on right-click:
-	loop "shop" and "kits" and "warps":
+	loop "money-day" and "profile" and "shop" and "kits" and "warps":
 		name of player's tool is getName({khkp::hotbar_%loop-value%}):
 			khkits_menu(player, "%loop-value%")
 	player's tool is a mushroom soup:
@@ -127,7 +120,7 @@ on right-click:
 			set the health of player to the health of player + {life.%player%}
 			delete {life.%player%}
 			set {_slot} to selected hotbar slot of player
-			{_kit-sel.%player%} != "Quick Dropper":
+			{_kit-sel.%player%} != "Quick-Dropper":
 				set slot {_slot} of player to bowl named colored {khkp::bowl}
 			else:
 				set slot {_slot} of player to air
@@ -178,8 +171,17 @@ on damage of a player:
 			cancel event
 	{_kit-sel.%victim%} == colored {khkp::kit_none}:
 		cancel event
+	attacker != victim:
+		"%damage cause%" == "projectile":
+			projectile is arrow:
+				victim is not dead:
+					{_kit-sel.%victim%} != colored {khkp::kit_none}:
+						set {khkp::bow-hit} to yml value "messages.bow-hit" of file "plugins/KhKits/language.yml"
+						replace all "{victim}" with colored {colored.%victim%} in {khkp::bow-hit}
+						replace all "{life}" with "%victim's health%" in {khkp::bow-hit}
+						send colored {khkp::bow-hit} to attacker	
 	set {_attacker} to attacker
-	set {lasthit.%victim%} to {_attacker}			
+	set {lasthit.%victim%} to {_attacker}
 	if damage is greater than or equal to health of victim:
 		{_kit-sel.%victim%} != colored {khkp::kit_none}:
 			cancel event
@@ -193,21 +195,36 @@ on damage of a player:
 				khkits_coinsmanager(victim, "remove", {khkp::per-death})
 				set action bar of victim to "&c- %{khkp::per-death}% moedas"	
 			replace all "{victim}" with colored {colored.%victim%} in {khkp::suicide} and {khkp::death}			
-			invoke "respawn" from victim and attacker
-			attacker is a player:
+			invoke "respawn" from victim and {lasthit.%victim%}
+			{lasthit.%victim%} is a player:
+				add 10 to {players::xp.%{lasthit.%victim%}%}
+				{players::xp.%{lasthit.%victim%}%} >= {players::need.%{lasthit.%victim%}%}:
+					set {players::level.%{lasthit.%victim%}%} to {players::level.%{lasthit.%victim%}%}+1
+					set {players::need.%{lasthit.%victim%}%} to {players::need.%{lasthit.%victim%}%}*1.8
+					khkits_coinsmanager({lasthit.%victim%}, "add", {players::reward.%{lasthit.%victim%}%})
+					send "%nl% &aVocê upou para o nível &2%{players::level.%{lasthit.%victim%}%}%&a, e recebeu &6%{players::reward.%{lasthit.%victim%}%}% moedas&a.%nl%" to {lasthit.%victim%}
+					set {players::reward.%{lasthit.%victim%}%} to {players::reward.%{lasthit.%victim%}%}+100
+					play sound "level up" to {lasthit.%victim%} with volume 1.0 and pitch 15.0
 				delete {ninja-victim.%{lasthit.%victim%}%}
 				set {_kills.%{lasthit.%victim%}%} to yml value "%uuid of {lasthit.%victim%}%.kills" of file "plugins/KhKits/players/%{lasthit.%victim%}%.yml"
 				replace all "{attacker}" with colored {colored.%{lasthit.%victim%}%} in {khkp::death}
 				add 1 to {_kills.%{lasthit.%victim%}%}
-				khkits_coinsmanager(victim, "add", {khkp::per-kill})
+				khkits_coinsmanager({lasthit.%victim%}, "add", {khkp::per-kill})
 				set yml value "%uuid of {lasthit.%victim%}%.kills" of file "plugins/KhKits/players/%{lasthit.%victim%}%.yml" to {_kills.%{lasthit.%victim%}%}
-				set action bar of attacker to "&6+ %{khkp::per-kill}% moedas"
+				set action bar of {lasthit.%victim%} to "&6+ %{khkp::per-kill}% moedas &8- &e+10 EXP"
 				broadcast colored {khkp::death}
 			else:
 				broadcast colored {khkp::suicide}
-			
+	delete {lasthit.%victim%} 
+
 # ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
 # commands
+command /som [<text>]:
+	trigger:
+		if arg 1 is "1":
+			play sound "ENDERMAN_TELEPORT" to player with volume 0.5 and pitch 5.0
+		if arg 1 is "2":
+			play sound "ITEM PICKUP" to player with volume 0.5 and pitch 15.0
 command /khkits [<text = help>] [<text>] [<text>] [<text>]:
 	permission: khkits.*
 	permission message: §3[KhKits] §7v{@version} §f- §7Criado por §6Kiberzn§7.
@@ -342,25 +359,26 @@ command /kit [<text>] [<text>]:
 				arg 1 is set:
 					khkits_kits(player, arg 1)
 			else:
-				send "&cVocê não pode usar este comando aqui!"
+				send colored {khkp::area-not-allowed}
 command /moedas:
 	aliases: /money, /cash, /coins
 	trigger:
+		set {khkp::coins_viewer} to yml value "options.coins.viewer" of file "plugins/KhKits/language.yml"
 		set {_coins.%player%} to yml value "%uuid of player%.coins" of file "plugins/KhKits/players/%player%.yml"
 		set {_coins.%player%} to formatNumber({_coins.%player%})
-		send "&fSeu saldo é de &6%{_coins.%player%}%"
+		replace all "{coins}" with "%{_coins.%player%}%" in {khkp::coins_viewer}
+		send colored {khkp::coins_viewer}
 command /voar:
 	aliases: /fly
 	trigger:
 		player has permission "khkits.voar" or "khkits.*":
 			set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%player%.yml"
 			{_kit-sel.%player%} == colored {khkp::kit_none}:
+				play sound "ITEM PICKUP" to player with volume 0.5 and pitch 15.0
 				player's fly mode == true:
-					play sound "ITEM PICKUP" to player with volume 0.5 and pitch 15.0
 					set action bar of player to colored {khkp::fly_disabled}
 					set player's fly mode to false
 				else:
-					play sound "ITEM PICKUP" to player with volume 0.5 and pitch 15.0
 					set action bar of player to colored {khkp::fly_enabled}
 					set player's fly mode to true
 			else:
@@ -375,12 +393,16 @@ command /warp [<text>]:
 					khkits_setup(player, "effects")
 					set player's gamemode to adventure
 					set player's fly mode to false
-					loop 3 and 2 and 1:
+					set {_warp-tp_time::*} to {khkp::warp-tp_time} split at " "
+					set {_time-type} to {_warp-tp_time::2}
+					set {_time-amount} to "%{_warp-tp_time::1}%" parsed as int
+					loop {_time-amount} times:
+						remove 1 from {_time-amount}
 						set {khkp::warp-tp_delay} to yml value "messages.warp-tp.delay" of file "plugins/KhKits/language.yml"
-						replace all "{time}" with "%loop-value-2%" in {khkp::warp-tp_delay}
+						replace all "{time}" with "%{_time-amount}%" in {khkp::warp-tp_delay}
 						set action bar of player to colored {khkp::warp-tp_delay}
 						play sound "ORB PICKUP" to player with volume 0.5 and pitch 15.0
-						wait 1 second
+						wait "1 %{_time-type}%" parsed as timespan
 					play "LEVEL_UP" to player at volume 0.5
 					set action bar of player to colored {khkp::warp-tp_sucess}
 					teleport player to {warps::%loop-value%}
@@ -432,13 +454,245 @@ on walk on sand or sandstone:
 		remove speed and regeneration from player
 		apply speed and regeneration 1 to player for 3 seconds
 		khkits_skill(player, "%{_kit-sel.%player%}%")
+on leftclick:
+	set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%player%.yml"
+	name of player's tool == "&eKangaroo":
+		cancel event 
+		block under player is not air:
+			push player upward at speed 0.5
+			push player forward at speed 3
+			khkits_skill(player, "%{_kit-sel.%player%}%")
+on rightclick:
+	set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%player%.yml"
+	name of player's tool == "&eKangaroo":
+		cancel event 
+		block under player is not air:
+			push player upward at speed 1
+			khkits_skill(player, "%{_kit-sel.%player%}%")
+	name of player's tool is "&eThor":
+		cancel event 
+		set {_wait} to difference between {thor.%player%.delay} and now
+		{_wait} is less than 30 seconds:
+			set {_tempo} to "%difference between 30 seconds and {_wait}%"
+			set {khkp::kit-delay} to yml value "messages.kit.delay" of file "plugins/KhKits/language.yml"
+			replace all " seconds" and " second" with "" in {_tempo}
+			replace all "{time}" with colored {_tempo} in {khkp::kit-delay}
+			set action bar of player to colored {khkp::kit-delay}
+		else:
+			set {thor.%player%.delay} to now
+			strike lightning at the targeted block
+			khkits_skill(player, "%{_kit-sel.%player%}%")
+	name of player's tool is "&ePhanton":
+		set {_wait} to difference between {phanton.%player%.delay} and now
+		{_wait} is less than 20 seconds:
+			set {_tempo} to "%difference between 20 seconds and {_wait}%"
+			set {khkp::kit-delay} to yml value "messages.kit.delay" of file "plugins/KhKits/language.yml"
+			replace all " seconds" and " second" with "" in {_tempo}
+			replace all "{time}" with colored {_tempo} in {khkp::kit-delay}
+			set action bar of player to colored {khkp::kit-delay}
+		else:
+			set {phanton.%player%.delay} to now
+			khkits_skill(player, "%{_kit-sel.%player%}%")
+			hide player to all players
+			wait 5 seconds
+			reveal player to all players
+	name of player's tool is "&eZen":
+		set {_wait} to difference between {zen.%player%.delay} and now
+		{_wait} is less than 15 seconds:
+			set {_tempo} to "%difference between 15 seconds and {_wait}%"
+			set {khkp::kit-delay} to yml value "messages.kit.delay" of file "plugins/KhKits/language.yml"
+			replace all " seconds" and " second" with "" in {_tempo}
+			replace all "{time}" with colored {_tempo} in {khkp::kit-delay}
+			set action bar of player to colored {khkp::kit-delay}
+		else:
+			set {zen.%player%.delay} to now
+			khkits_skill(player, "%{_kit-sel.%player%}%")
+			set {all-players::*} to all players
+			remove player from {all-players::*}
+			loop all players:
+				set {_kit-sel.%loop-player%} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%loop-player%.yml"
+				if {_kit-sel.%loop-player%} is "%{khkp::kit_fps}%" or "%{khkp::kit_knockback}%" or "%{khkp::kit_lava-challenge}%" or "%{khkp::kit_none}%":
+					remove loop-player from {all-players::*}
+			set {teleporter.%player%} to random player out of {all-players::*}
+			teleport player to {teleporter.%player%}
+			delete {all-players::*} and {teleporter.%player%}
+			play sound "ENDERMAN_TELEPORT" to player with volume 0.5 and pitch 5.0
+	name of player's tool is "&eGalinha Voadora":
+		set {_wait} to difference between {fly.%player%.delay} and now
+		{_wait} is less than 30 seconds:
+			set {_tempo} to "%difference between 30 seconds and {_wait}%"
+			set {khkp::kit-delay} to yml value "messages.kit.delay" of file "plugins/KhKits/language.yml"
+			replace all " seconds" and " second" with "" in {_tempo}
+			replace all "{time}" with colored {_tempo} in {khkp::kit-delay}
+			set action bar of player to colored {khkp::kit-delay}
+		else:
+			set {fly.%player%.delay} to now
+			set player's fly mode to true
+			Broadcast "%nl%&a * %{colored.%player%}%&a esta usando o kit Galinha Voadora.%nl% "
+			khkits_skill(player, "%{_kit-sel.%player%}%")
+			wait 5 seconds
+			set player's fly mode to false
+	name of player's tool is "&eTime Lord":
+		set {_wait} to difference between {tlord.%player%.delay} and now
+		if {_wait} is less than 20 seconds:
+			set {_tempo} to "%difference between 20 seconds and {_wait}%"
+			set {khkp::kit-delay} to yml value "messages.kit.delay" of file "plugins/KhKits/language.yml"
+			replace all " seconds" and " second" with "" in {_tempo}
+			replace all "{time}" with colored {_tempo} in {khkp::kit-delay}
+			set action bar of player to colored {khkp::kit-delay}
+		else:
+			set {tlord.%player%.delay} to now
+			khkits_skill(player, "%{_kit-sel.%player%}%")
+			set {_players::*} to all players
+			loop all players:
+				set {_kit-sel.%loop-player%} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%loop-player%.yml"
+				if {_kit-sel.%loop-player%} is "%{khkp::kit_fps}%" or "%{khkp::kit_knockback}%" or "%{khkp::kit_lava-challenge}%" or "%{khkp::kit_none}%":
+					remove loop-player from {_players::*}
+			remove player from {_players::*}
+			remove slowness and jump boost from {_players::*}
+			wait 3 tick
+			apply slowness and jump boost 250 to {_players::*} for 5 seconds
+			wait 5 seconds
+			loop all players:
+				{_kit-sel.%loop-player%} is "Tank":
+					remove slowness and jump boost from loop-player
+					apply mining fatigue and slowness 1 to loop-player for 99999 seconds
+on rightclick on entity:
+	entity is a player
+	set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%player%.yml"
+	name of player's tool is "&eMonk":
+		set {_kit-sel.%entity%} to yml value "%uuid of entity%.selected-kit" of file "plugins/KhKits/players/%entity%.yml"
+		{_kit-sel.%entity%} != "%{khkp::kit_fps}%" or "%{khkp::kit_knockback}%" or "%{khkp::kit_lava-challenge}%" or "%{khkp::kit_none}%":
+			set {_wait} to difference between {monk.%player%.delay} and now
+			{_wait} is less than 15 seconds:
+				set {_tempo} to "%difference between 15 seconds and {_wait}%"
+				set {khkp::kit-delay} to yml value "messages.kit.delay" of file "plugins/KhKits/language.yml"
+				replace all " seconds" and " second" with "" in {_tempo}
+				replace all "{time}" with colored {_tempo} in {khkp::kit-delay}
+				set action bar of player to colored {khkp::kit-delay}
+			else:
+				set {monk.%player%.delay} to now
+				khkits_skill(player, "%{_kit-sel.%player%}%")
+				set {_slot} to a random integer between 0 and 35
+				{_slot} is 8 or 13 or 14 or 15 or 17:
+					set {_slot} to a random integer between 18 and 35
+				remove any sword from the entity
+				set slot {_slot} of entity to unbreakable {sword-%entity%} named "&eEspada"
+				give entity 1 soup named colored {khkp::soup}
+on sneak toggle:
+	set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%player%.yml"
+	player is not sneaking
+	{_kit-sel.%player%} == "Ninja":
+		{ninja-victim.%player%} is not set:
+			set action bar of player to "&cVocê não bateu em nenhum jogador nos ultimos segundos"
+		else:
+			set {_wait} to difference between {ninja.%player%.delay} and now
+			{_wait} is less than 15 seconds:
+				set {_tempo} to "%difference between 15 seconds and {_wait}%"
+				set {khkp::kit-delay} to yml value "messages.kit.delay" of file "plugins/KhKits/language.yml"
+				replace all " seconds" and " second" with "" in {_tempo}
+				replace all "{time}" with colored {_tempo} in {khkp::kit-delay}
+				set action bar of player to colored {khkp::kit-delay}
+			else:
+				set {ninja.%player%.delay} to now
+				khkits_skill(player, "%{_kit-sel.%player%}%")
+				teleport player to location of {ninja-victim.%player%} parsed as player
+				loop 60 times:
+					{ninja-time.%player%} is 0:
+						delete {ninja-victim.%player%} and {ninja-time.%player%}
+					else:
+						remove 1 from {ninja-time.%player%}
+						wait 1 second
+	{_kit-sel.%player%} is "Invencivel":
+		set {_wait} to difference between {inv.%player%.delay} and now
+		if {_wait} is less than 20 seconds:
+			set {_tempo} to "%difference between 20 seconds and {_wait}%"
+			set {khkp::kit-delay} to yml value "messages.kit.delay" of file "plugins/KhKits/language.yml"
+			replace all " seconds" and " second" with "" in {_tempo}
+			replace all "{time}" with colored {_tempo} in {khkp::kit-delay}
+			set action bar of player to colored {khkp::kit-delay}
+		else:
+			set {inv.%player%.delay} to now
+			khkits_skill(player, "%{_kit-sel.%player%}%")
+			set {inv.effect.%player%} to true
+			wait 4 seconds
+			delete {inv.effect.%player%}
+on damage of player:
+	set {_kit-sel.%victim%} to yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%victim%.yml"
+	damage cause is fall:
+		cancel event
+		{_kit-sel.%victim%} is "Stomper":
+			set {_players::*} to all players in radius 5 of victim
+			loop all players:
+				set {_kit-sel.%loop-player%} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%loop-player%.yml"
+				if {_kit-sel.%loop-player%} is "Anti-Stomper" or "%{khkp::kit_fps}%" or "%{khkp::kit_knockback}%" or "%{khkp::kit_lava-challenge}%" or "%{khkp::kit_none}%":
+					remove loop-player from {_players::*}
+			remove victim from {_players::*}
+			loop {_players::*}:
+				loop-value is sneaking:
+					remove loop-value from {_players::*}
+			size of {_players::*} is not 0:
+				khkits_skill(victim, "%{_kit-sel.%victim%}%")
+				loop {_players::*}:
+					set {_damage} to damage*2
+					#set {lasthit.%loop-value%} to "%victim%" parsed as offlineplayer
+					damage loop-value by {_damage} hearts
+	{_kit-sel.%victim%} != "%{khkp::kit_fps}%" or "%{khkp::kit_knockback}%" or "%{khkp::kit_lava-challenge}%" or "%{khkp::kit_none}%":
+		{_kit-sel.%victim%} is "Espinhos":
+			chance of 25%:
+				set {damage.%victim%} to damage/2
+				damage attacker by {damage.%victim%} hearts
+				khkits_skill(victim, "%{_kit-sel.%victim%}%")
+		{inv.effect.%victim%} is true:
+			cancel event
+			set action bar of attacker to "%{colored.%victim%}%&a esta usando o kit Invencível."
+		attacker is a player
+		set {_kit-sel.%attacker%} to yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%attacker%.yml"
+		{_kit-sel.%attacker%} is "Fisherman":
+			delete {target.%attacker%}
+			set {target.%attacker%} to "%victim%" parsed as player
+		{_kit-sel.%attacker%} is "Viper":
+			chance of 20%:
+				attacker is a player
+				apply poison 2 to victim for 3 seconds
+				khkits_skill(attacker, "%{_kit-sel.%attacker%}%")
+		{_kit-sel.%attacker%} is "Fogareu":
+			chance of 35%:
+				set fire to victim
+				khkits_skill(attacker, "%{_kit-sel.%attacker%}%")
+		{_kit-sel.%attacker%} is "Snail":
+			chance of 30%:
+				remove slowness from victim
+				apply slowness 3 to victim for 5 seconds
+				khkits_skill(attacker, "%{_kit-sel.%attacker%}%")
+		{_kit-sel.%attacker%} is "Darkness":
+			chance of 30%:
+				remove slowness from victim
+				apply blindness 10 to victim for 5 seconds
+				khkits_skill(attacker, "%{_kit-sel.%attacker%}%")
+		{_kit-sel.%attacker%} is "Ninja":
+			delete {ninja-time.%attacker%} and {ninja-victim.%attacker%}
+			set {ninja-victim.%attacker%} to "%victim%"
+			set {ninja-time.%attacker%} to 60
+on fishing:
+	set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%player%.yml"
+	{_kit-sel.%player%} is "Fisherman":
+		teleport {target.%player%} to player
+		khkits_skill(player, "%{_kit-sel.%player%}%")
+		delete {target.%player%}
+on walk on water:
+	set {_kit-sel.%player%} to yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%player%.yml"
+	{_kit-sel.%player%} is "Aquaman":
+		remove speed and regeneration from player
+		apply speed and regeneration 2 to player for 5 seconds
+		khkits_skill(player, "%{_kit-sel.%player%}%")
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
 # file manager
 function khkits_filemanager(use: text):
 	{_use} == "value":
 		delete {khkp::*}
-		loop "warps" and "kits" and "shop":
+		loop "money-day" and "profile" and "warps" and "kits" and "shop":
 			set {khkp::hotbar_%loop-value%} to yml value "spawn.hotbar.%loop-value%" from file "plugins/KhKits/language.yml"
 		loop "motd.enabled" and "motd.header" and "motd.footer" and "tablist.enabled" and "tablist.header" and "tablist.footer":
 			set {khkp::%loop-value%} to yml value "options.%loop-value%" from file "plugins/KhKits/language.yml"
@@ -459,6 +713,8 @@ function khkits_filemanager(use: text):
 		set {khkp::without_permission} to yml value "messages.without-permission" from file "plugins/KhKits/language.yml"
 		set {khkp::area-not-allowed} to yml value "messages.area-not-allowed" from file "plugins/KhKits/language.yml"
 		set {khkp::warp-tp_sucess} to yml value "messages.warp-tp.sucess" from file "plugins/KhKits/language.yml"
+		set {khkp::warp-tp_time} to yml value "messages.warp-tp.time" from file "plugins/KhKits/language.yml"
+		set {khkp::money_day-coins} to yml value "options.coins.money-day.coins" of file "plugins/KhKits/language.yml"
 
 		set {score.title} to yaml value "scoreboard.title" from file "plugins/KhKits/language.yml"
 		set {_temp::*} to yaml list "scoreboard.lines" from file "plugins/KhKits/language.yml"
@@ -567,16 +823,23 @@ function khkits_getstats(p: player, arg: offlineplayer):
 		set {_kills.%{_arg}%} to yml value "%uuid of {_arg}%.kills" of file "plugins/KhKits/players/%{_arg}%.yml"
 		set {_flogin.%{_arg}%} to yml value "%uuid of {_arg}%.login.first" of file "plugins/KhKits/players/%{_arg}%.yml"
 		set {_llogin.%{_arg}%} to yml value "%uuid of {_arg}%.login.last" of file "plugins/KhKits/players/%{_arg}%.yml"
-		set {_coins.%{_arg}%} to formatNumber({_coins.%{_arg}%})
-		format slot 13 of {_p} with skull of {_arg} named "%{colored.%{_arg}%}%" with lore "&fCoins: &6%{_coins.%{_arg}%}%||&fAbates: &7%{_kills.%{_arg}%}%||&fMortes: &7%{_deaths.%{_arg}%}%||||&fCadastrado em: &7%{_flogin.%{_arg}%}%||&fÚltimo login: &7%{_llogin.%{_arg}%}%" to run [make {_p} execute command "som 2"]
+		loop "coins.%{_arg}%" and "deaths.%{_arg}%" and "kills.%{_arg}%":
+			set {_%loop-value%} to formatNumber({_%loop-value%})
+		loop "level" and "xp" and "need" and "reward":
+			set {players::s.%loop-value%.%{_arg}%} to formatNumber({players::%loop-value%.%{_arg}%})
+		format slot 13 of {_p} with skull of {_arg} named "%{colored.%{_arg}%}%" with lore "&fMoedas: &6%{_coins.%{_arg}%}%||||&fNível: &7%{players::s.level.%{_arg}%}%||&fXP: &7%{players::s.xp.%{_arg}%}%||&fXP Necessário: &7%{players::s.need.%{_arg}%}%||&fRecompensa: &e%{players::s.reward.%{_arg}%}% Moedas||||&fAbates: &7%{_kills.%{_arg}%}%||&fMortes: &7%{_deaths.%{_arg}%}%||||&fCadastrado em: &7%{_flogin.%{_arg}%}%||&fÚltimo login: &7%{_llogin.%{_arg}%}%" to run [make {_p} execute command "som 2"]
 	else:
-		send "Este jogador não está online no momento!" to {_p}
+		send "&cEste jogador não está online no momento!" to {_p}
 function khkits_reset(p: player):
 	set yml value "%uuid of {_p}%.name" of file "plugins/KhKits/players/%{_p}%.yml" to "%{_p}%"
 	set yml value "%uuid of {_p}%.selected-kit" of file "plugins/KhKits/players/%{_p}%.yml" to "%{khkp::kit_none}%"
 	set yml value "%uuid of {_p}%.kills" of file "plugins/KhKits/players/%{_p}%.yml" to 0
 	set yml value "%uuid of {_p}%.deaths" of file "plugins/KhKits/players/%{_p}%.yml" to 0
 	set yml value "%uuid of {_p}%.coins" of file "plugins/KhKits/players/%{_p}%.yml" to 0
+	set {players::xp.%{_p}%} to 0
+	set {players::level.%{_p}%} to 1
+	set {players::need.%{_p}%} to 100
+	set {players::reward.%{_p}%} to 500
 function khkits_setup(p: player, event: text):
 	{_event} == "effects":
 		delete {build.%{_p}%} and {espinhos.%{_p}%} and {ninja-time.%{_p}%} and {ninja-victim.%{_p}%} and {ninja.%{_p}%}
@@ -584,7 +847,7 @@ function khkits_setup(p: player, event: text):
 		heal {_p}
 		extinguish {_p}
 		set {_p}'s food to 10
-		clear {_p}'s level
+		#clear {_p}'s exp
 		clear {_p}'s inventory
 		milk {_p}
 	{_event} == "give_soup":
@@ -593,15 +856,15 @@ function khkits_setup(p: player, event: text):
 		set slot 14 of {_p} to 64 brown mushroom named colored {khkp::brown-mushroom}
 		set slot 15 of {_p} to 64 bowl named colored {khkp::bowl}
 	{_event} == "hotbar":
-		loop "hotbar_warps" and "hotbar_kits" and "hotbar_shop":
+		loop "hotbar_money-day" and "hotbar_profile" and "hotbar_warps" and "hotbar_kits" and "hotbar_shop":
 			set {_slot} to getSlot({khkp::%loop-value%}) parsed as int
 			set {_item} to getItem({khkp::%loop-value%})
 			{_item} contains "HEAD:owner=":
-				set {_x} to last element of {_item} split at "HEAD:owner=" parsed as offline player
+				set {_x} to last element of {_item} split at "HEAD:owner="
 				{_x} == "{player}":
 					replace all "{player}" in {_x} with "%{_p}%"
-					set {_x} to "%{_x}%" parsed as player
-				set slot {_slot} of {_p} to {_x}'s skull named getName({khkp::%loop-value%}) with lore getLore({khkp::%loop-value%})
+					set {_x} to "%{_x}%" parsed as offlineplayer
+				set slot {_slot} of {_p} to skull of {_x} named getName({khkp::%loop-value%}) with lore getLore({khkp::%loop-value%})
 			else if {_item} contains "SHINY ":
 				replace all "SHINY " in {_item} with ""
 				set {_item} to "%{_item}%" parsed as material
@@ -660,14 +923,20 @@ function khkits_scoreboard(p: player):
 	loop {score.lines} times:
 		create a new id based score "SCORE-%{_p}%Slot%{_line}%" with text "&%{_line}%" slot {_line} for stylish scoreboard "SCORE-%{_p}%"
 		add 1 to {_line}
+	scroller({_p})
 	while {_p} is online:
-		set stylish scoreboard of {_p} to "SCORE-%{_p}%"		
-		set title of stylish scoreboard "SCORE-%{_p}%" to getText({_p}, colored {score.title})
+		set stylish scoreboard of {_p} to "SCORE-%{_p}%"
 		set {_line} to 1
 		loop {score.lines} times:
 			set the text of id "SCORE-%{_p}%Slot%{_line}%" to getText({_p}, "%{score.line::%{_line}%}%")
 			add 1 to {_line}
 		wait 1 seconds
+function scroller(p: player):
+	while {_p} is online:
+		loop yaml list "scoreboard.titles" from file "plugins/KhKits/language.yml":
+			set title of stylish scoreboard "SCORE-%{_p}%" to getText({_p}, colored "%loop-value%")
+			set {_x} to yaml value "scoreboard.update-time" from file "plugins/KhKits/language.yml"
+			wait "%{_x}% ticks" parsed as timespan
 function getSlot(text: text) :: text:
 	set {_string::*} to {_text} split at " : "
 	set {_slot} to {_string::1}
@@ -693,9 +962,11 @@ function getText(p: player, var: text) :: text:
 	set {_kit-sel.%{_p}%} to yml value "%uuid of {_p}%.selected-kit" of file "plugins/KhKits/players/%{_p}%.yml"
 	set {_coins.%{_p}%} to yml value "%uuid of {_p}%.coins" of file "plugins/KhKits/players/%{_p}%.yml"
 	set {_coins.%{_p}%} to formatNumber({_coins.%{_p}%})
+	set {players::levels.%{_p}%} to formatNumber({players::level.%{_p}%})
 	set {_deaths.%{_p}%} to yml value "%uuid of {_p}%.deaths" of file "plugins/KhKits/players/%{_p}%.yml"
 	set {_kills.%{_p}%} to yml value "%uuid of {_p}%.kills" of file "plugins/KhKits/players/%{_p}%.yml"
 	replace all "{now}" in {_var} with "%now%"
+	replace all "{level}" in {_var} with "%{players::levels.%{_p}%}%"
 	replace all "{kit}" in {_var} with "%{_kit-sel.%{_p}%}%"
 	replace all "{group}" in {_var} with "%{group.%{_p}%}%"
 	replace all "{kills}" in {_var} with "%{_kills.%{_p}%}%"
@@ -712,7 +983,7 @@ function getText(p: player, var: text) :: text:
 	replace all "Ãµ" in {_var} with "õ"
 	replace all "Ã­" in {_var} with "í"
 	replace all "Ã³" in {_var} with "ó"
-	replace all "Ã " in {_var} with "à"
+	replace all "Ã " in {_var} with "à"
 	return "%{_var}%"
 import:
     java.text.DecimalFormat
@@ -725,6 +996,28 @@ function formatNumber(var: number) :: text:
     set {_x} to {_var} with decimal format "######,######"
     return "%{_x}%"
 function khkits_menu(p: player, type: text):
+	{_type} == "money-day":
+		play sound "CLICK" to {_p} with volume 0.5 and pitch 15.0
+		set {_wait} to difference between {moedas.%{_p}%.diario} and now
+		if {_wait} is less than 86400 seconds:
+			set {_tempo} to "%difference between 86400 seconds and {_wait}%"
+			set {khkp::money_day-delay} to yml value "options.coins.money-day.delay" of file "plugins/KhKits/language.yml"
+			replace all "and" with "e" in {_tempo}
+			replace all " hours" and " hour" with "h" in {_tempo}
+			replace all " minutes" and " minute" with "m" in {_tempo}
+			replace all " seconds" and " second" with "s" in {_tempo}
+			replace all "{time}" with colored {_tempo} in {khkp::money_day-delay}
+			set action bar of {_p} to colored {khkp::money_day-delay}
+		else:
+			set {moedas.%{_p}%.diario} to now
+			set {_coins} to formatNumber({khkp::money_day-coins})
+			set {khkp::money_day-sucess} to yml value "options.coins.money-day.sucess" of file "plugins/KhKits/language.yml"
+			replace all "{coins}" with {_coins} in {khkp::money_day-sucess}
+			send colored {khkp::money_day-sucess} to {_p}
+			khkits_coinsmanager({_p}, "add", {khkp::money_day-coins})
+	{_type} == "profile":
+		play sound "CLICK" to {_p} with volume 0.5 and pitch 15.0
+		send "&cComing soon" to {_p}
 	{_type} == "warps":
 		wait 3 tick
 		set {fps_online} and {knockback_online} and {lava-challenge_online} to number of all players
@@ -736,9 +1029,9 @@ function khkits_menu(p: player, type: text):
 		open chest with 3 row named "Warps" to {_p}
 		play sound "CLICK" to {_p} with volume 0.5 and pitch 15.0
 		wait 1 tick
-		format slot 10 of {_p} with plain glass block named "&aFPS" with lore "&7Esta warp é ideal para aqueles||&7jogadores que possuem uma máquina mais||&7humilde. Jogue aqui sem problemas com fps!|| ||&7%{fps_online}% jogando!||&eClique aqui para ir até a warp!" to close then run [make {_p} execute command "fps"]
-		format slot 12 of {_p} with shiny stick named "&aKNOCKBACK" with lore "&7Nesta warp você poderá jogar||&7seus amigos para mem longe||&7e matalos muito fácil!|| ||&7%{knockback_online}% jogando!||&eClique aqui para ir até a warp!" to close then run [make {_p} execute command "knockback"]
-		format slot 14 of {_p} with lava bucket named "&aLAVA CHALLENGE" with lore "&7Quer treinar seu refill? Este é||&7o desafio perfeito para você. Tente||&7sobreviver em um rio de lava.|| ||&7%{lava-challenge_online}% jogando!||&eClique aqui para ir até a warp!" to close then run [Make {_p} execute command "lava-challenge"]
+		format slot 10 of {_p} with PLAIN_GLASS_BLOCK named "&aFPS" with lore "&7Esta warp é ideal para aqueles||&7jogadores que possuem uma máquina mais||&7humilde. Jogue aqui sem problemas com fps!||||&7%{fps_online}% jogando!||&eClique aqui para ir até a warp!" to close then run [make {_p} execute command "fps"]
+		format slot 12 of {_p} with shiny STICK named "&aKNOCKBACK" with lore "&7Nesta warp você poderá jogar||&7seus amigos para mem longe||&7e matalos muito fácil!||||&7%{knockback_online}% jogando!||&eClique aqui para ir até a warp!" to close then run [make {_p} execute command "knockback"]
+		format slot 14 of {_p} with LAVA_BUCKET named "&aLAVA CHALLENGE" with lore "&7Quer treinar seu refill? Este é||&7o desafio perfeito para você. Tente||&7sobreviver em um rio de lava.||||&7%{lava-challenge_online}% jogando!||&eClique aqui para ir até a warp!" to close then run [make {_p} execute command "lava-challenge"]
 	{_type} == "shop":
 		wait 3 tick
 		open chest with 3 row named "Loja" to {_p}
@@ -752,7 +1045,7 @@ function khkits_menu(p: player, type: text):
 		wait 3 tick
 		open chest with 6 row named "Kits 1/2" to {_p}
 		play sound "CLICK" to {_p} with volume 0.5 and pitch 15.0
-		wait 1 tick
+		wait 2 tick
 		format slot 10 of {_p} with stone sword named "&aNormal" with lore "||&7  Este é um kit espécial para quem||&7  é novo aqui no servidor.||||%colored {khkp::kitreplace_select}%" to close then run [Make {_p} execute command "/kit Normal"]
 		format slot 11 of {_p} with diamond boots named "&aAnti Stomper" with lore "%colored {node::Anti-Stomper.lore}%%colored {khkp::kitreplace_select}%" to close then run [Make {_p} execute command "/kit Anti-Stomper"]
 		format slot 12 of {_p} with water bucket named "&aAquaman" with lore "%colored {node::Aquaman.lore}%%colored {khkp::kitreplace_select}%" to close then run [Make {_p} execute command "/kit Aquaman"]
@@ -779,7 +1072,7 @@ function khkits_menu(p: player, type: text):
 		wait 3 tick
 		open chest with 6  row named "Kits 2/2" to {_p}
 		play sound "CLICK" to {_p} with volume 0.5 and pitch 15.0
-		wait 1 tick
+		wait 2 tick
 		format slot 10 of {_p} with wooden axe named "&aThor" with lore "%colored {node::Thor.lore}%%colored {khkp::kitreplace_select}%" to close then run [Make {_p} execute command "/kit Thor"]
 		format slot 11 of {_p} with clock named "&aTime Lord" with lore "%colored {node::Time-Lord.lore}%%colored {khkp::kitreplace_select}%" to close then run [Make {_p} execute command "/kit Time-Lord"]
 		format slot 12 of {_p} with spider eye named "&aViper" with lore "%colored {node::Viper.lore}%%colored {khkp::kitreplace_select}%" to close then run [Make {_p} execute command "/kit Viper"]
@@ -879,9 +1172,8 @@ function khkits_kits(p: player, kit: text):
 					set action bar of {_p} to colored {khkp::select-kit}
 					set yml value "%uuid of {_p}%.selected-kit" of file "plugins/KhKits/players/%{_p}%.yml" to "%{_kit}%"
 					play sound "ITEM PICKUP" to {_p} with volume 0.5 and pitch 15.0
-					#set {sword-%{_p}%} to unbreakable stone sword
 					{_kit} == "Warrior":
-						set slot 0 of {_p} to unbreakable diamond sword of sharpness 1 named "&eEspada"
+						set slot 0 of {_p} to unbreakable diamond sword named "&eEspada"
 						equip {_p} with unbreakable leather Chestplate named "&ePeitoral"
 						dye {_p}'s chestplate gray
 					{_kit} == "Archer":
@@ -917,6 +1209,10 @@ function khkits_kits(p: player, kit: text):
 						set slot 8 of {_p} to unbreakable fishing rod named "&eFisherman"
 					{_kit} == "Zen":
 						set slot 8 of {_p} to slime named "&eZen"
+					loop all items in {_p}'s inventory:
+						set {_x} to material of loop-item
+						if "%{_x}%" is "STONE_SWORD" or "DIAMOND_SWORD":
+							set {sword-%{_p}%} to "%{_x}%" parsed as material
 				else:
 					send "&cVocê não comprou este kit." to {_p}
 	
@@ -927,7 +1223,7 @@ on load:
 	khkits_scoreboard(all players)
 	send "&3[KHKITS] &eChecking for updates..." to console
 	wait 2 seconds
-	"https://api.spigotmc.org/legacy/update.php?resource=67595" != "{@version}":
+	text from "https://api.spigotmc.org/legacy/update.php?resource=67595" != "{@version}":
 		send "&3[KHKITS] &cYou are not using the latest version of skript." to console
 	else:
 		send "&3[KHKITS] &aYou are using the latest version of skript." to console
