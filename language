@@ -24,7 +24,7 @@ options:
   tablist:
     enabled: true
     header: '\n&a&lREDE ZN\n    &fjogar.redezn.com\n '
-    footer: ' \n&b               Discord: &fredezn.com/discord               \n&bForúm: &fredezn.com/forum\n'
+    footer: ' \n&bForúm: &fredezn.com/forum\n&b               Discord: &fredezn.com/discord               \n'
   signs:
     recraft:
       line-1: '&b=-=-=-=-='
