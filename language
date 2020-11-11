@@ -4,9 +4,11 @@
 spawn:
   broadcast: '&7{display} &6entrou neste lobby!'
   hotbar:
+    profile: 'slot>1 : item>HEAD:owner={player} : named>&aPerfil &7(Clique direito) : lore>&7Veja todas as suas informações!'
     warps: 'slot>3 : item>COMPASS : named>&aWarps &7(Clique direito) : lore>&7Jogue em outras warps!'
     kits: 'slot>4 : item>NETHER_STAR : named>&aKits &7(Clique direito) : lore>&7Selecione um kit!'
     shop: 'slot>5 : item>EMERALD : named>&aLoja &7(Clique direito) : lore>&7Compre kits para ficar mais\n&7forte!'
+    money-day: 'slot>7 : item>CHEST_MINECART : named>&aMoedas Diárias &7(Clique direito) : lore>&7Colete moedas suas diárias!'
 options:
   coins:
     per-kill: 50
