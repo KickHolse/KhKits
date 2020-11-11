@@ -13,6 +13,7 @@ options:
   coins:
     per-kill: 50
     per-death: 25
+    money-day: 1000
   chat:
     color:
       default: '&7'
