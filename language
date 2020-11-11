@@ -22,7 +22,6 @@ options:
       default: '&7'
       custom: '&f'
     format: '&7[&a{level}&7] {prefix}{player}{color}: {message}'
-    delay: '&cAguarde {time}s para utilizar o chat novamente!'
   motd:
     enabled: true
     header: '&a&lZN &f- &7www.redezn.com'
