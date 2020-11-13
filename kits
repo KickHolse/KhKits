@@ -50,6 +50,9 @@ kits:
   Quick-Dropper:
     price: 20000
     lore: '\n&7 Com este kit você poderá\n&7 dropar seus pots automaticamente!\n\n'
+  Reaper:
+    price: 25000
+    lore: '\n&7 Com este kit você terá 25% de\n&7 chance de aplicar o efeito wither\n&7 em seus inimigos!\n\n'
   Snail:
     price: 25000
     lore: '\n&7 Com este kit você terá 30% de\n&7 chance de aplicar lentidão\n&7 em seus inimigos!\n\n'
