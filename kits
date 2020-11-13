@@ -53,6 +53,9 @@ kits:
   Reaper:
     price: 25000
     lore: '\n&7 Com este kit você terá 25% de\n&7 chance de aplicar o efeito wither\n&7 em seus inimigos!\n\n'
+  Scout:
+    price: 18000
+    lore: '\n&7 Com este kit você ganhará\n&7 mais velocidade para entrar\n&7 em combate!\n\n'
   Snail:
     price: 25000
     lore: '\n&7 Com este kit você terá 30% de\n&7 chance de aplicar lentidão\n&7 em seus inimigos!\n\n'
