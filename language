@@ -10,6 +10,8 @@ spawn:
     shop: 'slot>5 : item>EMERALD : named>&aLoja &7(Clique direito) : lore>&7Compre kits para ficar mais\n&7forte!'
     money-day: 'slot>7 : item>CHEST_MINECART : named>&aMoedas Diárias &7(Clique direito) : lore>&7Colete moedas suas diárias!'
 options:
+  level:
+    per-kill: 10
   coins:
     per-kill: 50
     per-death: 25
