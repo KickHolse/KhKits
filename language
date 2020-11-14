@@ -11,9 +11,10 @@ spawn:
     money-day: 'slot>7 : item>CHEST_MINECART : named>&aMoedas Diárias &7(Clique direito) : lore>&7Colete moedas suas diárias!'
 options:
   coins:
-    viewer: '&fSeu saldo é de &6{coins}'
     per-kill: 50
     per-death: 25
+	lost: '&c- {coins} moedas'
+    viewer: '&fSeu saldo é de &6{coins}'
     money-day:
       coins: 1000
       delay: '&cAguarde {time} para coletar novamente!'
