@@ -12,6 +12,7 @@ spawn:
 options:
   level:
     per-kill: 10
+    level-up: '\n &aVocê upou para o nível &2{level}&a, e recebeu &6{reward} moedas&a.\n'
   coins:
     per-kill: 50
     per-death: 25
