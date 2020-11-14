@@ -13,6 +13,7 @@ options:
   coins:
     per-kill: 50
     per-death: 25
+    lost: '&c- {coins} moedas'
     viewer: '&fSeu saldo é de &6{coins}'
     money-day:
       coins: 1000
