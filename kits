@@ -1,4 +1,7 @@
 kits:
+  Achilles:
+    price: 30000
+    lore: '\n&7 Com este kit você receberá menos\n&7 dano por espadas, exceto de\n&7 madeira, que lhe aplicará mais dano!\n\n'
   Anti-Stomper:
     price: 25000
     lore: '\n&7 Com este kit você não levará\n&7 dano por stomper!\n\n'
