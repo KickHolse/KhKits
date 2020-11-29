@@ -62,7 +62,7 @@ messages:
   suicide: '{victim}&7 morreu sozinho.'
   bow-hit: '{victim}&e está com &c{life} ❤&e de HP!'
   kit:
-    buy: '&aVocê comprou o kit &n{kit}&a!'
+    buy: '&aVocê comprou o kit &6{kit}&a!'
     delay: '&cAguarde {time}s para usar este kit novamente!'
     select: '&aVocê selecionou o kit &n{kit}&a!'
     enable-skill: '&eA habilidade &n{kit}&e foi ativada!'
