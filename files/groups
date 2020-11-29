@@ -1,0 +1,19 @@
+groups:
+  default:
+    color: '&7'
+    name: Membro
+    prefix: '&7'
+    permission: none
+    broadcast: false
+  vip:
+    color: '&6'
+    name: Vip
+    prefix: '&6[Vip] '
+    permission: group.vip
+    broadcast: true
+  master:
+    color: '&6'
+    name: Master
+    prefix: '&6[Master] '
+    permission: '*'
+    broadcast: true
