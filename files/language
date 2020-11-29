@@ -1,0 +1,162 @@
+# Skript feito por Kiberzn
+# Discord: a-zn#4375
+
+spawn:
+  broadcast: '&7{display} &6entrou neste lobby!'
+  hotbar:
+    profile: 'slot>1 : item>HEAD:owner={player} : named>&aPerfil &7(Clique direito) : lore>&7Veja todas as suas informações!'
+    warps: 'slot>3 : item>COMPASS : named>&aWarps &7(Clique direito) : lore>&7Jogue em outras warps!'
+    kits: 'slot>4 : item>NETHER_STAR : named>&aKits &7(Clique direito) : lore>&7Selecione um kit!'
+    shop: 'slot>5 : item>EMERALD : named>&aLoja &7(Clique direito) : lore>&7Compre kits para ficar mais\n&7forte!'
+    money-day: 'slot>7 : item>CHEST_MINECART : named>&aMoedas Diárias &7(Clique direito) : lore>&7Colete moedas suas diárias!'
+options:
+  level:
+    per-kill: 10
+    level-up: '\n &aVocê upou para o nível &2{level}&a, e recebeu &6{reward} moedas&a.\n '
+  coins:
+    per-kill: 50
+    per-death: 25
+    lost: '&c-{coins} moedas'
+    earnings: '&6+{coins} moedas &8- &e+{exp} EXP'
+    viewer: '&fSeu saldo é de &6{coins}'
+    money-day:
+      coins: 1000
+      delay: '&cAguarde {time} para coletar novamente!'
+      sucess: '&aVocê coletou &6{coins} moedas&a com sucesso!'
+  chat:
+    color:
+      default: '&7'
+      custom: '&f'
+    format: '&7[&a{level}&7] {prefix}{player}{color}: {message}'
+  motd:
+    enabled: true
+    header: '&a&lZN &f- &7www.redezn.com'
+    footer: '&e&nKit PvP&e aberto para todos!'
+  tablist:
+    enabled: true
+    header: '\n&a&lREDE ZN\n    &fjogar.redezn.com\n '
+    footer: ' \n&bForúm: &fredezn.com/forum\n&b               Discord: &fredezn.com/discord               \n'
+  signs:
+    recraft:
+      line-1: '&b=-=-=-=-='
+      line-2: '&aPlaca'
+      line-3: '&9(recraft)'
+      line-4: '&b=-=-=-=-='
+      title: 'Recraft'
+      items:
+        red-mushroom: '&eCogumelo Vermelho'
+        brown-mushroom: '&eCogumelo Marrom'
+        bowl: '&ePote'
+    refill:
+      line-1: '&b=-=-=-=-='
+      line-2: '&aPlaca'
+      line-3: '&9(refill)'
+      line-4: '&b=-=-=-=-='
+      title: 'Refill'
+      items:
+        soup: '&eSopa'
+messages:
+  area-not-allowed: '&cVocê não pode usar este comando aqui!'
+  without-permission: '&cVocê não tem permissão para isto.'
+  death: '{victim}&7 foi morto por {attacker}&7.'
+  suicide: '{victim}&7 morreu sozinho.'
+  bow-hit: '{victim}&e está com &c{life} ❤&e de HP!'
+  kit:
+    buy: '&aVocê comprou o kit &6{kit}&a!'
+    delay: '&cAguarde {time}s para usar este kit novamente!'
+    select: '&aVocê selecionou o kit &n{kit}&a!'
+    enable-skill: '&eA habilidade &n{kit}&e foi ativada!'
+    replaces:
+      select: '&e Clique para selecionar este kit!'
+      buy: '&fPreço: &6{price}\n\n&eClique para comprar este kit!'
+  build:
+    enabled: '&aO modo construtor foi ativado!'
+    disabled: ' &cO modo construtor foi desativado!'
+  fly:
+    enabled: '&aO modo voar foi ativado!'
+    disabled: '&cO modo voar foi desativado!'
+  warp-tp:
+    time: 5 seconds
+    delay: '&aAguarde &c{time} &asegundos.'
+    sucess: '&aTeleportado com sucesso!'
+  warp-names:
+    none: 'Nenhum'
+    fps: 'FPS'
+    lava-challenge: 'Lava'
+    knockback: 'Knockback'
+scoreboard:
+  update-time: 1
+  titles:
+  - '&a&lKIT PVP'
+  - '&6&lK&a&lIT PVP'
+  - '&f&lK&6&lI&a&lT PVP'
+  - '&f&lKI&6&lT &a&lPVP'
+  - '&f&lKIT &6&lP&a&lVP'
+  - '&f&lKIT P&6&lV&a&lP'
+  - '&f&lKIT PV&6&lP'
+  - '&f&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&f&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  - '&a&lKIT PVP'
+  lines:
+  - ''
+  - ' Nível: &a{level}'
+  - ' Kit: &7{kit}'
+  - ''
+  - '  Abates: &a{kills}'
+  - '  Mortes: &a{deaths}'
+  - ''
+  - ' Grupo: &a{group}'
+  - ' Moedas: &6{coins}'
+  - ' Online: &a{online}'
+  - ''
+  - ' &ewww.redezn.com'
