@@ -1,7 +1,0 @@
-menu:
-  title: 'Warps'
-  rows: 3
-  items:
-    fps: 'slot>10 : item>PLAIN_GLASS_BLOCK : named>&aFPS : lore>&7Esta warp é ideal para aqueles\n&7jogadores que possuem uma máquina mais\n&7humilde. Jogue aqui sem problemas com fps!\n\n&7{online} jogando!\n&eClique aqui para ir até a warp!'
-    lava-challenge: 'slot>12 : item>LAVA_BUCKET : named>&aLAVA CHALLENGE : lore>&7Quer treinar seu refill? Este é\n&7o desafio perfeito para você. Tente\n&7sobreviver em um rio de lava.\n\n&7{online} jogando!\n&eClique aqui para ir até a warp!'
-    knockback: 'slot>14 : item>SHINY STICK : named>&aKNOCKBACK : lore>&7Nesta warp você poderá jogar\n&7seus amigos para mem longe\n&7e matalos muito fácil!\n\n&7{online} jogando!\n&eClique aqui para ir até a warp!'
