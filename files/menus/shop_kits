@@ -1,0 +1,5 @@
+menu:
+  title: 'Loja - Kits'
+  rows: 6
+  items:
+    back: 'slot>49 : item>ROSE_RED : named>&cVoltar : lore> : execute>shop'
