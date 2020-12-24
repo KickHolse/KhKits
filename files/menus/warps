@@ -1,7 +1,35 @@
 menu:
   title: 'Warps'
-  rows: 3
+  rows: 4
   items:
     fps: 'slot>10 : item>PLAIN_GLASS_BLOCK : named>&aFPS : lore>&7Esta warp é ideal para aqueles||&7jogadores que possuem uma máquina mais||&7humilde. Jogue aqui sem problemas com fps!||||&7{online} jogando!||&eClique aqui para ir até a warp! : execute>fps'
     lava-challenge: 'slot>12 : item>LAVA_BUCKET : named>&aLAVA CHALLENGE : lore>&7Quer treinar seu refill? Este é||&7o desafio perfeito para você. Tente||&7sobreviver em um rio de lava.||||&7{online} jogando!||&eClique aqui para ir até a warp! : execute>lava-challenge'
     knockback: 'slot>14 : item>SHINY STICK : named>&aKNOCKBACK : lore>&7Nesta warp você poderá jogar||&7seus amigos para mem longe||&7e matalos muito fácil!||||&7{online} jogando!||&eClique aqui para ir até a warp!! : execute>knockback'
+warps:
+  fps:
+    name: 'FPS'
+    armor:
+      helmet: 'item>PLAIN_GLASS_BLOCK : named>Capacete'
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : named>&aPeitoral'
+      leggings: 'item>AIR : named>'
+      boots: 'item>AIR : named>'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE STONE_SWORD : named>&aEspada'
+  lava-challenge:
+    name: 'LAVA'
+    armor:
+      helmet: 'item>AIR : named>'
+      chestplate: 'item>AIR : named>'
+      leggings: 'item>AIR : named>'
+      boots: 'item>AIR : named>'
+    items:
+      soup: 'slot>0 : item> : named>&aEspada'
+  knockback:
+    name: 'KNOCKBACK'
+    armor:
+      helmet: 'item>AIR : named>'
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : named>&aPeitoral'
+      leggings: 'item>AIR : named>'
+      boots: 'item>AIR : named>'
+    items:
+      stick: 'slot>0 : item>STICK of knockback 5 and sharpness 2 : named>&aBastão'
