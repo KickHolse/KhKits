@@ -277,7 +277,7 @@ command /khkits [<text = help>] [<text>] [<text>] [<text>]:
 				set yml value "locations.%loop-value%" of file "plugins/KhKits/locations.yml" to khcore_serializeLocation(player's location)
 				set action bar of player to "&aO &l%loop-value% &afoi definido com sucesso"
 		arg 1 == "atualizar":
-			khcore_update(player, "%{khkp::check_update}%", "KhKits")
+			khcore_update(player, "%{khkp::check_update}%", "KhKits", script)
 		arg 1 == "reset":
 			arg 2 is set:
 				set {arg-2} to arg 2 parsed as offlineplayer
