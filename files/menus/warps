@@ -9,9 +9,7 @@ warps:
   fps:
     name: 'FPS'
     armor:
-      helmet: 'item>PLAIN_GLASS_BLOCK : named>Capacete'
-      chestplate: 'item>AIR : named>'
-      leggings: 'item>AIR : named>'
+      helmet: 'item>PLAIN_GLASS_BLOCK : named>Capacete'>'
       boots: 'item>UNBREAKABLE DIAMOND_BOOTS of protection 5 : named>&aBotas'
     items:
       sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : named>&aEspada'
@@ -19,17 +17,11 @@ warps:
     name: 'LAVA'
     armor:
       helmet: 'item>AIR : named>'
-      chestplate: 'item>AIR : named>'
-      leggings: 'item>AIR : named>'
-      boots: 'item>AIR : named>'
     items:
       soup: 'slot>0 : item> : named>'
   knockback:
     name: 'KNOCKBACK'
     armor:
-      helmet: 'item>AIR : named>'
       chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : named>&aPeitoral'
-      leggings: 'item>AIR : named>'
-      boots: 'item>AIR : named>'
     items:
       stick: 'slot>0 : item>STICK of knockback 5 and sharpness 2 : named>&aBastão'
