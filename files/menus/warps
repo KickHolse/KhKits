@@ -12,7 +12,7 @@ warps:
       helmet: 'item>PLAIN_GLASS_BLOCK : named>Capacete'
       chestplate: 'item>AIR : named>'
       leggings: 'item>AIR : named>'
-      boots: 'item>UNBREAKABLE IRON_BOOTS : named>&aBotas'
+      boots: 'item>UNBREAKABLE DIAMOND_BOOTS of protection 5 : named>&aBotas'
     items:
       sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : named>&aEspada'
   lava-challenge:
