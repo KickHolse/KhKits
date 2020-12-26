@@ -9,7 +9,7 @@ warps:
   fps:
     name: 'FPS'
     armor:
-      helmet: 'item>PLAIN_GLASS_BLOCK : named>Capacete'>'
+      helmet: 'item>PLAIN_GLASS_BLOCK : named>&aCapacete'
       boots: 'item>UNBREAKABLE DIAMOND_BOOTS of protection 5 : named>&aBotas'
     items:
       sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : named>&aEspada'
