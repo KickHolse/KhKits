@@ -2,4 +2,4 @@ menu:
   title: '{player} - Estatísticas'
   rows: 3
   items:
-    kits: 'slot>13 : item>HEAD:owner={player} : named>{colored} : lore>&fMoedas: &6{coins}\n\n&fNível: &7{level}\n&fXP: &7{xp}\n&fXP Necessário: &7{need}\n&fRecompensa: &e{reward} Moedas\n\n&fAbates: &7{kills}\n&fMortes: &7{deaths}\n&fKDR: &7{kdr}\n&fSequência de Abates: &7{killstreak}\n\n&fCadastrado em: &7{login.first}\n&fÚltimo login: &7{login.last}'
+    kits: 'slot>13 : item>HEAD:{player} : nome>{colored} : desc>&fMoedas: &6{coins}\n\n&fNível: &7{level}\n&fXP: &7{xp}\n&fXP Necessário: &7{need}\n&fRecompensa: &e{reward} Moedas\n\n&fAbates: &7{kills}\n&fMortes: &7{deaths}\n&fKDR: &7{kdr}\n&fSequência de Abates: &7{killstreak}\n\n&fCadastrado em: &7{login.first}\n&fÚltimo login: &7{login.last}'
