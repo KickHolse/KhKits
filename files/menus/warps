@@ -2,26 +2,26 @@ menu:
   title: 'Warps'
   rows: 3
   items:
-    fps: 'slot>11 : item>PLAIN_GLASS_BLOCK : named>&aFPS : lore>&7Esta warp é ideal para aqueles||&7jogadores que possuem uma máquina mais||&7humilde. Jogue aqui sem problemas com fps!||||&7{online} jogando!||&eClique aqui para ir até a warp! : execute>fps'
-    lava-challenge: 'slot>13 : item>LAVA_BUCKET : named>&aLAVA CHALLENGE : lore>&7Quer treinar seu refill? Este é||&7o desafio perfeito para você. Tente||&7sobreviver em um rio de lava.||||&7{online} jogando!||&eClique aqui para ir até a warp! : execute>lava-challenge'
-    knockback: 'slot>15 : item>SHINY STICK : named>&aKNOCKBACK : lore>&7Nesta warp você poderá jogar||&7seus amigos para mem longe||&7e matalos muito fácil!||||&7{online} jogando!||&eClique aqui para ir até a warp!! : execute>knockback'
+    fps: 'slot>11 : item>PLAIN_GLASS_BLOCK : nome>&aFPS : desc>&7Esta warp é ideal para aqueles||&7jogadores que possuem uma máquina mais||&7humilde. Jogue aqui sem problemas com fps!||||&7{online} jogando!||&eClique aqui para ir até a warp! : execute>fps'
+    lava-challenge: 'slot>13 : item>LAVA_BUCKET : nome>&aLAVA CHALLENGE : desc>&7Quer treinar seu refill? Este é||&7o desafio perfeito para você. Tente||&7sobreviver em um rio de lava.||||&7{online} jogando!||&eClique aqui para ir até a warp! : execute>lava-challenge'
+    knockback: 'slot>15 : item>SHINY STICK : nome>&aKNOCKBACK : desc>&7Nesta warp você poderá jogar||&7seus amigos para mem longe||&7e matalos muito fácil!||||&7{online} jogando!||&eClique aqui para ir até a warp!! : execute>knockback'
 warps:
   fps:
     name: 'FPS'
     armor:
-      helmet: 'item>PLAIN_GLASS_BLOCK : named>&aCapacete'
-      boots: 'item>UNBREAKABLE DIAMOND_BOOTS of protection 5 : named>&aBotas'
+      helmet: 'item>PLAIN_GLASS_BLOCK : nome>&aCapacete'
+      boots: 'item>UNBREAKABLE DIAMOND_BOOTS of protection 5 : nome>&aBotas'
     items:
-      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : named>&aEspada'
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
   lava-challenge:
     name: 'LAVA'
     armor:
-      helmet: 'item>AIR : named>'
+      helmet: 'item>AIR : nome>'
     items:
-      soup: 'slot>0 : item> : named>'
+      soup: 'slot>0 : item> : nome>'
   knockback:
     name: 'KNOCKBACK'
     armor:
-      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : named>&aPeitoral'
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
     items:
-      stick: 'slot>0 : item>STICK of knockback 5 and sharpness 2 : named>&aBastão'
+      stick: 'slot>0 : item>STICK of knockback 5 and sharpness 2 : nome>&aBastão'
