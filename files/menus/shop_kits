@@ -2,4 +2,7 @@ menu:
   title: 'Loja - Kits'
   rows: 6
   items:
-    back: 'slot>49 : item>ROSE_RED : nome>&cVoltar : desc> : execute>shop'
+    back:
+      slot: 49
+      execute: 'KHKITS>shop'
+      icon: 'item>ROSE_RED : nome>&cVoltar'
