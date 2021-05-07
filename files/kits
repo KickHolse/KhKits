@@ -1,82 +1,308 @@
+menu:
+  title: 'Kits'
+  rows: 6
+  replaces:
+    select: '&eClique para selecionar este kit!'
+    buy: '&eClique para comprar este kit!'
+    insufficient-coins: '&cVocê não tem moedas o suficiente.'
+    price: '&fCusto: &6{price} moedas\n\n'
+  items:
+    random_kit:
+      slot: 49
+      execute: 'random_kit'
+      icon: 'item>381 : nome>&aKit Aleatorio'
 kits:
-  Achilles:
+  default:
+    name: 'Básico'
+    icon: 'item>STONE_SWORD : nome>&6{name} : desc>&7Este é um kit para iniciantes\n&7que ainda não tem moedas para\n&7comprar outros kits!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE CHAINMAIL_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  achilles:
+    name: 'Achilles'
     price: 30000
-    lore: '\n&7 Com este kit você receberá menos\n&7 dano por espadas, exceto de\n&7 madeira, que lhe aplicará mais dano!\n\n'
-  Anti-Stomper:
+    icon: 'item>WOODEN_SWORD : nome>&6{name} : desc>&7Com este kit você receberá menos\n&7dano por espadas, exceto de\n&7madeira, que lhe aplicará mais dano!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  antistomper:
+    name: 'Anti Stomper'
     price: 25000
-    lore: '\n&7 Com este kit você não levará\n&7 dano por stomper!\n\n'
-  Aquaman:
+    icon: 'item>DIAMOND_BOOTS : nome>&6{name} : desc>&7Com este kit você não levará\n&7dano por stomper!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  aquaman:
+    name: 'Aquaman'
     price: 15000
-    lore: '\n&7 Com este kit você receberá\n&7 poderes ao entrar na água!\n\n'
-  Archer:
+    icon: 'item>WATER_BUCKET : nome>&6{name} : desc>&7Com este kit você receberá\n&7poderes ao entrar na água!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  archer:
+    name: 'Arqueiro'
     price: 15000
-    lore: '\n&7 Com este kit você ganhará um\n&7 arco e flechas para atirar!\n\n'
-  Camel:
+    icon: 'item>BOW : nome>&6{name} : desc>&7Com este kit você ganhará um\n&7arco e flechas para atirar!\n\n{state}'
+    armor:
+      chestplate: 'item>GOLDEN_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      bow: 'slot>8 : item>UNBREAKABLE BOW of infinity 1 : nome>&aArco'
+      ammunition: 'slot>17 : item>ARROW : nome>&aMunição'
+  camel:
+    name: 'Camel'
     price: 20000
-    lore: '\n&7 Com este kit você receberá\n&7 poderes ao pisar no deserto!\n\n'
-  Darkness:
+    icon: 'item>SAND : nome>&6{name} : desc>&7Com este kit você receberá\n&7poderes ao pisar no deserto!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  darkness:
+    name: 'Darkness'
     price: 30000
-    lore: '\n&7 Com este kit você terá 30% de\n&7 chance de aplicar cegueira\n&7 em seu inimigo.\n\n'
-  Espinhos:
+    icon: 'item>11-DISC : nome>&6{name} : desc>&7Com este kit você terá 30% de\n&7chance de aplicar cegueira\n&7em seu inimigo.\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  timelord:
+    name: 'Deus do Tempo'
+    price: 30000
+    icon: 'item>CLOCK : nome>&6{name} : desc>&7Com este kit você poderá\n&7parar o tempo!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      clock: 'slot>8 : item>CLOCK : nome>&aDeus do Tempo'
+  thorns:
+    name: 'Espinhos'
     price: 25000
-    lore: '\n&7 Com este kit você terá 35% de\n&7 chance de devolver o seu dano\n&7 para o seu inimigo.\n\n'
-  Fisherman:
+    icon: 'item>CACTUS : nome>&6{name} : desc>&7Com este kit você terá 35% de\n&7chance de devolver o seu dano\n&7para o seu inimigo.\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  phanton:
+    name: 'Fantasma'
+    price: 30000
+    icon: 'item>160 : nome>&6{name} : desc>&7Com este kit você poderá\n&7ficar totalmente invisivel!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      whiteglasspane: 'slot>8 : item>160 : nome>&aPhanton'
+  fisherman:
+    name: 'Fisherman'
     price: 20000
-    lore: '\n&7 Com este kit você poderá pescar\n&7 seus inimigos e levá-los até você!\n\n'
-  Fogareu:
+    icon: 'item>FISHING_ROD : nome>&6{name} : desc>&7Com este kit você poderá pescar\n&7seus inimigos e levá-los até você!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      fishing: 'slot>8 : item>UNBREAKABLE FISHING_ROD : nome>&aFisherman'
+  bonfire:
+    name: 'Fogaréu'
     price: 25000
-    lore: '\n&7 Com este kit você terá 35% de\n&7 chance de aplicar fogo em\n&7 seus inimigos.\n\n'
-  Frog:
+    icon: 'item>BLAZE_POWDER : nome>&6{name} : desc>&7Com este kit você terá 35% de\n&7chance de aplicar fogo em\n&7seus inimigos.\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+    effects:
+      fire_resistance:
+        effect: 'fire resistance'
+        power: 1
+        time: '9999 seconds'
+  flyingchicken:
+    name: 'Galinha Voadora'
+    price: 25000
+    icon: 'item>FEATHER : nome>&6{name} : desc>&7Com este kit você poderá voar\n&7para escapar de combates.\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      feather: 'slot>8 : item>FEATHER : nome>&aGalinha Voadora'
+  warrior:
+    name: 'Guerreiro'
+    price: 20000
+    icon: 'item>DIAMOND_SWORD : nome>&6{name} : desc>&7Com este kit você ganhará\n&7uma espada muito forte!\n\n{state}'
+    armor:
+      chestplate: 'color>GRAY : item>UNBREAKABLE LEATHER_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE IRON_SWORD : nome>&aEspada'
+  invincible:
+    name: 'Invencível'
+    price: 30000
+    icon: 'item>GOLDEN_CHESTPLATE : nome>&6{name} : desc>&7Com este kit você será\n&7invencível por um tempo!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  kangaroo:
+    name: 'Kangaroo'
+    price: 25000
+    icon: 'item>FIREWORK_ROCKET : nome>&6{name} : desc>&7Com este kit você poderá\n&7saltar como um macaco!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      firework: 'slot>8 : item>FIREWORK_ROCKET : nome>&aKangaroo'
+  horseman:
+    name: 'Kenga Horse'
+    price: 20000
+    icon: 'item>HEAD:dono=Cavalo03 : nome>&6{name} : desc>&7Com este kit você poderá colocar\n&7algum jogador em sua cabeça.\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      saddle: 'slot>8 : item>SADDLE : nome>&aKenga Horse'
+  monk:
+    name: 'Monk'
+    price: 20000
+    icon: 'item>BLAZE_ROD : nome>&6{name} : desc>&7Com este kit você poderá\n&7bagunçar o inventário de\n&7seus inimigos!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      blazerod: 'slot>8 : item>BLAZE_ROD : nome>&aMonk'
+  ninja:
+    name: 'Ninja'
+    price: 25000
+    icon: 'item>NETHER_STAR : nome>&6{name} : desc>&7Com este kit você poderá\n&7teleportar para o seu inimigo!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  quickdropper:
+    name: 'Quick Dropper'
+    price: 20000
+    icon: 'item>BOWL : nome>&6{name} : desc>&7Com este kit você poderá\n&7dropar seus pots automaticamente!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  reaper:
+    name: 'Reaper'
+    price: 25000
+    icon: 'item>397:1 : nome>&6{name} : desc>&7Com este kit você terá 25% de\n&7chance de aplicar o efeito wither\n&7em seus inimigos!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  resoup:
+    name: 'Resoup'
+    price: 30000
+    icon: 'item>MUSHROOM_SOUP : nome>&6{name} : desc>&7Com este kit você recarregará\n&7suas sopas e recrafts ao matar\n&7um jogador!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  frog:
+    name: 'Sapo'
     price: 15000
-    lore: '\n&7 Com este kit você poderá pular\n&7 alto como um sapo!\n\n'
-  Galinha-Voadora:
-    price: 25000
-    lore: '\n&7 Com este kit você poderá voar\n&7 para escapar de combates.\n\n'
-  Warrior:
-    price: 20000
-    lore: '\n&7 Com este kit você ganhará\n&7 uma espada muito forte!\n\n'
-  Invencivel:
-    price: 30000
-    lore: '\n&7 Com este kit você será\n&7 invencível por um tempo!\n\n'
-  Kangaroo:
-    price: 25000
-    lore: '\n&7 Com este kit você poderá\n&7 saltar como um macaco!\n\n'
-  Monk:
-    price: 20000
-    lore: '\n&7 Com este kit você poderá\n&7 bagunçar o inventário de\n&7 seus inimigos!\n\n'
-  Ninja:
-    price: 25000
-    lore: '\n&7 Com este kit você poderá\n&7 teleportar para o seu inimigo!\n\n'
-  Phanton:
-    price: 30000
-    lore: '\n&7 Com este kit você poderá\n&7 ficar totalmente invisivel!\n\n'
-  Quick-Dropper:
-    price: 20000
-    lore: '\n&7 Com este kit você poderá\n&7 dropar seus pots automaticamente!\n\n'
-  Reaper:
-    price: 25000
-    lore: '\n&7 Com este kit você terá 25% de\n&7 chance de aplicar o efeito wither\n&7 em seus inimigos!\n\n'
-  Scout:
+    icon: 'item>HEAD:dono=GallyVision : nome>&6{name} : desc>&7Com este kit você poderá pular\n&7alto como um sapo!\n\n{state}'
+    armor:
+      helmet: 'item>HEAD:dono=GallyVision : nome>&aCapacete'
+      chestplate: 'color>GREEN : item>UNBREAKABLE LEATHER_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE IRON_SWORD : nome>&aEspada'
+    effects:
+      jump:
+        effect: 'jump boost'
+        power: 3
+        time: '9999 seconds'
+  scout:
+    name: 'Scout'
     price: 18000
-    lore: '\n&7 Com este kit você ganhará\n&7 mais velocidade para entrar\n&7 em combate!\n\n'
-  Snail:
+    icon: 'item>WATER_BOTTLE:8194 : nome>&6{name} : desc>&7Com este kit você ganhará\n&7mais velocidade para entrar\n&7em combate!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+    effects:
+      speed:
+        effect: 'speed'
+        power: 2
+        time: '9999 seconds'
+  snail:
+    name: 'Snail'
     price: 25000
-    lore: '\n&7 Com este kit você terá 30% de\n&7 chance de aplicar lentidão\n&7 em seus inimigos!\n\n'
-  Stomper:
+    icon: 'item>SOUL_SAND : nome>&6{name} : desc>&7Com este kit você terá 30% de\n&7chance de aplicar lentidão\n&7em seus inimigos!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  stomper:
+    name: 'Stomper'
     price: 25000
-    lore: '\n&7 Com este kit você poderá\n&7 esmagar seus inimigos!\n\n'
-  Tank:
-    price: 25000
-    lore: '\n&7 Com este kit você terá\n&7 uma armadura muito forte!\n\n'
-  Thor:
-    price: 25000
-    lore: '\n&7 Com este kit você será\n&7 o deus do trovão!\n\n'
-  Time-Lord:
+    icon: 'item>ANVIL : nome>&6{name} : desc>&7Com este kit você poderá\n&7esmagar seus inimigos!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  switcher:
+    name: 'Switcher'
     price: 30000
-    lore: '\n&7 Com este kit você poderá\n&7 parar o tempo!\n\n'
-  Viper:
+    icon: 'item>SNOWBALL : nome>&6{name} : desc>&7Com este kit você trocará de\n&7lugar com seu inimigo ao acertar\n&7uma bola de neve nele.\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      snowball: 'slot>8 : item>16 SNOWBALL : nome>&aSwitcher'
+  tank:
+    name: 'Tank'
     price: 25000
-    lore: '\n&7 Com este kit você terá 25% de\n&7 chance de aplicar veneno\n&7 em seus inimigos!\n\n'
-  Zen:
+    icon: 'item>DIAMOND_CHESTPLATE : nome>&6{name} : desc>&7Com este kit você terá\n&7uma armadura muito forte!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE DIAMOND_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+    effects:
+      slowness:
+        effect: 'slowness'
+        power: 1
+        time: '9999 seconds'
+      mining_fatigue:
+        effect: 'mining fatigue'
+        power: 1
+        time: '9999 seconds'
+  turtle:
+    name: 'Tartaruga'
+    price: 35000
+    icon: 'item>HEAD:dono=TurtleJeremy : nome>&6{name} : desc>&7Com este kit todo dano causado por\n&7inimigos, será diminuido em 50%\n&7se você estiver agachado.\n\n{state}'
+    armor:
+      helmet: 'item>HEAD:dono=TurtleJeremy : nome>&aCapacete'
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  thor:
+    name: 'Thor'
+    price: 25000
+    icon: 'item>WOODEN_AXE : nome>&6{name} : desc>&7Com este kit você será\n&7o deus do trovão!\n\n{state}'
+    armor:
+      helmet: 'item>HEAD:dono=Thor : nome>&aCapacete'
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      axe: 'slot>8 : item>WOODEN_AXE : nome>&aThor'
+  viper:
+    name: 'Viper'
+    price: 25000
+    icon: 'item>SPIDER_EYE : nome>&6{name} : desc>&7Com este kit você terá 25% de\n&7chance de aplicar veneno\n&7em seus inimigos!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+  zen:
+    name: 'Zen'
     price: 15000
-    lore: '\n&7 Com este kit você poderá\n&7 teleportar para qualquer jogador!\n\n'
+    icon: 'item>SLIME : nome>&6{name} : desc>&7Com este kit você poderá\n&7teleportar para qualquer jogador!\n\n{state}'
+    armor:
+      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
+    items:
+      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+      slime: 'slot>8 : item>SLIME : nome>&aZen'
