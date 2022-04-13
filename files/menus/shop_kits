@@ -1,8 +1,8 @@
 menu:
-  title: 'Loja - Kits'
-  rows: 6
-  items:
-    back:
-      slot: 49
-      execute: 'KHKITS>shop'
-      icon: 'item>ROSE_RED : nome>&cVoltar'
+ title: 'Loja - Kits'
+ rows: 6
+ items:
+  back:
+   slot: 49
+   execute: 'KHKITS>shop'
+   icon: 'ROSE_RED : 1 : nome>&cVoltar'
