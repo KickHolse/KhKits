@@ -1,5 +1,5 @@
 locations:
-  spawn: 'null'
-  fps: 'null'
-  lava-challenge: 'null'
-  knockback: 'null'
+ spawn: 'null'
+ fps: 'null'
+ lava-challenge: 'null'
+ knockback: 'null'
