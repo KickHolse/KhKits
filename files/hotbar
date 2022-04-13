@@ -1,0 +1,24 @@
+spawn:
+ warps:
+  slot: 2
+  execute: 'menu>warps'
+  icon: 'COMPASS : nome>&eWarps : desc>&7Jogue em outras warps!'
+ kits:
+  slot: 3
+  execute: 'menu>kits'
+  icon: 'NETHER_STAR : nome>&eKits : desc>&7Selecione um kit!'
+ shop:
+  slot: 5
+  execute: 'menu>shop'
+  icon: 'EMERALD : nome>&eLoja : desc>&7Compre kits para ficar mais\n&7forte!'
+ moneyday:
+  slot: 6
+  execute: 'menu>moneyday'
+  icon: 'CHEST_MINECART : 1 : nome>&aMoedas Diárias : desc>&7Colete moedas suas diárias.'
+  icon-i: 'MINECART : 1 : nome>&cMoedas Diárias : desc>&7Você já coletou suas moedas diárias.'
+ingame:
+ # the first number is the slot of item
+ soup: 'SOUP : 36 : nome>&aSopa : desc>&7Use este item para recuperar\n&7sua vida!'
+ red_mushroom: '13 : RED_MUSHROOM : 64 : nome>&aCogumelo Vermelho : desc>&7Use este item para criar\n&7sopas!'
+ brown_mushroom: '14 : BROWN_MUSHROOM : 64 : nome>&aCogumelo Marrom : desc>&7Use este item para criar\n&7sopas!'
+ bowl: '15 : BOWL : 64 : nome>&aPote : desc>&7Use este item para criar\n&7sopas!'
