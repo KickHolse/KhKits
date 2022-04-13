@@ -1,38 +1,39 @@
 menu:
-  title: 'Warps'
-  rows: 3
-  replaces:
-    nobody_playing: 'Ninguém'
-  items:
-    fps:
-      slot: 11
-      execute: 'WARPS>fps'
-      icon: 'item>20 : nome>&aFPS : desc>&8Warp\n\n&7Esta warp é ideal para aqueles jogadores\n&7que possuem uma máquina mais humilde.\n&7Jogue aqui sem problemas com fps!\n\n&aClique aqui para ir até a warp!\n&7{on} jogando!'
-    lava-challenge:
-      slot: 13
-      execute: 'WARPS>lava-challenge'
-      icon: 'item>LAVA_BUCKET : nome>&aLAVA CHALLENGE : desc>&8Warp\n\n&7Quer treinar seu refill? Este é o desafio\n&7perfeito para você. Tente sobreviver\n&7em um rio de lava.\n\n&aClique aqui para ir até a warp!\n&7{on} jogando!'
-    knockback:
-      slot: 15
-      execute: 'WARPS>knockback'
-      icon: 'item>SHINY STICK : nome>&aKNOCKBACK : desc>&8Warp\n\n&7Nesta warp você poderá jogar seus\n&7inimigos para longe e mata-los de\n&7uma maneira muito fácil!\n\n&aClique aqui para ir até a warp!\n&7{on} jogando!'
-warps:
-  lava-challenge:
-    name: 'LAVA'
-    armor:
-      helmet: ''
-    items:
-      sword: ''
+ title: 'Warps'
+ rows: 3
+ replaces:
+  nobody_playing: 'Ninguém'
+ items:
   fps:
-    name: 'FPS'
-    armor:
-      helmet: 'item>PLAIN_GLASS_BLOCK : nome>&aCapacete'
-      boots: 'item>UNBREAKABLE DIAMOND_BOOTS of protection 5 : nome>&aBotas'
-    items:
-      sword: 'slot>0 : item>UNBREAKABLE WOODEN_SWORD : nome>&aEspada'
+   slot: 11
+   execute: 'warp>fps'
+   icon: '20 : 1 : nome>&aFPS : desc>&7Esta warp é ideal para aqueles jogadores\n&7que possuem uma máquina mais humilde.\n&7Jogue aqui sem problemas com fps!\n\n&aClique aqui para ir até a warp!\n&7{on} jogando!'
+  lava-challenge:
+   slot: 13
+   execute: 'warp>lava-challenge'
+   icon: 'LAVA_BUCKET : 1 : nome>&aLava Challange : desc>&7Quer treinar seu refill? Este é o desafio\n&7perfeito para você. Tente sobreviver\n&7em um rio de lava.\n\n&aClique aqui para ir até a warp!\n&7{on} jogando!'
   knockback:
-    name: 'KNOCKBACK'
-    armor:
-      chestplate: 'item>UNBREAKABLE IRON_CHESTPLATE : nome>&aPeitoral'
-    items:
-      stick: 'slot>0 : item>STICK of knockback 5 and sharpness 2 : nome>&aBastão'
+   slot: 15
+   execute: 'warp>knockback'
+   icon: 'STICK : encantar>SHARPNESS:1 : nome>&aKnockback : desc>&7Nesta warp você poderá jogar seus\n&7inimigos para longe e mata-los de\n&7uma maneira muito fácil!\n\n&aClique aqui para ir até a warp!\n&7{on} jogando!'
+warps:
+ lava-challenge:
+  name: 'LAVA'
+  armor:
+  - ''
+  items:
+  # the first number is the slot of item
+  - ''
+ fps:
+  name: 'FPS'
+  armor:
+  - 'PLAIN_GLASS_BLOCK : nome>&aCapacete'
+  - 'DIAMOND_BOOTS : nome>&aBotas : encantar>PROTECTION:5'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aEspada'
+ knockback:
+  name: 'KNOCKBACK'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aPeitoral'
+  items:
+  - '0 : STICK : nome>&aBastão : encantar>KNOCKBACK:5\nSHARPNESS:2'
