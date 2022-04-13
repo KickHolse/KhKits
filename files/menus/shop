@@ -1,8 +1,8 @@
 menu:
-  title: 'Loja'
-  rows: 3
-  items:
-    kits:
-      slot: 13
-      execute: 'KHKITS>shop_kits'
-      icon: 'item>DIAMOND_SWORD : nome>&aKits : desc>&7&7Tenha vantagem extra ao usar\n&7nossos kits que possuem poderes\n&7especiais.\n\n &fDesbloqueados: &c{count}/{max} &8({percent}%) \n\n&eClique aqui para ver!'
+ title: 'Loja'
+ rows: 3
+ items:
+  kits:
+   slot: 13
+   execute: 'menu>shop_kits'
+   icon: 'DIAMOND_SWORD : 1 : nome>&aKits : desc>&7Tenha vantagem extra ao usar\n&7nossos kits que possuem poderes\n&7especiais.\n\n &fDesbloqueados: &c{count}/{max} &8({percent}%) \n\n&eClique aqui para ver!'
