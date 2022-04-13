@@ -30,17 +30,15 @@ ingame:
    coins: '       &a+{coins} coins &fganhos por realizar &c{kills} &fabate{s}.'
    xp: '       &a+{xp}XP &fganhos por realizar &c{kills} &fabate{s}.'
    level_up: '       &a+{coins} coins &fganhos por upar de nível.'
-game:
- messages:
   kit:
    buy: '&aVocê comprou o kit &6{kit}&a!'
    select: '&aVocê selecionou o kit &6{kit}&a!'
  sign:
   soup:
-   line-1: '&b=-=-=-=-='
-   line-2: '&aPlaca'
-   line-3: '&8(Clique direito)'
-   line-4: '&b=-=-=-=-='
+   line-1: '&aPlaca'
+   line-2: ''
+   line-3: '&8Clique para'
+   line-4: '&8pegar mais sopas.'
 scoreboard:
  update-time: 1
  titles:
