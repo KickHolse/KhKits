@@ -1,75 +1,46 @@
-# Skript feito por Kick Holse
-# Discord: https://www.kskripts.tk/discord
+# KhKits - Criado por Kiber7
+# Discord - https://kskripts.tk/discord
 
-spawn:
-  broadcast: '{display} &6entrou neste lobby!'
-  hotbar:
-    warps:
-      slot: 2
-      execute: 'KHKITS>warps'
-      icon: 'item>COMPASS : nome>&aWarps &7(Clique direito) : desc>&7Jogue em outras warps!'
-    kits:
-      slot: 3
-      execute: 'KHKITS>kits'
-      icon: 'item>NETHER_STAR : nome>&aKits &7(Clique direito) : desc>&7Selecione um kit!'
-    shop:
-      slot: 5
-      execute: 'KHKITS>shop'
-      icon: 'item>EMERALD : nome>&aLoja &7(Clique direito) : desc>&7Compre kits para ficar mais\n&7forte!'
-    money-day:
-      slot: 6
-      execute: 'KHKITS>money-day'
-      icon: 'item>CHEST_MINECART : nome>&aMoedas Diárias &7(Clique direito) : desc>&7Colete moedas suas diárias!'
-      icon-i: 'item>MINECART : nome>&cMoedas Diárias &7(Clique direito) : desc>&7Colete moedas suas diárias!'
-  chat:
-    color:
-      default: '&7'
-      custom: '&f'
-    format: '&7[&a{khkits_level}&7] {prefix}{player}{color}: {message}'
-  motd:
-    enabled: true
-    header: '&a&lKS &f- &7www.kskripts.tk'
-    footer: '&e&nKit PvP&e aberto para todos!'
-  tablist:
-    enabled: true
-    header: '\n&a&lREDE KS\n    &fjogar.kskripts.tk\n '
-    footer: ' \n&bForúm: &fkskripts.tk/forum\n&b               Discord: &fkskripts.tk/discord               \n'
+options:
+ coins:
+  kills: 50
+  death: 25
+ xp:
+  kills: 10
+chat:
+ delay: '&cAguarde mais {time} para falar novamente.'
+ color:
+  default: '&7'
+  custom: '&f'
+ format: '&7[&a{khkits_level}&7] {khcore_prefixed}{color}: {message}'
+lobby:
+ broadcast: '{khcore_prefixed} &6entrou no lobby!'
+ingame:
+ broadcast:
+  suicide: '{name} &emorreu sozinho.'
+  killed: '{name} &efoi abatido(a) por {killer}&e.'
+ messages:
+  daily_coins: '&aVocê coletou &6{coins} coins&a na caixa diária.'
+  level_up: '&aSeu nível foi upado para o &2{level}'
+  delay: '&cAguarde mais {time} para usar isto novamente.'
+  bow:
+   hit: '{name} &aestá com &c{hp}❤ &ade HP'
+  summary:
+   base: '  &e&lRESUMO:\n '
+   coins: '       &a+{coins} coins &fganhos por realizar &c{kills} &fabate{s}.'
+   xp: '       &a+{xp}XP &fganhos por realizar &c{kills} &fabate{s}.'
+   level_up: '       &a+{coins} coins &fganhos por upar de nível.'
 game:
-  selected-kits:
-    none: 'Nenhum'
-  rewards:
-    coins-per-day: 1000
-    coins-per-kill: 50
-    coins-per-death: 25
-    exp-per-kill: 10
   messages:
-    earnings-coins: '&6+{coins} moedas &8- &e+{exp} EXP'
-    lost-coins: '&c-{coins} moedas'
-    level-up: '\n &aVocê upou para o nível &2{level}&a, e recebeu &6{reward} moedas&a.\n '
-    delay: '&cVocê deve aguardar &e{time}&c para usar isto novamente!'
-    bow-hit: '{victim}&e está com &c{life} ❤&e de HP!'
-    suicide: '{victim}&7 morreu sozinho.'
-    death: '{victim}&7 foi morto por {attacker}&7.'
     kit:
       buy: '&aVocê comprou o kit &6{kit}&a!'
       select: '&aVocê selecionou o kit &6{kit}&a!'
-    build:
-      enabled: '&aModo construtor ativado!'
-      disabled: '&cModo construtor desativado!'
-    daily-coins:
-      coins: 1000
-      sucess: '&aVocê coletou &6{coins} moedas&a com sucesso!'
   sign:
     soup:
       line-1: '&b=-=-=-=-='
       line-2: '&aPlaca'
       line-3: '&8(Clique direito)'
       line-4: '&b=-=-=-=-='
-  items:
-    soup: 'nome>&aSopa : desc>&7Use este item para recuperar\n&7sua vida!'
-    red_mushroom: 'nome>&aCogumelo Vermelho : desc>&7Use este item para criar\n&7sopas!'
-    brown_mushroom: 'nome>&aCogumelo Marrom : desc>&7Use este item para criar\n&7sopas!'
-    bowl: 'nome>&aPote : desc>&7Use este item para criar\n&7sopas!'
 scoreboard:
   update-time: 1
   titles:
@@ -135,11 +106,11 @@ scoreboard:
   - '&a&lKIT PVP'
   lines:
   - ''
-  - ' Kills: &a{khkits_kills}'
-  - ' Deaths: &a{khkits_deaths}'
+  - ' Abates: &a{khkits_kills}'
+  - ' Mortes: &a{khkits_deaths}'
   - ' Kill Streak: &a{khkits_killstreak}'
   - ''
-  - ' Nível: &a{khkits_level}'
-  - ' Moedas: &6{khkits_coins}'
+  - ' Level: &a{khkits_level}'
+  - ' Coins: &6{khkits_coins}'
   - ''
-  - ' &ewww.kskripts.tk'
+  - '&7www.kskripts.tk'
