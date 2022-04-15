@@ -1,5 +1,5 @@
-# KhKits - Criado por Kiber7
-# Discord - https://kskripts.tk/discord
+# crafted by kick#0808
+# www.kskripts.tk
 
 options:
  coins:
@@ -7,6 +7,10 @@ options:
   death: 25
  xp:
   kills: 10
+ pagged:
+  next_page: 'LIGHT_GREEN_DYE : 1 : nome>&aPróxima página : desc>&7Ir para a página {next_page}.'
+  previous_page: 'GRAY_DYE : 1 : nome>&aPágina anterior : desc>&7Voltar à página {previous_page}.'
+
 chat:
  delay: '&cAguarde mais {time} para falar novamente.'
  color:
