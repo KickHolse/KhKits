@@ -10,45 +10,69 @@
 #                   ░  ░         ░                    #
 # ─────────────────────────────────────────────────── #
 options:
-#	Nome: KhKits | Autor: Kick Holse
-	version: 10.6
+#	KhKits | crafted by Kick Holse
+	version: 1.0
+# ─────────────────────────────────────────────────── #
+# imports
+import:
+	org.bukkit.event.player.PlayerInteractEvent
 
-# ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
+# ─────────────────────────────────────────────────── #
 # events
 join:
-	file "plugins/KhKits/players/%uuid of player%.yml" doesn't exist:
-		khkits_statsReset(player)
-	khcore_roles_setup(player, true)
-	khkits_principal(player, "sb")
-	khkits_warp(player, "spawn")
+	khkits_main(player, "spawn")
+	khkits_main(player, "score")
+	setup role to player and true
 	set join message to ""
-	{broadcast.%player%} == true:
-		send khcore_getText(player, yaml value "spawn.broadcast" from "khkits.language") to all players in world("%world of player%")
-	yaml value "spawn.tablist.enabled" from "khkits.language" == true:
-		set tab header to khcore_getText(player, yaml value "spawn.tablist.header" from "khkits.language") and footer to khcore_getText(player, yaml value "spawn.tablist.footer" from "khkits.language") for player
-	while player is online:
-		set {_x} to yaml value "%uuid of player%.level" of file "plugins/KhKits/players/%uuid of player%.yml"
-		set level of player to {_x}
-		loop all players:
-			set score "&c&l❤" below player to loop-player's health*2 for player
-			set score "&c&l❤" below player to player's health*2 for loop-player
-		wait 1 tick
+	khcore_roles(player, "get", "isbroadcasted") is "true":
+		send khcore_text(player, yaml value "lobby.broadcast" from "ks.kits.language") to all players in world("%world of player%")
+	#while player is online:
+	#	set {_x} to mgStats(player, "kitpvp.level.level", "get", "", "") parsed as number
+	#	set level of player to {_x}
+	#	loop all players:
+	#		set score "&c&l❤" below player to loop-player's health*2 for player
+	#		set score "&c&l❤" below player to player's health*2 for loop-player
+	#	wait 1 tick
 quit:
 	set quit message to ""
-server list ping:
-	yaml value "spawn.motd.enabled" from "khkits.language" == true
-	loop "footer" and "header":
-		set {_%loop-value%} to khcore_getText({_x}, yaml value "spawn.motd.%loop-value%" from "khkits.language")
-	set motd to "%{_header}%%nl%%{_footer}%"
-pickup:
-	yaml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" != true
-	cancel event
-break:
-	yaml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" != true
-	cancel event
-place:
-	yaml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" != true
-	cancel event
+chat:
+	player does not have permission "khkits.chat.delay" or "khkits.*":
+		set {_wait} to difference between {chat_delay::%player%} and now
+		{_wait} is less than 3 seconds:
+			set {_x} to khcore_delayReplace("%difference between 3 seconds and {_wait}%")
+			send replacer "{time}" with {_x} in yaml value "chat.delay" from "ks.kits.language" to player
+			cancel event
+		else:
+			set {chat_delay::%player%} to now
+	set {_format} to khcore_text(player, yaml value "chat.format" from "ks.kits.language")
+	player has permission "khkits.chat.color" or "khkits.*":
+		set {_color} to yaml value "chat.color.custom" from "ks.kits.language"
+		replace "{message}" with colored message in {_format}
+	else:
+		set {_color} to yaml value "chat.color.default" from "ks.kits.language"
+		replace "{message}" with message in {_format}
+	replace all "{color}" in {_format} with colored {_color}
+	set chat format to {_format}
+click:
+	loop yaml nodes with keys "spawn" from "ks.kits.hotbar":
+		set {_x} to yaml value "spawn.%loop-value%.icon" from "ks.kits.hotbar"
+		loop-value is "moneyday":
+			set {_wait} to difference between {daily_coins::%player%} and now
+			{_wait} is less than 1 day:
+				set {_x} to yaml value "spawn.%loop-value%.icon-i" from "ks.kits.hotbar"
+		name of event-item is name of deserializeItem({_x}, player):
+			cancel event
+			khkits_execute(player, yaml value "spawn.%loop-value%.execute" from "ks.kits.hotbar")
+rightclick:
+	player's tool is a mushroom soup:
+		health of player is less than max health of player - 0.5:
+			cancel event
+			khkits_execute(player, "souplife")
+rightclick on entity:
+	player's tool is a mushroom soup:
+		health of player is less than max health of player - 0.5:
+			cancel event
+			khkits_execute(player, "souplife")
 at 11:01:
 	set time to 10:00
 hunger meter change:
@@ -59,93 +83,70 @@ weather change:
 	cancel event
 xp spawn:
 	cancel event
-drop:
-	event-item != a bowl:
-		yaml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" != true
-		cancel event
-		stop
-	clear dropped items
+projectile hit:
+	delete projectile
+pickup:
+	mgStats(player, "preferencies.build", "get", "", "") is "false"
+	cancel event
+break:
+	mgStats(player, "preferencies.build", "get", "", "") is "false"
+	cancel event
+place:
+	mgStats(player, "preferencies.build", "get", "", "") is "false"
+	cancel event
 inventory click:
-	yaml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" == "none":
-		yaml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" != true:
+	mgStats(player, "kitpvp.selected_kit", "get", "", "") is "none":
+		mgStats(player, "preferencies.build", "get", "", "") is "false":
 			cancel event
 	clicked slot is 36 or 37 or 38 or 39:
 		cancel event
-rightclick on redstone repeater item or redstone comparator item or hopper or daylight sensor or note block or armor stand or flower pot or item frame or trapped chest or ender chest or button or beacon or lever or any door or any anvil or furnaces or any chest or crafting table or enchantment table or brewing stand or bed or dispenser or dropper or any trapdoor or any fence gate:
-	yaml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" != true
-	cancel event
-click:
-	loop skutil yaml nodes "spawn.hotbar" from file "plugins/KhKits/language.yml":
-		set {_x} to yml value "spawn.hotbar.%loop-value%.icon" from file "plugins/KhKits/language.yml"
-		loop-value == "money-day":
-			set {_wait} to difference between {dailycoins.%player%} and now
-			{_wait} is less than 86400 seconds:
-				set {_x} to yaml value "spawn.hotbar.%loop-value%.icon-i" from "khkits.language"
-		name of event-item == khcore_getName({_x}):
-			cancel event
-			khkits_ext(player, yaml value "spawn.hotbar.%loop-value%.execute" from "khkits.language")
-chat:
-	set {_format} to khcore_getText(player, khkits_replacer(player, yaml value "spawn.chat.format" from "khkits.language"))
-	player has permission "khkits.chat.color" or "khkits.*":
-		set {_color} to yaml value "spawn.chat.color.custom" from "khkits.language"
-		replace "{message}" with colored message in {_format}
+drop:
+	event-item is a bowl:
+		wait a tick
+		clear dropped items
 	else:
-		set {_color} to yaml value "spawn.chat.color.default" from "khkits.language"
-		replace "{message}" with message in {_format}
-	replace all "{color}" in {_format} with colored {_color}
-	set chat format to {_format}
-rightclick:
-	player's tool is a mushroom soup:
-		health of player is less than max health of player - 0.5:
-			cancel event
-			khkits_soup(player, "add")
-rightclick on entity:
-	player's tool is a mushroom soup:
-		health of player is less than max health of player - 0.5:
-			cancel event
-			khkits_soup(player, "add")
-sign change:
-	line 1 is "[khkits]"
-	line 2 is "soup"
-	loop 1 and 2 and 3 and 4:
-		set line loop-value to yaml value "game.sign.soup.line-%loop-value%" from "khkits.language"
-rightclick on sign:
-	loop 1 and 2 and 3 and 4:
-		line loop-value of clicked block != yaml value "game.sign.soup.line-%loop-value%" from "khkits.language"
-		stop
-	yaml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" != "none"
-	khkits_soup(player, "get")
-command:
-	command is "fps" or "spawn" or "lava-challenge" or "knockback"
-	cancel event
-	khkits_warp(player, command)
+		mgStats(player, "preferencies.build", "get", "", "") is "false"
+		cancel event
+on PlayerInteractEvent:
+	set {_p} to event.getPlayer()
+	mgStats({_p}, "preferencies.build", "get", "", "") is "false":
+		loop yaml nodes with keys "spawn" from "ks.kits.hotbar":
+			set {_x} to yaml value "spawn.%loop-value%.icon" from "ks.kits.hotbar"
+			loop-value is "moneyday":
+				set {_wait} to difference between {daily_coins::%{_p}%} and now
+				{_wait} is less than 1 day:
+					set {_x} to yaml value "spawn.%loop-value%.icon-i" from "ks.kits.hotbar"
+			{_p}'s tool's name is name of deserializeItem({_x}, {_p}):
+				khkits_execute({_p}, yaml value "spawn.%loop-value%.execute" from "ks.kits.hotbar")
+		mgStats({_p}, "kitpvp.selected_kit", "get", "", "") = "none"
+		cancel event
 damage of player:
 	attacker is a player:
 		{lasthit.%victim%} is not set:
 			set {lasthit.%victim%} to "%attacker%" parsed as player
 		{lasthit.%victim%} != attacker:
 			set {lasthit.%victim%} to "%attacker%" parsed as player
-		yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" == "achilles":
+		mgStats(victim, "kitpvp.selected_kit", "get", "", "") is "achilles":
 			attacker's tool is wooden_sword:
 				increase damage by 165%
 			else:
 				increase damage by -100%
-		yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" == "none"
+		mgStats(attacker, "kitpvp.selected_kit", "get", "", "") is "none"
 		cancel event
 	damage cause is void:
 		cancel event
-		invoke "respawn" from victim
+		khkits_respawn(victim)
 	damage cause is fall:
-		yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" == "stomper":
+		mgStats(victim, "kitpvp.selected_kit", "get", "", "") is "stomper":
 			set {_players::*} to all players in radius 5 of victim
 			remove victim from {_players::*}
 			loop {_players::*}:
-				yml value "%uuid of loop-value%.selected-kit" of file "plugins/KhKits/players/%uuid of loop-value%.yml" is "antistomper" or "none" or "fps" or "lava-challenge" or "knockback":
+				mgStats(loop-value, "kitpvp.selected_kit", "get", "", "") is "antistomper" or "none" or "fps" or "lava-challenge" or "knockback":
 					remove loop-value from {_players::*}
 				else:
 					loop-value is sneaking
 					remove loop-value from {_players::*}
-			size of {_players::*} is not 0:
+			size of {_players::*} > 0:
 				loop {_players::*}:
 					set {_damage} to damage*2
 					set {lasthit.%loop-value%} to "%victim%" parsed as offlineplayer
@@ -154,381 +155,183 @@ damage of player:
 		cancel event
 		stop
 	attacker != victim:
-		"%damage cause%" == "projectile"
+		"%damage cause%" is "projectile"
 		projectile is arrow
 		victim is not dead
-		yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" != "none":
-			send replacer "{life}" with "%victim's health%" in replacer "{victim}" with khcore_roles_getColored(victim) in yaml value "game.messages.bow-hit" from "khkits.language" to attacker	
-	yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" == "none":
+		mgStats(victim, "kitpvp.selected_kit", "get", "", "") != "none":
+			send action bar replacer "{hp}" and "{name}" with "%victim's health - damage%" and khcore_roles(victim, "get", "colored") in yaml value "ingame.messages.bow.hit" from "ks.kits.language" to attacker
+	mgStats(victim, "kitpvp.selected_kit", "get", "", "") is "none":
 		cancel event
 	else:
-		khcore_blood(victim)
-		yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" == "turtle":
+		show blood at victim
+		mgStats(victim, "kitpvp.selected_kit", "get", "", "") is "turtle":
 			victim is sneaking
 			increase damage by -100%
-	if damage is greater than or equal to health of victim:
-		yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" != "none"
+			khkits_perk(victim)
+	damage >= health of victim:
+		mgStats(victim, "kitpvp.selected_kit", "get", "", "") != "lava-challenge":
+			remove yaml value "options.coins.death" from "ks.kits.language" from {summary_coins::%victim%}
+			mgStats(victim, "kitpvp.coins", "remove", "number", yaml value "options.coins.death" from "ks.kits.language")
+		mgStats(victim, "kitpvp.killstreak", "get", "", "") parsed as number > 0:
+			set {_ks} to mgStats(victim, "kitpvp.killstreak", "get", "", "")
+			send "&cVocê perdeu um kill streak de %{_ks}%." to victim
+			mgStats(victim, "kitpvp.killstreak", "set", "number", "0")
+		mgStats(victim, "kitpvp.selected_kit", "get", "", "") != "none"
 		cancel event
 		create a fake explosion at the victim
-		set {_deaths} to yml value "%uuid of victim%.deaths" of file "plugins/KhKits/players/%uuid of victim%.yml"
-		set yml value "%uuid of victim%.deaths" of file "plugins/KhKits/players/%uuid of victim%.yml" to "%{_deaths} + 1%" parsed as int
-		yml value "%uuid of victim%.killstreak" of file "plugins/KhKits/players/%uuid of victim%.yml" > 0:
-			set {_ks} to yml value "%uuid of victim%.killstreak" of file "plugins/KhKits/players/%uuid of victim%.yml"
-			send "&cVocê perdeu um kill streak de %{_ks}%." to victim
-			set yaml value "%uuid of victim%.killstreak" of file "plugins/KhKits/players/%uuid of victim%.yml" to 0
-		yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" != "lava-challenge":
-			khkits_coinsmanager(victim, "remove", yaml value "game.rewards.coins-per-death" from "khkits.language")
-			set {_x} to yaml value "game.rewards.coins-per-death" from "khkits.language"
-			send actionbar replacer "{coins}" with "%{_x}%" in yaml value "game.messages.lost-coins" from "khkits.language" to victim
+		mgStats(victim, "kitpvp.deaths", "add", "number", "1")
 		{lasthit.%victim%} is a player:
-			yml value "%uuid of {lasthit.%victim%}%.selected-kit" of file "plugins/KhKits/players/%uuid of {lasthit.%victim%}%.yml" == "resoup":
-				khkits_soup({lasthit.%victim%}, "get")
-			add yaml value "game.rewards.exp-per-kill" from "khkits.language" to {players::xp.%{lasthit.%victim%}%}
-			{players::xp.%{lasthit.%victim%}%} >= {players::need.%{lasthit.%victim%}%}:
-				set {_level} to yml value "%uuid of {lasthit.%victim%}%.level" of file "plugins/KhKits/players/%uuid of {lasthit.%victim%}%.yml"
-				set yml value "%uuid of {lasthit.%victim%}%.level" of file "plugins/KhKits/players/%uuid of {lasthit.%victim%}%.yml" to "%{_level}+1%" parsed as int
-				set {_level} to yml value "%uuid of {lasthit.%victim%}%.level" of file "plugins/KhKits/players/%uuid of {lasthit.%victim%}%.yml"
-				set {players::need.%{lasthit.%victim%}%} to {players::need.%{lasthit.%victim%}%}*1.8
-				send replacer "{reward}" with formatNumber({players::reward.%{lasthit.%victim%}%}) in replacer "{level}" with formatNumber({_level}) in replacer "\n" with newline in yaml value "game.messages.level-up" from "khkits.language" to {lasthit.%victim%}
-				khkits_coinsmanager({lasthit.%victim%}, "add", {players::reward.%{lasthit.%victim%}%})
-				set {players::reward.%{lasthit.%victim%}%} to {players::reward.%{lasthit.%victim%}%}+100
-				khcore_playSound({lasthit.%victim%}, LEVEL_UP, 1, 5)
-			khkits_coinsmanager({lasthit.%victim%}, "add", yaml value "game.rewards.coins-per-kill" from "khkits.language")
-			set {_coins} to yaml value "game.rewards.coins-per-kill" from "khkits.language"
-			set {_exp} to yaml value "game.rewards.exp-per-kill" from "khkits.language"
-			send actionbar replacer "{exp}" with "%{_exp}%" in replacer "{coins}" with "%{_coins}%" in yaml value "game.messages.earnings-coins" from "khkits.language" to {lasthit.%victim%}
-			set {_kills} to yml value "%uuid of {lasthit.%victim%}%.kills" of file "plugins/KhKits/players/%uuid of {lasthit.%victim%}%.yml"
-			set yml value "%uuid of {lasthit.%victim%}%.kills" of file "plugins/KhKits/players/%uuid of {lasthit.%victim%}%.yml" to "%{_kills} + 1%" parsed as int
-			set {_ks} to yml value "%uuid of {lasthit.%victim%}%.killstreak" of file "plugins/KhKits/players/%uuid of {lasthit.%victim%}%.yml"
-			set yml value "%uuid of {lasthit.%victim%}%.killstreak" of file "plugins/KhKits/players/%uuid of {lasthit.%victim%}%.yml" to "%{_ks} + 1%" parsed as int
-			set {_x} to replacer "{attacker}" with khcore_roles_getColored({lasthit.%victim%}) in replacer "{victim}" with khcore_roles_getColored(victim) in yaml value "game.messages.death" from "khkits.language"
-			broadcast {_x}
-			invoke "respawn" from victim
+			mgStats({lasthit.%victim%}, "kitpvp.level.xp", "add", "number", yaml value "options.xp.kills" from "ks.kits.language")
+			loop "xp" and "xp_to_next_level":
+				set {_%loop-value%} to mgStats({lasthit.%victim%}, "kitpvp.level.%loop-value%", "get", "", "") parsed as number
+			{_xp} >= {_xp_to_next_level}:
+				mgStats({lasthit.%victim%}, "kitpvp.level.level", "add", "number", "1")
+				mgStats({lasthit.%victim%}, "kitpvp.level.xp_to_next_level", "add", "number", "%{_xp_to_next_level}%")
+				send action bar replacer "{level}" with formatNumber(mgStats({lasthit.%victim%}, "kitpvp.level.level", "get", "", "") parsed as number) in yaml value "ingame.messages.level_up" from "ks.kits.language" to {lasthit.%victim%}
+				mgStats({lasthit.%victim%}, "kitpvp.coins", "add", "number", mgStats({lasthit.%victim%}, "kitpvp.level.reward", "get", "", ""))
+				set {summary_levelcoins::%{lasthit.%victim%}%} to mgStats({lasthit.%victim%}, "kitpvp.level.reward", "get", "", "") parsed as number
+				mgStats({lasthit.%victim%}, "kitpvp.level.reward", "add", "number", "100")
+				play sound "LEVEL_UP" with 1 and 5 to {lasthit.%victim%}
+			mgStats({lasthit.%victim%}, "kitpvp.selected_kit", "get", "", "") is "resoup":
+				khkits_execute({lasthit.%victim%}, "getsoup")
+			mgStats({lasthit.%victim%}, "kitpvp.kills", "add", "number", "1")
+			mgStats({lasthit.%victim%}, "kitpvp.coins", "add", "number", yaml value "options.coins.kills" from "ks.kits.language")
+			mgStats({lasthit.%victim%}, "kitpvp.killstreak", "add", "number", "1")
+			send replacer "{name}" and "{killer}" with khcore_roles(victim, "get", "colored") and khcore_roles({lasthit.%victim%}, "get", "colored") in yaml value "ingame.broadcast.killed" from "ks.kits.language" to all players in {lasthit.%victim%}'s world
+			add 1 to {summary_kills::%{lasthit.%victim%}%}
+			loop "xp" and "coins":
+				add yaml value "options.%loop-value%.kills" from "ks.kits.language" to {summary_%loop-value%::%{lasthit.%victim%}%}
+			khkits_summary(victim)
+			khkits_respawn(victim)
 		else:
-			set {_x} to replacer "{victim}" with khcore_roles_getColored(victim) in yaml value "game.messages.suicide" from "khkits.language"
-			broadcast {_x}
+			send replacer "{name}" with khcore_roles(victim, "get", "colored") in yaml value "ingame.broadcast.suicide" from "ks.kits.language" to all players in victim's world
 		delete {lasthit.%victim%}
+sign change:
+	line 1 is "[khkits]"
+	line 2 is "soup"
+	loop 4 times:
+		set line loop-value to yaml value "ingame.sign.soup.line-%loop-value%" from "ks.kits.language"
+rightclick on sign:
+	loop 4 times:
+		line loop-value of clicked block != yaml value "ingame.sign.soup.line-%loop-value%" from "ks.kits.language"
+		stop
+	mgStats(player, "kitpvp.selected_kit", "get", "", "") != "none"
+	khkits_execute(player, "getsoup")
 
-# ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
-# commands
-command khkits [<text = help>] [<text>] [<text>] [<text>]:
-	permission: khkits.*
-	permission message: §3[KhKits] §7v{@version} §f- §7Criado por §6Kick Holse§7.
+# ─────────────────────────────────────────────────── #
+# cmds
+command khkits [<text=help>] [<text>] [<text>] [<text>]:
+	permission: ks.kits.*
+	permission message: §3[KhKits] §7v{@version} §f- §7Crafted by §6Kick Holse§7.
 	trigger:
-		arg 1 == "help":
-			send "%nl%  &eAjuda - KhKits &71/1%nl% "
-			send "&3 /khkits atualizar &f- &7Atualiza o skript"
-			send "&3 /khkits build &f- &7Alterna o modo construtor"
-			send "&3 /khkits coins &f- &7Administra os coins de um jogador"
-			send "&3 /khkits reset &f- &7Reseta as estatísticas de um player"
-			send "&3 /khkits warps &f- &7Define as warps%nl% "
-		arg 1 == "atualizar":
-			khcore update player {khkp::check_update} "KhKits" script
-		arg 1 == "build":
-			yaml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" != true:
-				set yml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" to true
-				send actionbar khcore_getText(player, yaml value "game.messages.build.enabled" from "khkits.language") to player
-				set player's gamemode to creative
-			else:
-				set yml value "%uuid of player%.build" of file "plugins/KhKits/players/%uuid of player%.yml" to false
-				send actionbar khcore_getText(player, yaml value "game.messages.build.disabled" from "khkits.language") to player
-				set player's gamemode to adventure
-				player has permission "khkits.fly" or "khkits.*":
-					yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" == "none"
-					set player's fly mode to true
-		arg 1 == "coins":
-			arg 2 != "add" or "remove" or "set":
-				send "%nl%  &eAjuda - Coins 1/1%nl% "
-				send "&3 /khkits coins add&f - &7Adiciona coins"
-				send "&3 /khkits coins remove&f - &7Remove coins"
-				send "&3 /khkits coins set &f- &7Seta coins%nl% "
-			arg 2 == "add":
-				arg 4 is set:
-					"%arg 4 parsed as int%" contains "none" or "-":
-						send "&cUtilize apenas números positivos para isso."
-					else:
-						arg 4 parsed as int < 99999999999:
-							khkits_coinsmanager(arg 3 parsed as offlineplayer, "add", arg 4 parsed as int)
-							send "&aVocê adicionou &6%formatNumber(arg 4 parsed as int)% moedas&a para %khcore_roles_getColored(arg 3 parsed as offlineplayer)%&a."
-						else:
-							send "&cA quantia não pode ser maior que 99,999,999,999"
+		set {_help::*} to "&3 /khkits build &f- &7Turn on/off constructor mode." and "&3 /khkits coins &f- &7Manager coins of a player" and "&3 /khkits set &f- &7Set the warps and spawn"
+		arg 1 is "help":
+			khcore_sendHelp(executor, {_help::*}, "KhKits")
+		arg 1 parsed as number is a number:
+			khcore_sendHelp(executor, {_help::*}, "KhKits", arg 1 parsed as number)
+		else:
+			arg 1 is "build":
+				mgStats(player, "preferencies.build", "get", "", "") is "false":
+					mgStats(player, "preferencies.build", "set", "boolean", "true")
+					send action bar "&aModo construtor ativado." to player
+					set player's gamemode to creative
 				else:
-					send "&cUtilize /khkits coins add <jogador> <número>"
-			arg 2 == "remove":
-				arg 4 is set:
-					"%arg 4 parsed as int%" contains "none" or "-":
-						send "&cUtilize apenas números positivos para isso."
-					else:
-						khkits_coinsmanager(arg 3 parsed as offlineplayer, "remove", arg 4 parsed as int)
-						send "&cVocê removeu &6%formatNumber(arg 4 parsed as int)% moedas&c de %khcore_roles_getColored(arg 3 parsed as offlineplayer)%&c."
-				else:
-					send "&cUtilize: /khkits coins remove <jogador> <número>"
-			arg 2 == "set":
-				arg 4 is set:
-					"%arg 4 parsed as int%" contains "none" or "-":
-						send "&cUtilize apenas números positivos para isso."
-					else:
-						khkits_coinsmanager(arg 3 parsed as offlineplayer, "set", arg 4 parsed as int)
-						send "&aVocê setou as moedas de %khcore_roles_getColored(arg 3 parsed as offlineplayer)%&a para &6%formatNumber(arg 4 parsed as int)%&a."
-				else:
-					send "&cUtilize: /khkits coins set <jogador> <número>"
-		arg 1 == "reset":
-			arg 2 is set:
-				file "plugins/KhKits/players/%uuid of arg 2 parsed as offlineplayer%.yml" exists:
-					khkits_statsReset(arg 2 parsed as offlineplayer)
-					send "&aVocê resetou as estatísticas de %khcore_roles_getColored(arg 2 parsed as offlineplayer)%&a."
-				else:
-					send "&cNão existe nenhum jogador com este nick em nosso banco de dados."
-			else:
-				send "&cUtilize /khkits reset <jogador>"
-		arg 1 == "warps":
-			arg 2 != "spawn" or "fps" or "lava-challenge" or "knockback":
-				send "%nl%  &eAjuda - Warps 1/1%nl% "
+					mgStats(player, "preferencies.build", "set", "boolean", "false")
+					send action bar "&cModo construtor desativado." to player
+					set player's gamemode to adventure
+					player has permission "ks.kits.fly" or "ks.kits.*":
+						mgStats(player, "kitpvp.selected_kit", "get", "", "") is "none"
+						set player's fly mode to true
+			arg 1 is "set":
+				arg 2 != "spawn" or "fps" or "lava-challenge" or "knockback":
+					send "%nl%  &eHelp - Warps 1/1%nl% "
+					loop "spawn" and "fps" and "lava-challenge" and "knockback":
+						send "&3 /khkits set %loop-value%&f - &7Set the %loop-value%."
+					send newline
 				loop "spawn" and "fps" and "lava-challenge" and "knockback":
-					send "&3 /khkits warps %loop-value%&f - &7Define o %loop-value%"
-				send newline
-			loop "spawn" and "fps" and "lava-challenge" and "knockback":
-				arg 2 == loop-value
-				set yml value "locations.%loop-value%" of file "plugins/KhKits/locations.yml" to khcore_serializeLocation(player's location)
-				send actionbar "&aA localização &2%loop-value%&a foi definida com sucesso!" to player
-				khkits_filemanager("value")
-command /stats [<text = help>]:
-	trigger:
-		arg 1 == "help":
-			khkits_openStats(player, player)
-		else if player has permission "khkits.stats" or "khkits.*":
-			khkits_openStats(player, arg 1 parsed as offlineplayer)
+					arg 2 is loop-value
+					set yaml value "locations.%loop-value%" from file "plugins/KhKits/locations.yml" to serializeLocati(player's location)
+					send action bar "&aA localização &2%loop-value%&a foi definida com sucesso!" to player
+					unload yaml "ks.kits.locations"
+					load yaml "plugins/KhKits/locations.yml" as "ks.kits.locations"
+			arg 1 is "coins":
+				arg 2 != "add" or "remove" or "set":
+					send "%nl%  &eHelp - Coins%nl% "
+					send "&3 /khkits coins add&f - &7Add coins"
+					send "&3 /khkits coins remove&f - &7Remove coins"
+					send "&3 /khkits coins set &f- &7Set coins%nl% "
+				arg 2 is "add":
+					arg 4 is set:
+						arg 3 parsed as offlineplayer is online:
+							"%arg 4 parsed as int%" contains "none" or "-":
+								send "&cUtilize apenas números positivos para isso."
+							else:
+								mgStats(arg 3 parsed as offlineplayer, "kitpvp.coins", "add", "number", arg 4)
+								send "&aVocê adicionou &6%formatNumber(arg 4 parsed as int)% moedas&a para %khcore_roles(arg 3 parsed as offlineplayer, ""get"", ""colored"")%&a."
+						else:
+							send "&cEste jogador está offline no momento."
+					else:
+						send "&cUtilize /khkits coins add [jogador] [número]"
+				arg 2 is "remove":
+					arg 4 is set:
+						arg 3 parsed as offlineplayer is online:
+							"%arg 4 parsed as int%" contains "none" or "-":
+								send "&cUtilize apenas números positivos para isso."
+							else:
+								mgStats(arg 3 parsed as offlineplayer, "kitpvp.coins", "remove", "number", arg 4)
+								send "&cVocê removeu &6%formatNumber(arg 4 parsed as int)% moedas&c de %khcore_roles(arg 3 parsed as offlineplayer, ""get"", ""colored"")%&c."
+						else:
+							send "&cEste jogador está offline no momento."
+					else:
+						send "&cUtiliz: /khkits coins remove [jogador] [número]"
+				arg 2 is "set":
+					arg 4 is set:
+						arg 3 parsed as offlineplayer is online:
+							"%arg 4 parsed as int%" contains "none" or "-":
+								send "&cUtilize apenas números positivos para isso."
+							else:
+								mgStats(arg 3 parsed as offlineplayer, "kitpvp.coins", "set", "number", arg 4)
+								send "&aVocê setou as moedas de %khcore_roles(arg 3 parsed as offlineplayer, ""get"", ""colored"")%&a para &6%formatNumber(arg 4 parsed as int)%&a."
+						else:
+							send "&cEste jogador está offline no momento."
+					else:
+						send "&cUtilize /khkits coins set [jogador] [número]"
+command:
+	command is "fps" or "spawn" or "lava-challenge" or "knockback"
+	cancel event
+	khkits_main(player, command)
 
-# ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
-# file manager
-function khkits_filemanager(type: text):
-	{_type} == "value":
-		loop currently loaded yaml files:
-			loop-value contains "khkits.menus/shop_kits" or "khkits.kits" or "khkits.language" or "khkits.locations" or "khkits.menus/shop" or "khkits.menus/stats" or "khkits.menus/warps"
-			unload yaml loop-value-1
-		loop "kits" and "language" and "locations" and "menus/stats" and "menus/warps" and "menus/shop" and "menus/shop_kits":
-			load yaml "plugins/KhKits/%loop-value%.yml" as "khkits.%loop-value%"
-		set {score.title} to yaml value "scoreboard.title" from "khkits.language"
-		set {_temp::*} to yaml list "scoreboard.lines" from "khkits.language"
-		set {scoreline} to 0
-		set {_empty} to 0
-		delete {score.line::*}
-		set {_line} to amount of {_temp::*}
-		loop {_temp::*}:
-			add 1 to {scoreline}
-			"%loop-value%" == "":
-				set {score.line::%{_line}%} to "§%{_empty}%"
-				{_empty} < 9:
-					add 1 to {_empty}
-			else:
-				set {score.line::%{_line}%} to colored loop-value
-			remove 1 from {_line}
-	{_type} == "create":
-		loop "menus/shop" and "menus/shop_kits" and "menus/stats" and "menus/warps" and "language" and "locations" and "kits":
-			khcore downgit "KhKits/%loop-value%.yml" "https://raw.githubusercontent.com/KickHolse/KhKits/master/files/%loop-value%"
-		khkits_filemanager("value")
-
-# ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
-# subfunctions
-sub "respawn":
-	khkits_principal(parameter 1, "clean")
-	set {_x} to yml value "%uuid of parameter 1%.selected-kit" of file "plugins/KhKits/players/%uuid of parameter 1%.yml"
+# ─────────────────────────────────────────────────── #
+# functions
+function khkits_summary(p: player):
+	{summary_kills::%{_p}%} > 0:
+		set {_s} to ""
+		{summary_kills::%{_p}%} > 1:
+			set {_s} to "s"
+		send replacer "\n" with newline in yaml value "ingame.messages.summary.base" from "ks.kits.language" to {_p}
+		send replacer "\n" and "{coins}" and "{kills}" and "{s}" with newline and formatNumber({summary_coins::%{_p}%}) and formatNumber({summary_kills::%{_p}%}) and "%{_s}%" in yaml value "ingame.messages.summary.coins" from "ks.kits.language" to {_p}
+		send replacer "\n" and "{xp}" and "{kills}" and "{s}" with newline and formatNumber({summary_xp::%{_p}%}) and formatNumber({summary_kills::%{_p}%}) and "%{_s}%" in yaml value "ingame.messages.summary.xp" from "ks.kits.language" to {_p}
+		{summary_levelcoins::%{_p}%} is set:
+			send replacer "{coins}" with formatNumber({summary_levelcoins::%{_p}%}) in yaml value "ingame.messages.summary.level_up" from "ks.kits.language" to {_p}
+		send newline to {_p}
+		loop "xp" and "kills" and "coins":
+			delete {summary_%loop-value%::%{_p}%}
+function khkits_respawn(p: player):
+	khcore_clear({_p})
+	set {_x} to mgStats({_p}, "kitpvp.selected_kit", "get", "", "")
 	"%{_x}%" is not "fps" or "lava-challenge" or "knockback" or "none":
 		set {_x} to "none"
-	khkits_warp(parameter 1, replacer "none" with "spawn" in {_x})
-
-# ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
-# functions
-function khkits_warp(p: player, warp: text):
-	yaml value "locations.%{_warp}%" from "khkits.locations" != "null":
-		khkits_principal({_p}, "clean")
-		teleport {_p} to khcore_deserializeLocation(yaml value "locations.%{_warp}%" from "khkits.locations")
-		khcore_playSound({_p}, LEVEL_UP, 1, 5)
-		set {_w} to "%{_warp}%"
-		{_warp} != "spawn":
-			khkits_soup({_p}, "get")
-			loop skutil yaml nodes "warps.%{_warp}%.armor" from file "plugins/KhKits/menus/warps.yml":
-				set {_item} to khcore_getItem(yaml value "warps.%{_warp}%.armor.%loop-value%" from "khkits.menus/warps")
-				equip {_p} with {_item} without nbt named khcore_getName(yaml value "warps.%{_warp}%.armor.%loop-value%" from "khkits.menus/warps")
-			loop skutil yaml nodes "warps.%{_warp}%.items" from file "plugins/KhKits/menus/warps.yml":
-				set {_item} to khcore_getItem(yaml value "warps.%{_warp}%.items.%loop-value%" from "khkits.menus/warps")
-				set slot khcore_getSlot(yaml value "warps.%{_warp}%.items.%loop-value%" from "khkits.menus/warps") of {_p} to {_item} without nbt named khcore_getName(yaml value "warps.%{_warp}%.items.%loop-value%" from "khkits.menus/warps") 
-		else:
-			set {_w} to "none"
-			khkits_principal({_p}, "hb")
-			{_p} has permission "khkits.fly" or "khkits.*":
-				set {_p}'s fly mode to true
-		set yml value "%uuid of {_p}%.selected-kit" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to "%{_w}%"
-function khkits_soup(p: player, type: text):
-	{_type} == "get":
-		give {_p} 36 soup without nbt named khcore_getName(yaml value "game.items.soup" from "khkits.language") with lore khcore_getLore(yaml value "game.items.soup" from "khkits.language")
-		set slot 13 of {_p} to 64 red mushroom without nbt named khcore_getName(yaml value "game.items.red_mushroom" from "khkits.language") with lore khcore_getLore(yaml value "game.items.red_mushroom" from "khkits.language")
-		set slot 14 of {_p} to 64 brown mushroom without nbt named khcore_getName(yaml value "game.items.brown_mushroom" from "khkits.language") with lore khcore_getLore(yaml value "game.items.brown_mushroom" from "khkits.language")
-		set slot 15 of {_p} to 64 bowl without nbt named khcore_getName(yaml value "game.items.bowl" from "khkits.language") with lore khcore_getLore(yaml value "game.items.bowl" from "khkits.language")
-	{_type} == "add":
-		set {_kit} to yml value "%uuid of {_p}%.selected-kit" of file "plugins/KhKits/players/%uuid of {_p}%.yml"
-		set {_x} to a random number between 2 and 4
-		send actionbar "&7+%{_x}% &4&l❤" to {_p}
-		set the health of {_p} to the health of {_p} + {_x}
-		set {_slot} to selected hotbar slot of {_p}
-		{_kit} != "quickdropper":
-			khcore_playSound({_p}, BURP, 1, 5)
-			set slot {_slot} of {_p} to bowl without nbt named khcore_getName(yaml value "game.items.bowl" from "khkits.language") with lore khcore_getLore(yaml value "game.items.bowl" from "khkits.language")
-		else:
-			set slot {_slot} of {_p} to air
-			drop bowl at {_p}
-			khcore_playSound({_p}, ITEM_PICKUP, 1, 5)
-function khkits_ext(p: player, cmd: text):
-	{_cmd} contains "KHKITS>":
-		set {_temp::*} to {_cmd} split at "KHKITS>"
-		khkits_evt({_p}, "%{_temp::2}%")
-	{_cmd} contains "WARPS>":
-		set {_temp::*} to {_cmd} split at "WARPS>"
-		khkits_warp({_p}, "%{_temp::2}%")
-	{_cmd} contains "random_kit":
-		close {_p}'s inventory
-		set {_x} to random element of yml list "%uuid of {_p}%.kits" of file "plugins/KhKits/players/%uuid of {_p}%.yml"
-		khkits_kit({_p}, "get", "%{_x}%")
-	{_cmd} contains "NONE":
-		khcore_playSound({_p}, ENDERMAN_TELEPORT, 1, 5)
-function khkits_kit(p: player, type: text, kit: text):
-	{_type} == "buy":
-		yml value "kits.%{_kit}%" from file "plugins/KhKits/kits.yml" exists:
-			khcore_listContains(skutil yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml", {_kit}) != true
-			yaml value "%uuid of {_p}%.coins" from file "plugins/KhKits/players/%uuid of {_p}%.yml" >= yaml value "kits.%{_kit}%.price" from "khkits.kits":
-				send replacer "{kit}" with yaml value "kits.%{_kit}%.name" from "khkits.kits" in yaml value "game.messages.kit.buy" from "khkits.language" to {_p}
-				add "%{_kit}%" to yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml"
-				khkits_coinsmanager({_p}, "remove", yaml value "kits.%{_kit}%.price" from "khkits.kits")
-				khkits_evt({_p}, "shop_kits")
-			else:
-				send "&cVocê não tem moedas o suficiente." to {_p}
-	{_type} == "get":
-		yml value "kits.%{_kit}%" from file "plugins/KhKits/kits.yml" exists:
-			khcore_listContains(skutil yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml", {_kit}) == true
-			khkits_principal({_p}, "clean")
-			khkits_soup({_p}, "get")
-			khcore_playSound({_p}, ITEM_PICKUP, 1, 15)
-			send actionbar replacer "{kit}" with yaml value "kits.%{_kit}%.name" from "khkits.kits" in yaml value "game.messages.kit.select" from "khkits.language" to {_p}
-			set yml value "%uuid of {_p}%.selected-kit" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to "%{_kit}%"
-			loop skutil yaml nodes "kits.%{_kit}%.armor" from file "plugins/KhKits/kits.yml":
-				set {_item} to khcore_getItem(yaml value "kits.%{_kit}%.armor.%loop-value%" from "khkits.kits")
-				equip {_p} with {_item} without nbt named khcore_getName(yaml value "kits.%{_kit}%.armor.%loop-value%" from "khkits.kits")
-			loop skutil yaml nodes "kits.%{_kit}%.items" from file "plugins/KhKits/kits.yml":
-				set {_item} to khcore_getItem(yaml value "kits.%{_kit}%.items.%loop-value%" from "khkits.kits")
-				set slot khcore_getSlot(yaml value "kits.%{_kit}%.items.%loop-value%" from "khkits.kits") of {_p} to {_item} without nbt named khcore_getName(yaml value "kits.%{_kit}%.items.%loop-value%" from "khkits.kits")
-			set {_x::*} to skutil yaml nodes "kits.%{_kit}%" from file "plugins/KhKits/kits.yml"
-			{_x::*} contains "effects":
-				loop skutil yaml nodes "kits.%{_kit}%.effects" from file "plugins/KhKits/kits.yml":
-					set {_effect} to yml value "kits.%{_kit}%.effects.%loop-value%.effect" from file "plugins/KhKits/kits.yml"
-					set {_power} to yml value "kits.%{_kit}%.effects.%loop-value%.power" from file "plugins/KhKits/kits.yml"
-					set {_time} to yml value "kits.%{_kit}%.effects.%loop-value%.time" from file "plugins/KhKits/kits.yml"
-					apply ({_effect} parsed as potion) {_power} to {_p} for {_time} parsed as timespan
-function khkits_evt(p: player, evt: text):
-	{_evt} == "money-day":
-		set {_wait} to difference between {dailycoins.%{_p}%} and now
-		{_wait} is less than 86400 seconds:
-			set {_tempo} to replacer "and" with "e" in "%difference between 86400 seconds and {_wait}%"
-			set {_x} to yaml value "game.messages.delay" from "khkits.language"
-			set {_n::*} to {_tempo} split at " "
-			loop 1 and 4:
-				set {_v} to first element of {_n::%loop-value%} split at "."
-				replace "%{_n::%loop-value%}%" with "%{_v}%" in {_tempo}
-			replace all " hours" and " hour" with "h" in {_tempo}
-			replace all " minutes" and " minute" with "m" in {_tempo}
-			replace all " seconds" and " second" with "s" in {_tempo}
-			replace all "{time}" with {_tempo} in {_x}
-			send actionbar {_x} to {_p}
-		else:
-			set {dailycoins.%{_p}%} to now
-			khkits_coinsmanager({_p}, "add", yaml value "game.messages.daily-coins.coins" from "khkits.language")
-			set {_coins} to formatNumber(yaml value "game.messages.daily-coins.coins" from "khkits.language")
-			send replacer "{coins}" with "%{_coins}%" in yaml value "game.messages.daily-coins.sucess" from "khkits.language" to {_p}
-			khkits_principal({_p}, "hb")
-	{_evt} is "warps" or "shop":
-		khcore_playSound({_p}, CLICK, 1, 15)
-		open chest inventory with yaml value "menu.rows" from "khkits.menus/%{_evt}%" rows named yaml value "menu.title" from "khkits.menus/%{_evt}%" to {_p}
-		wait a tick
-		loop skutil yaml nodes "menu.items" from file "plugins/KhKits/menus/%{_evt}%.yml":
-			set {_item} to khcore_getItem(yaml value "menu.items.%loop-value%.icon" from "khkits.menus/%{_evt}%")
-			set {_lore} to khcore_getLore(yaml value "menu.items.%loop-value%.icon" from "khkits.menus/%{_evt}%")
-			{_evt} == "shop":
-				set {_count} to size of yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml"
-				set {_max} to size of yaml nodes "kits" from file "plugins/KhKits/kits.yml"
-				set {_percent} to "%(100 / {_max}) * {_count}%"
-				set {_percent} to first element of {_percent} split at "."
-				loop "max" and "count" and "percent":
-					replace "{%loop-value-2%}" with "%{_%loop-value-2%}%" in {_lore}
-			{_evt} == "warps":
-				set {_%loop-value%} to number of all players
-				loop all players:
-					set {_kit-sel} to yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%uuid of loop-player%.yml"
-					{_kit-sel} != "%loop-value-1%":
-						remove 1 from {_%loop-value-1%}
-				{_%loop-value-1%} is 0:
-					set {_%loop-value-1%} to yaml value "menu.replaces.nobody_playing" from "khkits.menus/warps"
-			set {_w} to loop-value
-			make a gui slot yaml value "menu.items.%loop-value%.slot" from "khkits.menus/%{_evt}%" of {_p} with {_item} without nbt named khcore_getName(yaml value "menu.items.%loop-value%.icon" from "khkits.menus/%{_evt}%") with lore replacer "{on}" with "%{_%loop-value%}%" in {_lore} to run:
-				khkits_ext({_p}, yaml value "menu.items.%{_w}%.execute" from "khkits.menus/%{_evt}%")
-	{_evt} is "shop_kits":
-		khcore_playSound({_p}, CLICK, 1, 15)
-		set {_temp::*} to skutil yaml nodes "kits" from file "plugins/KhKits/kits.yml"
-		loop skutil yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml":
-			remove loop-value from {_temp::*}
-		khkits_paggedMenu({_p}, "menus/shop_kits", {_temp::*})
-	{_evt} is "kits":
-		khcore_playSound({_p}, CLICK, 1, 15)
-		khkits_paggedMenu({_p}, {_evt}, yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml")
-function khkits_openStats(p: player, arg: offlineplayer):
-	{_arg} is online:
-		open chest inventory with yaml value "menu.rows" from "khkits.menus/stats" rows named replacer "{player}" with {_arg}'s displayname in yaml value "menu.title" from "khkits.menus/stats" to {_p}
-		khcore_playSound({_p}, CLICK, 1, 15)
-		wait a tick
-		loop "killstreak" and "level" and "kills" and "deaths" and "coins":
-			set {_%loop-value%} to yml value "%uuid of {_arg}%.%loop-value%" of file "plugins/KhKits/players/%uuid of {_arg}%.yml"
-			set {_%loop-value%} to formatNumber({_%loop-value%})
-		loop "xp" and "need" and "reward":
-			set {_%loop-value%} to formatNumber({players::%loop-value%.%{_arg}%})
-		set {_temp::*} to skutil yaml nodes "menu.items" from file "plugins/KhKits/menus/stats.yml"
-		loop {_temp::*}:
-			set {_x} to replacer "{player}" with {_arg}'s displayname in yaml value "menu.items.%loop-value%.icon" from "khkits.menus/stats"
-			set {_lore} to khcore_getLore({_x})
-			set {_item} to khcore_getItem({_x})
-			set {_kdr} to ("%{_kills}%" parsed as number)/("%{_deaths}%" parsed as number)
-			replace "{kdr}" in {_lore} with replacer "NaN" with "0" in "%{_kdr}%"
-			loop "killstreak"  and "level" and "kills" and "deaths" and "coins":
-				replace all "{%loop-value-2%}" in {_lore} with "%{_%loop-value-2%}%"
-			loop "xp" and "need" and "reward":
-				replace all "{%loop-value-2%}" in {_lore} with "%{_%loop-value-2%}%"
-			make a gui slot yaml value "menu.items.%loop-value%.slot" from "khkits.menus/stats" of {_p} with {_item} named khcore_getText({_arg}, khcore_getName({_x})) with lore {_lore} to run:
-				khcore_playSound({_p}, ITEM_PICKUP, 1, 15)
-	else:
-		send "&cEste jogador não está online no momento!" to {_p}
-function khkits_principal(p: player, e: text):
-	{_e} == "clean":
-		delete {kit_delay::%{_p}%} and {skill::invincible_%{_p}%} and {ninja_v::%{_p}%} and {ninja_t::%{_p}%} and {fisherman::%{_p}%}
-		clear {_p}'s inventory
-		set {_p}'s gamemode to adventure
-		set {_p}'s fly mode to false
-		remove wither and poison and blindness and speed and regeneration and jump boost and fire resistance and slowness and mining fatigue from {_p}
-		set {_p}'s max health to 10
-		heal {_p}
-		extinguish {_p}
-		set {_p}'s food to 10
-		delete {lasthit.%{lasthit.%{_p}%}%} and {lasthit.%{_p}%}
-		set yml value "%uuid of {_p}%.combatlog" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to false
-		set yml value "%uuid of {_p}%.build" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to false
-	{_e} == "hb":
-		set {_temp::*} to skutil yaml nodes "spawn.hotbar" from file "plugins/KhKits/language.yml"
-		loop {_temp::*}:
-			set {_x} to yml value "spawn.hotbar.%loop-value%.icon" from file "plugins/KhKits/language.yml"
-			loop-value == "money-day":
-				set {_wait} to difference between {dailycoins.%{_p}%} and now
-				{_wait} is less than 86400 seconds:
-					set {_x} to yaml value "spawn.hotbar.%loop-value%.icon-i" from "khkits.language"
-			replace all "{player}" in {_x} with {_p}'s displayname
-			set {_item} to khcore_getItem({_x})
-			set slot yaml value "spawn.hotbar.%loop-value%.slot" from "khkits.language" of {_p} to {_item} named khcore_getName({_x}) with lore khcore_getLore({_x})
-	{_e} == "sb":
+	khkits_main({_p}, replacer "none" with "spawn" in {_x})
+function khkits_main(p: player, y: text="hotbar"):
+	{_y} is "hotbar":
+		loop yaml nodes with keys "spawn" from "ks.kits.hotbar":
+			set {_x} to yaml value "spawn.%loop-value%.icon" from "ks.kits.hotbar"
+			loop-value is "moneyday":
+				set {_wait} to difference between {daily_coins::%{_p}%} and now
+				{_wait} is less than 1 day:
+					set {_x} to yaml value "spawn.%loop-value%.icon-i" from "ks.kits.hotbar"
+			set slot yaml value "spawn.%loop-value%.slot" from "ks.kits.hotbar" of {_p} to deserializeItem({_x}, {_p})
+	{_y} is "score":
 		delete stylish scoreboard "SCORE-%{_p}%"
 		create new stylish scoreboard named "SCORE-%{_p}%"
 		set {_line} to 1
@@ -541,107 +344,214 @@ function khkits_principal(p: player, e: text):
 			set stylish scoreboard of {_p} to "SCORE-%{_p}%"
 			set {_line} to 1
 			loop {scoreline} times:
-				set {_x} to khkits_replacer({_p}, "%{score.line::%{_line}%}%")
-				set the text of id "SCORE-%{_p}%Slot%{_line}%" to khcore_getText({_p}, "%{_x}%")
+				set {_x} to "%{score.line::%{_line}%}%"
+				set the text of id "SCORE-%{_p}%Slot%{_line}%" to khcore_text({_p}, {_x})
 				add 1 to {_line}
 			wait 1 seconds
+	{_y} != "hotbar" or "score":
+		yaml value "locations.%{_y}%" from "ks.kits.locations" != "null":
+			khcore_clear({_p})
+			teleport {_p} to deserializeLoca(yaml value "locations.%{_y}%" from "ks.kits.locations")
+			play sound "LEVEL_UP" with 1 and 15 to {_p}
+			set {_w} to "%{_y}%"
+			{_y} != "spawn":
+				khkits_execute({_p}, "getsoup")
+				loop yaml list "warps.%{_y}%.armor" from "ks.kits.menus/warps":
+					loop-value != ""
+					equip {_p} with unbreakable deserializeItem("%loop-value%", {_p}) without nbt
+				loop yaml list "warps.%{_y}%.items" from "ks.kits.menus/warps":
+					loop-value != ""
+					set {_x} to loop-value
+					set {_slot} to first element of {_x} split at " : "
+					set {_item} to replacer "%{_slot}% : " with "" in "%loop-value%"
+					set slot {_slot} parsed as number of {_p} to unbreakable deserializeItem({_item}, {_p}) without nbt
+			else:
+				set {_w} to "none"
+				khkits_main({_p})
+				{_p} has permission "khkits.fly" or "khkits.*":
+					set {_p}'s fly mode to true
+			mgStats({_p}, "kitpvp.selected_kit", "set", "text", "%{_w}%")
 function khkits_scroller(p: player):
-	{antitick} is true:
-		while {_p} is online:
-			stylish scoreboard "SCORE-%{_p}%" exists
-			loop yaml list "scoreboard.titles" from file "plugins/KhKits/language.yml":
-				set title of stylish scoreboard "SCORE-%{_p}%" to khcore_getText({_p}, colored "%loop-value%")
-				set {_x} to yaml value "scoreboard.update-time" from file "plugins/KhKits/language.yml"
-				wait "%{_x}% ticks" parsed as timespan
-function khkits_statsReset(p: player):
-	set {_uuid} to uuid of {_p}
-	set yml value "%uuid of {_p}%.name" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to {_p}'s displayname
-	set yml value "%uuid of {_p}%.selected-kit" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to "none"
-	loop "killstreak" and "kills" and "deaths" and "coins":
-		set yml value "%uuid of {_p}%.%loop-value%" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to 0
-	set yml value "%uuid of {_p}%.level" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to 1
-	set yml value "%uuid of {_p}%.build" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to false
-	set yml value "%uuid of {_p}%.combatlog" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to false
-	loop yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml":
-		set {_x::*} to yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml"
-		size of {_x::*} > 1
-		remove loop-value from yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml"
-	add "default" to yaml list "%uuid of {_p}%.kits" from file "plugins/KhKits/players/%uuid of {_p}%.yml"
-	set {players::xp.%{_uuid}%} to 0
-	set {players::need.%{_uuid}%} to 100
-	set {players::reward.%{_uuid}%} to 500
-function khkits_coinsmanager(p: player, type: text, gold: number):
-	set {_uuid} to uuid of {_p}
-	set {_coins} to yml value "%{_uuid}%.coins" of file "plugins/KhKits/players/%uuid of {_p}%.yml"
-	{_type} == "add":
-		set {_coins} to {_coins} parsed as int
-		add {_gold} to {_coins}
-		set yml value "%{_uuid}%.coins" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to {_coins}
-	{_type} == "remove":
-		remove {_gold} from {_coins}
-		{_coins} < 0:
-			set {_coins} to 0
-		set yml value "%{_uuid}%.coins" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to {_coins}
-	{_type} == "set":
-		set yml value "%{_uuid}%.coins" of file "plugins/KhKits/players/%uuid of {_p}%.yml" to {_gold}
-function khkits_replacer(p: player, var: text) :: text:
-	loop "selected-kit" and "coins" and "deaths" and "kills" and "killstreak" and "level":
-		set {_%loop-value%} to yml value "%uuid of {_p}%.%loop-value%" of file "plugins/KhKits/players/%uuid of {_p}%.yml"
-	loop "killstreak" and "coins" and "deaths" and "kills" and "level":
-		set {_%loop-value%} to formatNumber({_%loop-value%})
-		replace all "{khkits_%loop-value%}" in {_var} with "%{_%loop-value%}%"
-	loop "reward" and "need" and "xp":
-		set {_%loop-value%} to formatNumber({players::%loop-value%.%{_p}%})
-		replace "{%loop-value%}" in {_var} with "%{_loop-value}%"
-	return colored {_var}
+	{antitick} is true
+	while {_p} is online:
+		stylish scoreboard "SCORE-%{_p}%" exists
+		loop yaml list "scoreboard.titles" from "ks.kits.language":
+			set title of stylish scoreboard "SCORE-%{_p}%" to colored "%loop-value%"
+			set {_x} to yaml value "scoreboard.update-time" from "ks.kits.language"
+			wait "%{_x}% ticks" parsed as timespan
+function khkits_menus(p: player, menu: text):
+	{_menu} is "warps" or "shop":
+		open chest inventory with yaml value "menu.rows" from "ks.kits.menus/%{_menu}%" rows named yaml value "menu.title" from "ks.kits.menus/%{_menu}%" to {_p}
+		wait a tick
+		loop yaml nodes with keys "menu.items" from "ks.kits.menus/%{_menu}%":
+			set {_item} to yaml value "menu.items.%loop-value%.icon" from "ks.kits.menus/%{_menu}%"
+			{_menu} is "shop":
+				set {_count} to size of yaml list "%uuid of {_p}%.kitpvp.kits" from file "plugins/KhCore/players/%uuid of {_p}%.yml"
+				set {_max} to size of yaml nodes "kits" from file "plugins/KhKits/kits.yml"
+				set {_percent} to "%(100 / {_max}) * {_count}%"
+				set {_percent} to first element of {_percent} split at "."
+				loop "max" and "count" and "percent":
+					replace "{%loop-value-2%}" with "%{_%loop-value-2%}%" in {_item}
+			{_menu} is "warps":
+				set {_%loop-value%} to number of all players
+				loop all players:
+					set {_kit-sel} to mgStats(loop-player, "kitpvp.selected_kit", "get", "", "")
+					{_kit-sel} != loop-value-1:
+						remove 1 from {_%loop-value-1%}
+				{_%loop-value-1%} is 0:
+					set {_%loop-value-1%} to yaml value "menu.replaces.nobody_playing" from "ks.kits.menus/warps"
+				replace "{on}" with {_%loop-value-1%} in {_item}
+			set {_w} to loop-value
+			make a gui slot yaml value "menu.items.%loop-value%.slot" from "ks.kits.menus/%{_menu}%" of {_p} with deserializeItem({_item}, {_p}) without nbt to run:
+				khkits_execute({_p}, yaml value "menu.items.%{_w}%.execute" from "ks.kits.menus/%{_menu}%")
+	{_menu} is "shop_kits":
+		set {_temp::*} to yaml nodes "kits" from file "plugins/KhKits/kits.yml"
+		loop yaml list "%uuid of {_p}%.kitpvp.kits" from file "plugins/KhCore/players/%uuid of {_p}%.yml":
+			remove loop-value from {_temp::*}
+		khkits_paggedMenu({_p}, "menus/shop_kits", {_temp::*})
+	{_menu} is "kits":
+		khkits_paggedMenu({_p}, {_menu}, yaml list "%uuid of {_p}%.kitpvp.kits" from file "plugins/KhCore/players/%uuid of {_p}%.yml")
+	{_menu} is "moneyday":
+		set {_wait} to difference between {daily_coins::%{_p}%} and now
+		{_wait} is less than 1 day:
+			set {_x} to khcore_delayReplace("%difference between 1 day and {_wait}%")
+			send action bar replacer "{time}" with {_x} in yaml value "ingame.messages.delay" from "ks.kits.language" to {_p}
+		else:
+			set {daily_coins::%{_p}%} to now
+			set {_x} to a random integer between 500 and 1000
+			mgStats({_p}, "kitpvp.coins", "add", "number", "%{_x}%")
+			send replacer "{coins}" with formatNumber({_x}) in yaml value "ingame.messages.daily_coins" from "ks.kits.language" to {_p}
+			khkits_main({_p})
 function khkits_paggedMenu(p: player, type: text, var: objects, page: number = 0):
 	set {_pageStart} to 21*{_page}
 	set {_i} to 1
 	set {_slot} to 10
-	open chest inventory with 6 rows named yaml value "menu.title" from "khkits.%{_type}%" to {_p}
+	open chest inventory with yaml value "menu.rows" from "ks.kits.%{_type}%" rows named yaml value "menu.title" from "ks.kits.%{_type}%" to {_p}
 	wait a tick
-	if yaml nodes "menu.items" from file "plugins/KhKits/%{_type}%.yml" exists:
-		loop yaml nodes "menu.items" from file "plugins/KhKits/%{_type}%.yml":
+	yaml nodes with keys "menu.items" from "ks.kits.%{_type}%" exists:
+		loop yaml nodes with keys "menu.items" from "ks.kits.%{_type}%":
 			set {_x} to loop-value
-			set {_item} to khcore_getItem(yaml value "menu.items.%loop-value%.icon" from "khkits.%{_type}%")
-			make a gui slot yaml value "menu.items.%loop-value%.slot" from "khkits.%{_type}%" of {_p} with {_item} without nbt named khcore_getName(yaml value "menu.items.%loop-value%.icon" from "khkits.%{_type}%") to run:
-				khkits_ext({_p}, yaml value "menu.items.%{_x}%.execute" from "khkits.%{_type}%")
+			set {_item} to yaml value "menu.items.%loop-value%.icon" from "ks.kits.%{_type}%"
+			make a gui slot yaml value "menu.items.%loop-value%.slot" from "ks.kits.%{_type}%" of {_p} with deserializeItem({_item}, {_p}) without nbt to run:
+				khkits_execute({_p}, yaml value "menu.items.%{_x}%.execute" from "ks.kits.%{_type}%")
 	loop {_var::*}:
 		(loop-index parsed as integer) > {_pageStart}
-		set {_item} to khcore_getItem(yml value "kits.%loop-value%.icon" from "khkits.kits")
-		set {_lore} to khcore_getLore(yaml value "kits.%loop-value%.icon" from "khkits.kits")
+		set {_item} to yaml value "kits.%loop-value%.icon" from "ks.kits.kits"
 		{_type} is "menus/shop_kits":
-			set {_buy} to yaml value "menu.replaces.buy" from "khkits.kits"
-			set {_coins} to yaml value "menu.replaces.insufficient-coins" from "khkits.kits"
-			set {_price} to replacer "\n" with "||" in replacer "{price}" with formatNumber(yaml value "kits.%loop-value%.price" from "khkits.kits") in yaml value "menu.replaces.price" from "khkits.kits"
-			yaml value "%uuid of {_p}%.coins" from file "plugins/KhKits/players/%uuid of {_p}%.yml" >= yaml value "kits.%loop-value%.price" from "khkits.kits":
-				replace "{state}" in {_lore} with "%{_price}%%{_buy}%"
+			set {_buy} to yaml value "menu.replaces.buy" from "ks.kits.kits"
+			set {_coins} to yaml value "menu.replaces.insufficient-coins" from "ks.kits.kits"
+			set {_price} to replacer "\n" with "||" in replacer "{price}" with formatNumber(yaml value "kits.%loop-value%.price" from "ks.kits.kits") in yaml value "menu.replaces.price" from "ks.kits.kits"
+			mgStats({_p}, "kitpvp.coins", "get", "", "") parsed as number >= yaml value "kits.%loop-value%.price" from "ks.kits.kits":
+				replace "{state}" in {_item} with "%{_price}%%{_buy}%"
 			else:
-				replace "{state}" in {_lore} with "%{_price}%%{_coins}%"
+				replace "{state}" in {_item} with "%{_price}%%{_coins}%"
 		{_type} is "kits":
-			replace "{state}" in {_lore} with yaml value "menu.replaces.select" from "khkits.kits"
+			replace "{state}" in {_item} with yaml value "menu.replaces.select" from "ks.kits.kits"
 		set {_kit} to loop-value
-		make a gui slot {_slot} of {_p} with {_item} without nbt named replacer "{name}" with yaml value "kits.%loop-value%.name" from "khkits.kits" in khcore_getName(yaml value "kits.%loop-value%.icon" from "khkits.kits") with lore {_lore} to run:
+		replace "{name}" with yaml value "kits.%loop-value%.name" from "ks.kits.kits" in {_item}
+		make a gui slot {_slot} of {_p} with deserializeItem({_item}, {_p}) without nbt to run:
 			{_type} is "menus/shop_kits":
 				khkits_kit({_p}, "buy", "%{_kit}%")
-				khkits_evt({_p}, "shop_kits")
+				khkits_menus({_p}, "shop_kits")
 			{_type} is "kits":
 				khkits_kit({_p}, "get", "%{_kit}%")
 				close {_p}'s inventory
 		add 1 to {_slot}
 		{_slot} is 17 or 26:
 			add 2 to {_slot}
-		if {_slot} = ((35*{_i})):
+		{_slot} = ((35*{_i})):
 			exit loop
-	if (amount of {_var::*}) > {_pageStart} + 21:
-		make a gui slot 50 of {_p} with arrow named "&aPróxima página" with lore "&7Ir para a página %{_page} + 1 + 1%." to run:
+	(amount of {_var::*}) > {_pageStart} + 21:
+		make a gui slot 53 of {_p} with deserializeItem(replacer "{next_page}" with "%{_page}+1+1%" in yaml value "options.pagged.next_page" from "ks.kits.language", {_p}) to run:
 			khkits_paggedMenu({_p}, "%{_type}%", {_var::*}, ({_page} + 1))
-	if {_page} > 0:
-		make a gui slot 48 of {_p} with arrow named "&aPágina anterior" with lore "&7Voltar à página %{_page} + 1 - 1%." to run:
+	{_page} > 0:
+		make a gui slot 45 of {_p} with deserializeItem(replacer "{previous_page}" with "%{_page}+1-1%" in yaml value "options.pagged.previous_page" from "ks.kits.language", {_p}) to run:
 			khkits_paggedMenu({_p}, "%{_type}%", {_var::*}, ({_page} - 1))
 	{_slot} is 10:
 		make a gui slot 22 of {_p} with barrier without nbt named "&cVocê já possui todos os kits!" to run:
-			khcore_playSound({_p}, ITEM_PICKUP, 1, 15)
+			play sound "ITEM_PICKUP" with 1 and 15 to {_p}
+function khkits_execute(p: player, str: string):
+	{_str} contains "warp>":
+		khkits_main({_p}, last element of {_str} split at ">")
+	{_str} contains "menu>":
+		khkits_menus({_p}, last element of {_str} split at ">")
+	{_str} is "kit>random_kit":
+		set {_x} to random element of yaml list "%uuid of {_p}%.kitpvp.kits" from file "plugins/KhCore/players/%uuid of {_p}%.yml"
+		close {_p}'s inventory
+		khkits_kit({_p}, "get", {_x})
+	{_str} is "getsoup":
+		give {_p} deserializeItem(yaml value "ingame.soup" from "ks.kits.hotbar", {_p})
+		loop "red_mushroom" and "brown_mushroom" and "bowl":
+			set {_item} to yaml value "ingame.%loop-value%" from "ks.kits.hotbar"
+			set {_slot} to first element of {_item} split at " : "
+			set {_item} to replacer "%{_slot}% : " with "" in {_item}
+			set slot {_slot} parsed as number of {_p} to deserializeItem({_item}, {_p}) without nbt
+	{_str} is "souplife":
+		set {_kit} to mgStats({_p}, "kitpvp.selected_kit", "get", "", "")
+		set {_x} to a random number between 2 and 4
+		send action bar "&7+%{_x}% &4&l❤" to {_p}
+		set the health of {_p} to the health of {_p} + {_x}
+		set {_slot} to selected hotbar slot of {_p}
+		{_kit} != "quickdropper":
+			play sound "BURP" with 1 and 5 to {_p}
+			set {_item} to yaml value "ingame.bowl" from "ks.kits.hotbar"
+			set {_f} to first element of {_item} split at " : "
+			set {_item} to replacer "%{_f}% : " with "" in {_item}
+			set slot {_slot} of {_p} to deserializeItem(replacer "64" with "1" in {_item}, {_p}) without nbt
+		else:
+			set slot {_slot} of {_p} to air
+			play sound "ITEM_PICKUP" with 1 and 5 to {_p}
+function khkits_kit(p: player, type: text, kit: text):
+	{_type} is "buy":
+		yaml value "kits.%{_kit}%" from "ks.kits.kits" exists:
+			yaml list "%uuid of {_p}%.kitpvp.kits" from file "plugins/KhCore/players/%uuid of {_p}%.yml" contains {_kit}:
+				stop
+			mgStats({_p}, "kitpvp.coins", "get", "", "") parsed as number >= yaml value "kits.%{_kit}%.price" from "ks.kits.kits":
+				send replacer "{kit}" with yaml value "kits.%{_kit}%.name" from "ks.kits.kits" in yaml value "ingame.messages.kit.buy" from "ks.kits.language" to {_p}
+				add "%{_kit}%" to yaml list "%uuid of {_p}%.kitpvp.kits" from file "plugins/KhCore/players/%uuid of {_p}%.yml"
+				mgStats({_p}, "kitpvp.coins", "remove", "number", yaml value "kits.%{_kit}%.price" from "ks.kits.kits")
+				khkits_menus({_p}, "shop_kits")
+			else:
+				send "&cVocê não tem moedas o suficiente." to {_p}
+	{_type} is "get":
+		yaml value "kits.%{_kit}%" from "ks.kits.kits" exists:
+			set {_kits::*} to yaml list "%uuid of {_p}%.kitpvp.kits" from file "plugins/KhCore/players/%uuid of {_p}%.yml"
+			{_kits::*} contains "%{_kit}%"
+			khcore_clear({_p})
+			khkits_execute({_p}, "getsoup")
+			play sound "ITEM_PICKUP" with 1 and 15 to {_p}
+			send action bar replacer "{kit}" with yaml value "kits.%{_kit}%.name" from "ks.kits.kits" in yaml value "ingame.messages.kit.select" from "ks.kits.language" to {_p}
+			mgStats({_p}, "kitpvp.selected_kit", "set", "text", "%{_kit}%")
+			loop yaml list "kits.%{_kit}%.armor" from "ks.kits.kits":
+				loop-value != ""
+				set {_loop} to "%loop-value%"
+				equip {_p} with unbreakable deserializeItem("%loop-value%", {_p}) without nbt
+				set {_spl::*} to {_loop} split at " : "
+				loop {_spl::*}:
+					loop-value-2 contains "pintar>":
+						set {_x} to last element of loop-value-2 split at ">"
+						{_loop} contains "HELMET":
+							dye {_p}'s helmet {_x} parsed as color
+						{_loop} contains "CHESTPLATE":
+							dye {_p}'s chestplate {_x} parsed as color
+						{_loop} contains "LEGGINGS":
+							dye {_p}'s leggings {_x} parsed as color
+						{_loop} contains "BOOTS":
+							dye {_p}'s boots {_x} parsed as color
+			loop yaml list "kits.%{_kit}%.items" from "ks.kits.kits":
+				loop-value != ""
+				set {_x} to loop-value
+				set {_slot} to first element of {_x} split at " : "
+				set {_item} to replacer "%{_slot}% : " with "" in "%loop-value%"
+				set slot {_slot} parsed as number of {_p} to unbreakable deserializeItem({_item}, {_p}) without nbt
+			yaml nodes with keys "kits.%{_kit}%.effects" from "ks.kits.kits" exists:
+				loop nodes with keys "kits.%{_kit}%.effects" from "ks.kits.kits":
+					loop "effect" and "power" and "time":
+						set {_%loop-value-2%} to yaml value "kits.%{_kit}%.effects.%loop-value-1%.%loop-value-2%" from "ks.kits.kits"
+					apply ({_effect} parsed as potion) {_power} to {_p} for {_time} parsed as timespan
+function khkits_perk(p: player):
+	set {_kit} to mgStats({_p}, "kitpvp.selected_kit", "get", "", "")
+	send actionbar replacer "{kit}" with yaml value "kits.%{_kit}%.name" from "ks.kits.kits" in "&a&lHABILIDADE &f- &7{kit}" to {_p}
 function khkits_delay(p: player, time: timespan) :: boolean:
 	set {_wait} to difference between {kit_delay::%{_p}%} and now
 	{_wait} is less than {_time}:
@@ -650,119 +560,137 @@ function khkits_delay(p: player, time: timespan) :: boolean:
 		set {_v} to first element of {_n::1} split at "."
 		replace "%{_n::1}%" with "%{_v}%" in {_tempo}
 		replace all " seconds" and " second" with "s" in {_tempo}
-		send action bar replacer "{time}" with {_tempo} in yaml value "game.messages.delay" from "khkits.language" to {_p}
+		send action bar replacer "{time}" with {_tempo} in yaml value "ingame.messages.delay" from "ks.kits.language" to {_p}
 		return false
 	else:
 		set {kit_delay::%{_p}%} to now
 		return true
-function khkits_enableSkill(p: player):
-	set {_kit} to yml value "%uuid of {_p}%.selected-kit" of file "plugins/KhKits/players/%uuid of {_p}%.yml"
-	send actionbar replacer "{kit}" with yaml value "kits.%{_kit}%.name" from "khkits.kits" in "&a&lHABILIDADE &f- &7{kit}" to {_p}
 
-# ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
+# ─────────────────────────────────────────────────── #
 # perks
 walk on sand or sandstone:
-	yaml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" == "camel":
-		khkits_enableSkill(player)
+	mgStats(player, "kitpvp.selected_kit", "get", "", "") = "camel":
+		khkits_perk(player)
 		remove speed and regeneration from player
 		apply speed and regeneration 1 to player for 3 seconds
+walk on water:
+	mgStats(player, "kitpvp.selected_kit", "get", "", "") = "aquaman":
+		khkits_perk(player)
+		remove speed and regeneration from player
+		apply speed and regeneration 2 to player for 5 seconds
 leftclick:
 	event-item is firework rocket:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "kangaroo"
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "kangaroo"
 		cancel event
-		khkits_enableSkill(player)
+		khkits_perk(player)
 		block under player is not air:
 			push player upward at speed 0.5
 			push player forward at speed 3
 rightclick:
 	event-item is clock:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "timelord"
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "timelord"
 		khkits_delay(player, 20 seconds) is true:
 			set {_x::*} to all players
 			loop all players:
-				yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%uuid of loop-player%.yml" is "none" or "fps" or "lava-challenge" or "knockback":
+				mgStats(loop-player, "kitpvp.selected_kit", "get", "", "") = "none" or "fps" or "lava-challenge" or "knockback":
 					remove loop-player from {_x::*}
 			remove player from {_x::*}
 			remove slowness and jump boost from {_x::*}
 			wait 3 tick
 			apply slowness and jump boost 250 to {_x::*} for 5 seconds
-			khkits_enableSkill(player)
+			khkits_perk(player)
 			wait 5 seconds
-			loop all players:
-				yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%uuid of loop-player%.yml" is "tank":
-					apply mining fatigue and slowness 1 to loop-player for 99999 seconds
+			loop {_x::*}:
+				mgStats(loop-value, "kitpvp.selected_kit", "get", "", "") = "tank":
+					apply mining fatigue and slowness 1 to loop-value for 99999 seconds
 	event-item is firework rocket:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "kangaroo"
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "kangaroo"
 		cancel event
 		block under player is not air:
 			push player upward at speed 1
-			khkits_enableSkill(player)
+			khkits_perk(player)
 	event-item is wooden axe:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "thor"
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "thor"
 		khkits_delay(player, 30 seconds) is true:
 			strike lightning at the targeted block
-			khkits_enableSkill(player)
+			khkits_perk(player)
 	event-item is white glass pane:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "phanton"
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "phanton"
 		khkits_delay(player, 20 seconds) is true:
 			hide player to all players
-			khkits_enableSkill(player)
+			khkits_perk(player)
 			wait 5 seconds
 			reveal player to all players
 	event-item is feather:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "flyingchicken"
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "flyingchicken"
 		khkits_delay(player, 30 seconds) is true:
 			set player's fly mode to true
-			khkits_enableSkill(player)
+			khkits_perk(player)
 			wait 5 seconds
 			set player's fly mode to false
 	event-item is slime:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "zen"
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "zen"
 		khkits_delay(player, 15 seconds) is true:
 			set {_players::*} to all players
 			remove player from {_players::*}
 			loop all players:
-				yml value "%uuid of loop-player%.selected-kit" of file "plugins/KhKits/players/%uuid of loop-player%.yml" is "none" or "fps" or "lava-challenge" or "knockback":
+				mgStats(loop-player, "kitpvp.selected_kit", "get", "", "") = "none" or "fps" or "lava-challenge" or "knockback":
 					remove loop-player from {_players::*}
 			teleport player to random player out of {_players::*}
-			khcore_playSound(player, ENDERMAN_TELEPORT, 0.5, 5)
-			khkits_enableSkill(player)
+			#khcore_playSound(player, ENDERMAN_TELEPORT, 0.5, 5)
+			khkits_perk(player)
 rightclick on entity:
 	entity is a player
 	event-item is saddle:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "horseman"
-		yml value "%uuid of entity%.selected-kit" of file "plugins/KhKits/players/%uuid of entity%.yml" is not "none" or "fps" or "lava-challenge" or "knockback":
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "horseman"
+		mgStats(entity, "kitpvp.selected_kit", "get", "", "") != "none" or "fps" or "lava-challenge" or "knockback":
 			cancel event
 			khkits_delay(player, 10 seconds) is true:
-				khkits_enableSkill(player)
+				khkits_perk(player)
 				make entity ride player
 	event-item is blaze rod:
-		yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "monk"
-		yml value "%uuid of entity%.selected-kit" of file "plugins/KhKits/players/%uuid of entity%.yml" is not "none" or "fps" or "lava-challenge" or "knockback":
+		mgStats(player, "kitpvp.selected_kit", "get", "", "") = "monk"
+		mgStats(entity, "kitpvp.selected_kit", "get", "", "") != "none" or "fps" or "lava-challenge" or "knockback":
 			khkits_delay(player, 15 seconds) is true:
-				set {_kit} to yml value "%uuid of entity%.selected-kit" of file "plugins/KhKits/players/%uuid of entity%.yml"
+				set {_kit} to mgStats(entity, "kitpvp.selected_kit", "get", "", "")
 				set {_slot} to a random integer between 0 and 35
 				{_slot} is 8 or 13 or 14 or 15 or 17:
 					set {_slot} to a random integer between 18 and 35
-				khkits_enableSkill(player)
+				khkits_perk(player)
 				remove any sword from the entity
-				set {_item} to khcore_getItem(yaml value "kits.%{_kit}%.items.sword" from "khkits.kits")
-				set slot {_slot} of entity to {_item} named khcore_getName(yaml value "kits.%{_kit}%.items.sword" from "khkits.kits")
-				give entity soup without nbt named khcore_getName(yaml value "game.items.soup" from "khkits.language") with lore khcore_getLore(yaml value "game.items.soup" from "khkits.language")
+				loop yaml list "kits.%{_kit}%.items" from "ks.kits.kits":
+					loop-value contains "SWORD":
+						set {_item} to "%loop-value%"
+						set {_x} to first element of {_item} split at " : "
+						set {_item} to replacer "%{_x}% : " with "" in "%{_item}%"
+						set slot {_slot} of entity to unbreakable deserializeItem({_item}, entity) without nbt
+				set {_item} to yaml value "ingame.bowl" from "ks.kits.hotbar"
+				set {_f} to first element of {_item} split at " : "
+				set {_item} to replacer "%{_f}% : " with "" in {_item}
+				give entity deserializeItem(replacer "64" with "1" in {_item}, entity) without nbt
 fishing:
-	yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "fisherman":
+	mgStats(player, "kitpvp.selected_kit", "get", "", "") = "fisherman":
 		teleport {fisherman::%player%} to player
 		delete {fisherman::%player%}
-		khkits_enableSkill(player)
+		khkits_perk(player)
+shoot:
+	mgStats(shooter, "kitpvp.selected_kit", "get", "", "") = "switcher":
+		shooter's tool is a snowball
+		set {switcher::%shooter%} to true
+		set metadata value "SWITCHER" of projectile to "%shooter%"
+projectile hit:
+	set {_projectile} to metadata value "SWITCHER" of projectile
+	delete metadata value "SWITCHER" of projectile
+	delete {switcher::%{_projectile}%}
 damage of player:
 	attacker is a player
-	yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" is not "none" or "fps" or "lava-challenge" or "knockback"
-	yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" is "ninja":
+	mgStats(victim, "kitpvp.selected_kit", "get", "", "") != "none" or "fps" or "lava-challenge" or "knockback"
+	mgStats(attacker, "kitpvp.selected_kit", "get", "", "") = "ninja":
 		set {ninja_v::%attacker%} to "%victim%"
 		set {ninja_t::%attacker%} to 60
-	yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" is "fisherman":
+	mgStats(attacker, "kitpvp.selected_kit", "get", "", "") = "fisherman":
 		set {fisherman::%attacker%} to "%victim%" parsed as player
-	yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" is "switcher":
+	mgStats(attacker, "kitpvp.selected_kit", "get", "", "") = "switcher":
 		projectile is a snowball
 		{switcher::%attacker%} is true:
 			cancel event
@@ -770,57 +698,46 @@ damage of player:
 			set {_aL} to location of attacker
 			teleport victim to {_aL}
 			teleport attacker to {_vL}
-			khcore_playSound(attacker, ENDERMAN_TELEPORT, 1, 5)
-			khcore_playSound(victim, ENDERMAN_TELEPORT, 1, 5)
+			#khcore_playSound(attacker, ENDERMAN_TELEPORT, 1, 5)
+			#khcore_playSound(victim, ENDERMAN_TELEPORT, 1, 5)
 			delete {switcher::%attacker%}
-			khkits_enableSkill(attacker)
-	{skill::invincible_%victim%} is true:
+			khkits_perk(attacker)
+	{skill::invencible_%victim%} is true:
 		cancel event
-		set action bar of attacker to "%khcore_roles_getColored(victim)%&a esta usando o kit Invencível."
-	yml value "%uuid of victim%.selected-kit" of file "plugins/KhKits/players/%uuid of victim%.yml" is "thorns":
+		set {_x} to khcore_roles(victim, "get", "colored")
+		send actionbar "%{_x}%&a está usando o kit Invencível." to attacker
+	mgStats(victim, "kitpvp.selected_kit", "get", "", "") = "thorns":
 		chance of 25%:
 			damage attacker by damage/2 hearts
-			khkits_enableSkill(attacker)
-	yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" is "reaper":
+			khkits_perk(victim)
+	mgStats(attacker, "kitpvp.selected_kit", "get", "", "") = "reaper":
 		chance of 25%:
 			apply wither 2 to victim for 5 seconds
-			khkits_enableSkill(attacker)
-	yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" is "viper":
+			khkits_perk(attacker)
+	mgStats(attacker, "kitpvp.selected_kit", "get", "", "") = "viper":
 		chance of 20%:
 			apply poison 2 to victim for 3 seconds
-			khkits_enableSkill(attacker)
-	yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" is "bonfire":
+			khkits_perk(attacker)
+	mgStats(attacker, "kitpvp.selected_kit", "get", "", "") = "bonfire":
 		chance of 35%:
 			set fire to victim
-			khkits_enableSkill(attacker)
-	yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" is "snail":
+			khkits_perk(attacker)
+	mgStats(attacker, "kitpvp.selected_kit", "get", "", "") = "snail":
 		chance of 30%:
 			remove slowness from victim
 			apply slowness 3 to victim for 5 seconds
-			khkits_enableSkill(attacker)
-	yml value "%uuid of attacker%.selected-kit" of file "plugins/KhKits/players/%uuid of attacker%.yml" is "darkness":
+			khkits_perk(attacker)
+	mgStats(attacker, "kitpvp.selected_kit", "get", "", "") = "darkness":
 		chance of 30%:
 			remove blindness from victim
 			apply blindness 10 to victim for 5 seconds
-			khkits_enableSkill(attacker)
-walk on water:
-	yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "aquaman":
-		khkits_enableSkill(player)
-		remove speed and regeneration from player
-		apply speed and regeneration 2 to player for 5 seconds
-shoot:
-	name of shooter's tool is khcore_getName(yaml value "kits.switcher.items.snowball" from "khkits.kits"):
-		set {switcher::%shooter%} to true
-		set metadata value "SWITCHER" of projectile to "%shooter%"
-projectile hit:
-	set {_projectile} to metadata value "SWITCHER" of projectile
-	delete {switcher::%{_projectile}%}
+			khkits_perk(attacker)
 sneak toggle:
 	player is not sneaking
-	yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "ninja":
+	mgStats(player, "kitpvp.selected_kit", "get", "", "") = "ninja":
 		{ninja_v::%player%} is set
 		khkits_delay(player, 15 seconds) is true:
-			khkits_enableSkill(player)
+			khkits_perk(player)
 			teleport player to location of {ninja_v::%player%} parsed as player
 			loop 60 times:
 				{ninja_t::%player%} is 0:
@@ -828,25 +745,48 @@ sneak toggle:
 				else:
 					remove 1 from {ninja_t::%player%}
 					wait 1 second
-	yml value "%uuid of player%.selected-kit" of file "plugins/KhKits/players/%uuid of player%.yml" is "invincible":
+	mgStats(player, "kitpvp.selected_kit", "get", "", "") = "invencible":
 		khkits_delay(player, 20 seconds) is true:
-			khkits_enableSkill(player)
-			set {skill::invincible_%player%} to true
+			khkits_perk(player)
+			set {skill::invencible_%player%} to true
 			wait 4 seconds
-			delete {skill::invincible_%player%}
+			delete {skill::invencible_%player%}
+	mgStats(player, "kitpvp.selected_kit", "get", "", "") = "sonic":
+		khkits_delay(player, 60 seconds) is true:
+			set {_p::*} to all players in radius 7 of player
+			remove player from {_p::*}
+			apply poison 2 to {_p::*} for 5 seconds
+			apply speed 4 to player for 5 seconds
+			khkits_perk(player)
 
-# ──────────────────────────────────────────────────────────────────────────────────────────────────────────────── #
+# ─────────────────────────────────────────────────── #
 # load
 unload:
 	delete {antitick}
 load:
-	khkits_filemanager("create")
-	delete {khkp::check_update}
 	set {antitick} to true
-	wait 1 second
+	loop "language" and "hotbar" and "locations" and "menus/shop_kits" and "menus/shop" and "menus/warps" and "kits":
+		fileExists("plugins/KhKits/%loop-value%.yml") != true:
+			create file "plugins/KhKits/%loop-value%.yml"
+			delete file "plugins/KhKits/%loop-value%.yml"
+			download from "https://raw.githubusercontent.com/KickHolse/KhKits/master/files/%loop-value%" to file "plugins/KhKits/%loop-value%.yml"
+		yaml "ks.kits.%loop-value%" is loaded:
+			unload yaml "ks.kits.%loop-value%"
+		load yaml "plugins/KhKits/%loop-value%.yml" as "ks.kits.%loop-value%"
+	set {score.title} to yaml value "scoreboard.title" from "ks.kits.language"
+	set {_temp::*} to yaml list "scoreboard.lines" from "ks.kits.language"
+	set {scoreline} to 0
+	set {_empty} to 0
+	delete {score.line::*}
+	set {_line} to amount of {_temp::*}
+	loop {_temp::*}:
+		add 1 to {scoreline}
+		"%loop-value%" is "":
+			set {score.line::%{_line}%} to "§%{_empty}%"
+			{_empty} < 9:
+				add 1 to {_empty}
+		else:
+			set {score.line::%{_line}%} to colored loop-value
+		remove 1 from {_line}
 	text from "https://api.spigotmc.org/legacy/update.php?resource=67595" != "{@version}":
-		set {khkp::check_update} to true
-		send "&3[KHKITS] &cYou are not using the latest version of skript" to console
-	else:
-		send "&3[KHKITS] &aYou are using the latest version of skript" to console
-	send "&3[KHKITS] &aKhKits &8v{@version} &aenabled!" to console
+		send "[KhKits] &cYou are not using the latest version of skript." to console
