@@ -221,7 +221,7 @@ rightclick on sign:
 # ─────────────────────────────────────────────────── #
 # cmds
 command khkits [<text=help>] [<text>] [<text>] [<text>]:
-	permission: ks.kits.*
+	permission: khkits.*
 	permission message: §3[KhKits] §7v{@version} §f- §7Crafted by §6Kick Holse§7.
 	trigger:
 		set {_help::*} to "&3 /khkits build &f- &7Turn on/off constructor mode." and "&3 /khkits coins &f- &7Manager coins of a player" and "&3 /khkits set &f- &7Set the warps and spawn"
@@ -239,7 +239,7 @@ command khkits [<text=help>] [<text>] [<text>] [<text>]:
 					mgStats(player, "preferencies.build", "set", "boolean", "false")
 					send action bar "&cModo construtor desativado." to player
 					set player's gamemode to adventure
-					player has permission "ks.kits.fly" or "ks.kits.*":
+					player has permission "khkits.fly" or "khkits.*":
 						mgStats(player, "kitpvp.selected_kit", "get", "", "") is "none"
 						set player's fly mode to true
 			arg 1 is "set":
