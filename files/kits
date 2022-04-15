@@ -9,7 +9,7 @@ menu:
  items:
   random_kit:
    slot: 49
-   execute: 'KHKITS>random_kit'
+   execute: 'kit>random_kit'
    icon: '381 : nome>&aKit aleatorio'
 kits:
  default:
@@ -237,6 +237,15 @@ kits:
   - 'IRON_CHESTPLATE : nome>&aPeitoral'
   items:
   - '0 : WOODEN_SWORD : nome>&aEspada'
+ sonic:
+  name: 'Sonic'
+  price: 27000
+  icon: 'HEAD:3 : dono>9L3 : nome>&6{name} : desc>&7Ao ativar a habilidade deste kit, você\n&7ganhará velocidade e aplicará veneno\n&7aos inimigos próximos.\n\n&eItens:\n &7Espada de Pedra\n&eArmadura:\n&7 Cabeça do Sonic\n &7Peitoral de Ferro\n\n{state}'
+  armor:
+  - 'HEAD:3 : dono>9L3 : nome>&aCapacete'
+  - 'IRON_CHESTPLATE : nome>&aPeitoral'
+  items:
+  - '0 : STONE_SWORD : nome>&aEspada'
  stomper:
   name: 'Stomper'
   price: 25000
