@@ -1,0 +1,8 @@
+menu:
+  title: 'Shop - Kits'
+  rows: 6
+  items:
+    back:
+      slot: 49
+      execute: 'menu>shop'
+      icon: 'ROSE_RED : 1 : nome>&cReturn'
