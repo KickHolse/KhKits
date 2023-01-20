@@ -1,0 +1,328 @@
+menu:
+  title: 'My kits'
+  rows: 6
+  replaces:
+    select: '&e➟ Click to select this kit!'
+    buy: '&e➟ Click to buy this kit!'
+    insufficient-coins: '&c➟ You don''t have enough coins.'
+    price: '&fCost: &6{price} coins\n\n'
+  items:
+    random_kit:
+      slot: 49
+      execute: 'kit>random_kit'
+      icon: '381 : nome>&aRandom kit'
+kits:
+ default:
+  name: 'Básico'
+  icon: 'STONE_SWORD : nome>&6{name} : desc>&7Este é um kit para iniciantes\n&7que ainda não tem moedas para\n&7comprar outros kits.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Peitoral de Malha\n\n{state}'
+  armor:
+  - 'CHAINMAIL_CHESTPLATE : nome>&aChestplate'
+  items:
+  # the first number is the slot of item
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ achilles:
+  name: 'Achilles'
+  price: 30000
+  icon: 'WOODEN_SWORD : nome>&6{name} : desc>&7Com este kit você receberá menos\n&7dano por espadas, exceto espadas\n&7de madeira, que lhe aplicará mais dano!\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ antistomper:
+  name: 'Anti Stomper'
+  price: 25000
+  icon: 'DIAMOND_BOOTS : nome>&6{name} : desc>&7Com este kit você será totalmente\n&7imune a qualquer dano que algum stomper\n&7tentar lhe causar.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ aquaman:
+  name: 'Aquaman'
+  price: 15000
+  icon: 'WATER_BUCKET : nome>&6{name} : desc>&7Com este kit você receberá efeito\n&7de velocidade e regeneração II\n&7ao mergulhar na água.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ archer:
+  name: 'Arqueiro'
+  price: 15000
+  icon: 'BOW : nome>&6{name} : desc>&7Neste kit você terá um arco e\n&7flechas infinitas para atirar e\n&7aplicar dano em seus inimigos.\n\n&eItems:\n &7Wood Sword\n&7 Arco (Infinidade I)\n&eArmor:\n &7Peitoral de Ouro\n\n{state}'
+  armor:
+  - 'GOLDEN_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : BOW of infinity 1 : nome>&aArco'
+  - '17 : ARROW : nome>&aMunição'
+ camel:
+  name: 'Camel'
+  price: 20000
+  icon: 'SAND : nome>&6{name} : desc>&7Ao visitar um bioma desértico. você\n&7receberá efeito de velocidade e\n&7regeneração I.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ darkness:
+  name: 'Darkness'
+  price: 30000
+  icon: '11-DISC : nome>&6{name} : desc>&7Com este kit você terá 30% de\n&7chance de aplicar o efeito de\n&7cegueira em seu inimigo ao bate-lo.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ timelord:
+  name: 'Deus do Tempo'
+  price: 30000
+  icon: 'CLOCK : nome>&6{name} : desc>&7Com este kit você terá o poder\n&7de parar o tempo para ganhar\n&7vantagem sobre seu inimigo.\n\n&eItems:\n &7Wood Sword\n &71 Relógio\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : CLOCK : nome>&aDeus do Tempo'
+ thorns:
+  name: 'Espinhos'
+  price: 25000
+  icon: 'CACTUS : nome>&6{name} : desc>&7Com este kit você terá 35% de\n&7chance de devolver o seu dano\n&7para o seu inimigo.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ phanton:
+  name: 'Fantasma'
+  price: 30000
+  icon: '160 : nome>&6{name} : desc>&7Com este kit você ganhará um\n&7painel de vidro branco, que ao\n&7ser clicado deixa seu usuário\n&7totalmente invisível.\n\n&eItems:\n &7Wood Sword\n&7 Painel de Vidro Branco\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : 160 : nome>&aPhanton'
+ fisherman:
+  name: 'Fisherman'
+  price: 20000
+  icon: 'FISHING_ROD : nome>&6{name} : desc>&7Com este kit você poderá usar uma\n&7vara de pesca para pescar seus\n&7inimigos e levá-los até você!\n\n&eItems:\n &7Wood Sword\n&7 1 Vara de Pesca\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : FISHING_ROD : nome>&aFisherman'
+ bonfire:
+  name: 'Fogaréu'
+  price: 25000
+  icon: 'BLAZE_POWDER : nome>&6{name} : desc>&7Com este kit você terá 35% de\n&7chance de aplicar fogo em\n&7seus inimigos ao bate-los.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  effects:
+   fire_resistance:
+    effect: 'fire resistance'
+    power: 1
+    time: '9999 seconds'
+ flyingchicken:
+  name: 'Galinha Voadora'
+  price: 25000
+  icon: 'FEATHER : nome>&6{name} : desc>&7Neste kit você ganhará uma pena\n&7que ao ser clicada, lhe concederá\n&7o poder de voar por alguns instantes.\n\n&eItems:\n &7Wood Sword\n&7 1 Pena\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : FEATHER : nome>&aGalinha Voadora'
+ warrior:
+  name: 'Guerreiro'
+  price: 20000
+  icon: 'DIAMOND_SWORD : nome>&6{name} : desc>&7Com este kit você ganhará uma\n&7espada muito forte, mas tome\n&7cuidado, você receberá um colete\n&7inferior ao de seus adversários.\n\n&eItems:\n &7Espada de Ferro\n&eArmor:\n &7Peitoral de Couro\n\n{state}'
+  armor:
+  - 'LEATHER_CHESTPLATE : pintar>GRAY : nome>&aChestplate'
+  items:
+  - '0 : IRON_SWORD : nome>&aSword'
+ invencible:
+  name: 'Invencível'
+  price: 30000
+  icon: 'GOLDEN_CHESTPLATE : nome>&6{name} : desc>&7Este kit lhe possibilitará que ao\n&7precionar a tecla shift, você não\n&7levará dano por determinado período.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'RON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ kangaroo:
+  name: 'Kangaroo'
+  price: 25000
+  icon: 'FIREWORK_ROCKET : nome>&6{name} : desc>&7Com este kit você receberá fogos\n&7de artifício que ao ser usado\n&7lhe fará saltar como um macaco.\n\n&eItems:\n &7Wood Sword\n&7 Fogos de Artifício\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : FIREWORK_ROCKET : nome>&aKangaroo'
+ horseman:
+  name: 'Kenga Horse'
+  price: 20000
+  icon: 'HEAD:3 : dono>Cavalo03 : nome>&6{name} : desc>&7Com este kit você poderá colocar\n&7qualquer adversário em suas costas e\n&7leva-lo para onde você quiser.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n&7 Cabeça de Cavalo\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : SADDLE : nome>&aKenga Horse'
+ monk:
+  name: 'Monk'
+  price: 20000
+  icon: 'BLAZE_ROD : nome>&6{name} : desc>&7Neste kit você receberá uma vara\n&7que ao usa-la em um adversário\n&7o inventário do mesmo se desorganizará.\n\n&eItems:\n &7Wood Sword\n&7 Vara Incandescente\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : BLAZE_ROD : nome>&aMonk'
+ ninja:
+  name: 'Ninja'
+  price: 25000
+  icon: 'NETHER_STAR : nome>&6{name} : desc>&7Este kit lhe permitirá se teleportar\n&7para o jogador que você hitou evitando\n&7que ele fuja!\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ quickdropper:
+  name: 'Quick Dropper'
+  price: 20000
+  icon: 'BOWL : nome>&6{name} : desc>&7Está cansado de ter que dropar seus\n&7potes? Este kit fará com que ao tomar\n&7uma sopa, o pote seja dropado\n&7automáticamente.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ reaper:
+  name: 'Reaper'
+  price: 25000
+  icon: '397:1 : nome>&6{name} : desc>&7Com este kit você terá 25% de\n&7chance de aplicar o efeito wither\n&7em seus inimigos.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ resoup:
+  name: 'Resoup'
+  price: 30000
+  icon: 'MUSHROOM_SOUP : nome>&6{name} : desc>&7Com este kit você recarregará\n&7suas sopas e recrafts ao matar\n&7um jogador.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ frog:
+  name: 'Sapo'
+  price: 15000
+  icon: 'HEAD:3 : dono>GallyVision : nome>&6{name} : desc>&7Ao equipar este kit, você receberá\n&7efeito de super pulo III e poderá\n&7saltar por cima de seus adversários.\n\n&eItems:\n &7Espada de Ferro\n&eArmor:\n &7Peitoral de Couro\n\n{state}'
+  armor:
+  - 'HEAD:3 : dono>GallyVision : nome>&aCapacete'
+  - 'LEATHER_CHESTPLATE : pintar>GREEN : nome>&aChestplate'
+  items:
+  - '0 : IRON_SWORD : nome>&aSword'
+  effects:
+   jump:
+    effect: 'jump boost'
+    power: 3
+    time: '9999 seconds'
+ scout:
+  name: 'Scout'
+  price: 18000
+  icon: 'WATER_BOTTLE:8194 : nome>&6{name} : desc>&7Com este kit você ganhará efeito\n&7de velocidade II para entrar\n&7em combate.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  effects:
+   speed:
+    effect: 'speed'
+    power: 2
+    time: '9999 seconds'
+ snail:
+  name: 'Snail'
+  price: 25000
+  icon: 'SOUL_SAND : nome>&6{name} : desc>&7Com este kit você terá 30% de\n&7chance de aplicar lentidão\n&7em seus inimigos!\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ sonic:
+  name: 'Sonic'
+  price: 27000
+  icon: 'HEAD:3 : dono>9L3 : nome>&6{name} : desc>&7Ao ativar a habilidade deste kit, você\n&7ganhará velocidade e aplicará veneno\n&7aos inimigos próximos.\n\n&eItems:\n &7Espada de Pedra\n&eArmor:\n&7 Cabeça do Sonic\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'HEAD:3 : dono>9L3 : nome>&aCapacete'
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : STONE_SWORD : nome>&aSword'
+ stomper:
+  name: 'Stomper'
+  price: 25000
+  icon: 'ANVIL : nome>&6{name} : desc>&7Neste kit, sempre que você sofrer\n&7dano por queda, este dano se\n&7multriplicará e será causado nos inimigos\n&7que estão ao seu redor.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ switcher:
+  name: 'Switcher'
+  price: 30000
+  icon: 'SNOWBALL : nome>&6{name} : desc>&7Com este kit você trocará de\n&7lugar com seu inimigo ao acertar\n&7uma bola de neve nele.\n\n&eItems:\n &7Wood Sword\n &716 Bolas de Neve\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : SNOWBALL : 16 : nome>&aSwitcher'
+ tank:
+  name: 'Tank'
+  price: 25000
+  icon: 'DIAMOND_CHESTPLATE : nome>&6{name} : desc>&7Ao equipar este kit você receberá uma\n&7armadura muito forte, mas em compensação\n&7você ficará lento porque esta armadura\n&7é muito pesada.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Peitoral de Diamante\n\n{state}'
+  armor:
+  - 'DIAMOND_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  effects:
+   slowness:
+    effect: 'slowness'
+    power: 1
+    time: '9999 seconds'
+   mining_fatigue:
+    effect: 'mining fatigue'
+    power: 1
+    time: '9999 seconds'
+ turtle:
+  name: 'Tartaruga'
+  price: 35000
+  icon: 'HEAD:3 : dono>SaveTheTurtles : nome>&6{name} : desc>&7Com este kit todo dano causado por\n&7inimigos, será diminuido em 50%\n&7se você estiver agachado.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n&7 Capacete de Tartaruga\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'HEAD:3 : dono>SaveTheTurtles : nome>&aCapacete'
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ thor:
+  name: 'Thor'
+  price: 25000
+  icon: 'WOODEN_AXE : nome>&6{name} : desc>&7Este kit contem o machado do Thor o\n&7deus do trovão, com ele você poderá\n&7lançar raios em seus adversários.\n\n&eItems:\n &7Wood Sword\n&7 Machado do Thor\n&eArmor:\n&7 Capacete do Thor\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'HEAD:3 : dono>Thor : nome>&aCapacete'
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : WOODEN_AXE : nome>&aThor'
+ vampire:
+  name: 'Vampire'
+  price: 30000
+  icon: 'NETHER_WART : nome>&6{name} : desc>&7Suck the lives of your enemies and\n&7restore yours with their blood.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n &7Leather Boots\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  - 'LEATHER_BOOTS : pintar>black : nome>&aBoots'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : NETHER_WART : nome>&aBlood'
+ viper:
+  name: 'Viper'
+  price: 25000
+  icon: 'SPIDER_EYE : nome>&6{name} : desc>&7Com este kit você terá 25% de\n&7chance de aplicar o efeito de\n&7veneno em seus inimigos.\n\n&eItems:\n &7Wood Sword\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+ zen:
+  name: 'Zen'
+  price: 15000
+  icon: 'SLIME : nome>&6{name} : desc>&7Com este kit você poderá\n&7teleportar-se para a localização\n&7de um jogador aleatorio em um\n&7intervalo de tempo.\n\n&eItems:\n &7Wood Sword\n&7 1 Bola de Slime\n&eArmor:\n &7Iron Chestplate\n\n{state}'
+  armor:
+  - 'IRON_CHESTPLATE : nome>&aChestplate'
+  items:
+  - '0 : WOODEN_SWORD : nome>&aSword'
+  - '8 : SLIME : nome>&aZen'
