@@ -1,0 +1,122 @@
+menu:
+  replaces:
+    selected: '&6➟ This cry of death is already selected!'
+    select: '&e➟ Click to select this cry of death!'
+    buy: '&e➟ Click to buy this cry of death!'
+    insufficient-coins: '&c➟ You don''t have enough coins.'
+    price: '&fCost: &6{price} coins\n\n'
+    none_selected: 'None'
+  
+deathcries:
+  anvil:
+    name: 'Anvil'
+    icon: 'ANVIL : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: ANVIL_BREAK
+    volume: 1.0
+    speed: 1.0
+    price: 1000
+  enderman:
+    name: 'Enderman'
+    icon: 'HEAD:3 : dono>enderman_35_G3 : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: ENDERMAN_DEATH
+    volume: 1.0
+    speed: 1.0
+    price: 3000
+  spider:
+    name: 'Spider'
+    icon: 'HEAD:3 : dono>xxxpotatoxxx : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: SPIDER_DEATH
+    volume: 1.0
+    speed: 1.0
+    price: 2500
+  pigman:
+    name: 'Pigman'
+    icon: 'HEAD:3 : dono>SeunghyeonBan : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: ZOMBIE_PIG_DEATH
+    volume: 1.0
+    speed: 1.0
+    price: 3000
+  wolfhowl:
+    name: 'Wolf Howl'
+    icon: 'HEAD:3 : dono>MHF_Wolf : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: WOLF_HOWL
+    volume: 1.0
+    speed: 1.0
+    price: 3500
+  bat:
+    name: 'Bat'
+    icon: 'HEAD:3 : dono>MHF_Bat : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: BAT_DEATH
+    volume: 1.0
+    speed: 1.0
+    price: 3000
+  villager:
+    name: 'Villager'
+    icon: 'HEAD:3 : dono>Ghourxy : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: VILLAGER_DEATH
+    volume: 1.0
+    speed: 1.0
+    price: 2500
+  fireworks:
+    name: 'Fireworks'
+    icon: '401 : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: FIREWORK_LAUNCH
+    volume: 1.0
+    speed: 1.0
+    price: 3500
+  pig:
+    name: 'Pig'
+    icon: 'HEAD:3 : dono>Pid0ras1223 : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: PIG_DEATH
+    volume: 1.0
+    speed: 1.0
+    price: 3000
+  bone:
+    name: 'Falling bones'
+    icon: 'BONE : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: SKELETON_DEATH
+    volume: 1.0
+    speed: 1.0
+    price: 2500
+  rage:
+    name: 'Rage'
+    icon: 'ROTTEN_FLESH : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: HORSE_DEATH
+    volume: 1.0
+    speed: 0.5
+    price: 2500
+  portal:
+    name: 'Portal'
+    icon: 'OBSIDIAN : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: PORTAL_TRAVEL
+    volume: 1.0
+    speed: 1.2
+    price: 3500
+  lowing:
+    name: 'Lowing'
+    icon: 'HEAD:3 : dono>MHF_Cow : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: COW_IDLE
+    volume: 1.0
+    speed: 1.0
+    price: 3000
+  creeper:
+    name: 'Creeper'
+    icon: 'HEAD:4 : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: CREEPER_DEATH
+    volume: 1.0
+    speed: 1.0
+    price: 2500
+  slime:
+    name: 'Slime'
+    icon: 'SLIME : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: SLIME_WALK
+    volume: 1.0
+    speed: 1.0
+    price: 2500
+  dinossaur:
+    name: 'Dinossaur'
+    icon: 'HEAD:3 : dono>Abstractous : nome>&6{name} : desc>&7Plays the {name} Death Cry when\n&7you die.\n\n{state}\n&6➟ Right click to listen.'
+    sound: DONKEY_DEATH 
+    volume: 1.0
+    speed: 0.0
+    price: 5000
