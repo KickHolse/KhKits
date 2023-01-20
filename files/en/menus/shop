@@ -1,0 +1,12 @@
+menu:
+  title: 'Shop'
+  rows: 3
+  items:
+    kits:
+      slot: 12
+      execute: 'menu>shop_kits'
+      icon: 'DIAMOND_SWORD : 1 : nome>&aKits : desc>&7Get an extra edge when using\n&7our kits that have special\n&7powers.\n\n &fUnlocked: &c{count}/{max} &8({percent}%) \n\n&eClick here to view!'
+    deathcries:
+      slot: 14
+      execute: 'menu>shop_deathcries'
+      icon: '370 : 1 : nome>&aDeath Cries : desc>&7Let others know just how salty\n&7your tears are every time you\n&7die with these death cries!\n\n &fUnlocked: &c{count}/{max} &8({percent}%)\n&f Selected: &7{selected} \n\n&eClick here to view!'
