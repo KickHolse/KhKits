@@ -1,0 +1,25 @@
+spawn:
+  warps:
+    slot: 2
+    execute: 'menu>warps'
+    icon: 'COMPASS : nome>&eWarps'
+  kits:
+    slot: 3
+    execute: 'menu>kits'
+    icon: 'NETHER_STAR : nome>&eKits'
+  shop:
+    slot: 5
+    execute: 'menu>shop'
+    icon: 'EMERALD : nome>&eShop'
+  moneyday:
+    slot: 6
+    execute: 'menu>moneyday'
+    icon: 'CHEST_MINECART : 1 : nome>&aDaily Coins'
+    icon-i: 'MINECART : 1 : nome>&cDaily Coins'
+
+ingame:
+  # the first number is the slot of item
+  soup: 'SOUP : 36 : nome>&aSoup'
+  red_mushroom: '13 : RED_MUSHROOM : 64 : nome>&aRed Mushroom'
+  brown_mushroom: '14 : BROWN_MUSHROOM : 64 : nome>&aBrown Mushroom'
+  bowl: '15 : BOWL : 64 : nome>&aBowl'
