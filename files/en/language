@@ -1,0 +1,63 @@
+# crafted by kick#0808
+# www.kskripts.tk
+
+options:
+  coins:
+    kills: 50
+    death: 25
+  xp:
+    kills: 10
+  pagged:
+    next_page: 'LIGHT_GREEN_DYE : 1 : nome>&aNext page : desc>&7Go to page {next_page}.'
+    previous_page: 'GRAY_DYE : 1 : nome>&aPrevious page : desc>&7Return to page {previous_page}.'
+
+chat:
+  delay: '&cWait another {time} to speak again.'
+  color:
+    default: '&7'
+    custom: '&f'
+  format: '&7[&a{khkits_level}&7] {khcore_prefixed}{color}: {message}'
+
+lobby:
+  broadcast: '{khcore_prefixed} &6joined the lobby!'
+
+ingame:
+  broadcast:
+    suicide: '{name} &edied alone.'
+    killed: '{name} &ewas killed by {killer}&e.'
+  messages:
+    daily_coins: '&aYou collected &6{coins} coins&a in the daily box.'
+    level_up: '&aYour level has been raised to level &2{level}'
+    delay: '&cWait another {time} to use it again.'
+    bow:
+      hit: '{name} &ahas &c{hp}❤ &aof HP'
+    summary:
+      base: '\n  &e&lSUMMARY:\n '
+      coins: '       &a+{coins} coins &fearned for performing &c{kills} &fkill{s}.'
+      xp: '       &a+{xp}XP &fearned for performing &c{kills} &fkill{s}.'
+      level_up: '       &a+{coins} coins &fearnings for leveling up.'
+    deathcries:
+      buy: '&aYou purchased the &6{deathcrie}&a death cry!'
+    kit:
+      buy: '&aYou purchased the &6{kit}&a kit!'
+      select: '&aYou have selected the &6{kit}&a kit!'
+  sign:
+    soup:
+      line-1: '&aBoard'
+      line-2: ''
+      line-3: '&8Click to get'
+      line-4: '&8 more soups.'
+
+scoreboard:
+  title: '&a&lKIT PVP'
+  lines:
+  - ''
+  - ' Kills: &a{khkits_kills}'
+  - ' Deaths: &a{khkits_deaths}'
+  - ''
+  - ' Kill Streak: &a{khkits_killstreak}'
+  - ''
+  - ' Level: &a{khkits_level}'
+  - ' Coins: &6{khkits_coins}'
+  - ''
+  - '&7www.kskripts.tk'
