@@ -1,0 +1,40 @@
+menu:
+  title: 'Warps'
+  rows: 3
+  replaces:
+    nobody_playing: 'Nobody'
+  items:
+    fps:
+      slot: 11
+      execute: 'warp>fps'
+      icon: '20 : 1 : nome>&aFPS : desc>&7This warp is ideal for those players\n&7who have a more humble machine. Play\n&7here with no fps issues!\n\n&aClick here to go to the warp!\n&7{on} playing!'
+    lava-challenge:
+      slot: 13
+      execute: 'warp>lava-challenge'
+      icon: 'LAVA_BUCKET : 1 : nome>&aLava Training : desc>&7Want to train your refill? This is the\n&7perfect challenge for you. Try to\n&7survive in a river of lava.\n\n&aClick here to go to the warp!\n&7{on} playing!'
+    knockback:
+      slot: 15
+      execute: 'warp>knockback'
+      icon: 'STICK : encantar>SHARPNESS:1 : nome>&aKnockback : desc>&7In this warp you can throw your enemies\n&7away and kill them in a very easy way!\n\n&aClick here to go to the warp!\n&7{on} playing!'
+
+warps:
+  lava-challenge:
+    name: 'LAVA'
+    armor:
+    - ''
+    items:
+    # the first number is the slot of item
+    - ''
+  fps:
+    name: 'FPS'
+    armor:
+    - 'PLAIN_GLASS_BLOCK : nome>&aHelmet'
+    - 'DIAMOND_BOOTS : nome>&aBoots : encantar>PROTECTION:5'
+    items:
+    - '0 : WOODEN_SWORD : nome>&aSword'
+  knockback:
+    name: 'KNOCKBACK'
+    armor:
+    - 'IRON_CHESTPLATE : nome>&aChestplate'
+    items:
+    - '0 : STICK : nome>&aStick : encantar>KNOCKBACK:5\nSHARPNESS:2'
